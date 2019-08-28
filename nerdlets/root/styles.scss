@@ -1,0 +1,91 @@
+@import "~nr1-bootstrap-theme/dist/main.css";
+.row {
+  text-align: center;
+  margin-top: 30px;
+}
+.cohorts {
+  margin-top: 25px !important;
+  list-style: none;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  &:first-child {
+    margin-left: 40px;
+  }
+  & > li {
+    width: 30%;
+    .stats {
+      margin-top: 10px;
+      list-style: none;
+      width: 90%;
+      & > li {
+        width: 50%;
+        position: relative;
+        float: left;
+        padding: 5px 0px;
+        border: black solid 1px;
+        ul {
+          list-style: none;
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          li {
+            width: 25%;
+            span {
+              font-size: 0.9em;
+            }
+          }
+        }
+      }
+      .wide {
+        width: 100%;
+      }
+      span {
+        width: 100%;
+        display: block;
+        padding: 5px 0px;
+        border: black solid 1px;
+        margin-bottom: 5px;
+        font-weight: 800;
+        font-size: 1.2em;
+      }
+    }
+  }
+}
+.icon {
+  display: inline-block;
+  font-size: 125px !important;
+}
+.summaryBarTitle {
+  width: min-content;
+  margin-top: 30px;
+}
+.ACB3AT-vz--viz-billboard-element {
+  width: 33% !important;
+}
+.pageUrlTable {
+  height: 100vh;
+  padding: 20px;
+  h1 {
+    margin-bottom: 10px;
+  }
+}
+
+.microchart {
+  height: 75px;
+  width: 85px;
+}
+.inline {
+  padding-left: 20px;
+  padding-right: 20px;
+  display: flex;
+  flex-direction: row;
+  border-right: 1px dotted grey;
+  span, h2 {
+    margin: auto 5px;
+    font-weight: 500;
+  }
+  span {
+    font-size: 1.2em;
+  }
+}

@@ -1,0 +1,8 @@
+{
+    "schemaType": "NERDLET",
+    "id": "root",
+    "description": "Describe me",
+    "entities": [{ "domain": "BROWSER", "type": "APPLICATION"}],
+    "displayName": "Performance Analysis",
+    "actionCategory": "monitor"
+}
