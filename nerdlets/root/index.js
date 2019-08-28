@@ -57,23 +57,23 @@ export default class MyNerdlet extends React.Component {
     _buildResults({ cohorts, satisfied, tolerated, frustrated }) {
         const obj = {
             satisfied: {
-                sessions: numeral(cohorts.results[0].sessions).format("0,0"),
-                medianDuration: parseFloat(cohorts.results[0].medianDuration["50"]).toFixed(2),
-                avgPageViews: parseFloat(cohorts.results[0].avgPageViews).toFixed(2),
-                duration75: parseFloat(cohorts.results[0]["percentile.duration"]["75"]).toFixed(2),
-                duration95: parseFloat(cohorts.results[0]["percentile.duration"]["95"]).toFixed(2),
-                duration99: parseFloat(cohorts.results[0]["percentile.duration"]["99"]).toFixed(2),
-                totalSessionLength: calcTotalSessionLength(satisfied.results),
-                totalSamples: satisfied.results.length,
-                bounces: calcBounces(satisfied.results)
-            },
-            tolerated: {
                 sessions: numeral(cohorts.results[1].sessions).format("0,0"),
                 medianDuration: parseFloat(cohorts.results[1].medianDuration["50"]).toFixed(2),
                 avgPageViews: parseFloat(cohorts.results[1].avgPageViews).toFixed(2),
                 duration75: parseFloat(cohorts.results[1]["percentile.duration"]["75"]).toFixed(2),
                 duration95: parseFloat(cohorts.results[1]["percentile.duration"]["95"]).toFixed(2),
                 duration99: parseFloat(cohorts.results[1]["percentile.duration"]["99"]).toFixed(2),
+                totalSessionLength: calcTotalSessionLength(satisfied.results),
+                totalSamples: satisfied.results.length,
+                bounces: calcBounces(satisfied.results)
+            },
+            tolerated: {
+                sessions: numeral(cohorts.results[0].sessions).format("0,0"),
+                medianDuration: parseFloat(cohorts.results[0].medianDuration["50"]).toFixed(2),
+                avgPageViews: parseFloat(cohorts.results[0].avgPageViews).toFixed(2),
+                duration75: parseFloat(cohorts.results[0]["percentile.duration"]["75"]).toFixed(2),
+                duration95: parseFloat(cohorts.results[0]["percentile.duration"]["95"]).toFixed(2),
+                duration99: parseFloat(cohorts.results[0]["percentile.duration"]["99"]).toFixed(2),
                 totalSessionLength: calcTotalSessionLength(tolerated.results),
                 totalSamples: tolerated.results.length,
                 bounces: calcBounces(tolerated.results)
@@ -92,8 +92,10 @@ export default class MyNerdlet extends React.Component {
         };
         obj.satisfied.bounceRate = parseFloat((obj.satisfied.bounces/obj.satisfied.totalSamples)*100).toFixed(2);
         obj.satisfied.avgSessionLength = parseFloat(obj.satisfied.totalSessionLength/obj.satisfied.totalSamples).toFixed(2);
+
         obj.tolerated.bounceRate = parseFloat((obj.tolerated.bounces/obj.tolerated.totalSamples)*100).toFixed(2);
         obj.tolerated.avgSessionLength = parseFloat(obj.tolerated.totalSessionLength/obj.tolerated.totalSamples).toFixed(2);
+
         obj.frustrated.bounceRate = parseFloat((obj.frustrated.bounces/obj.frustrated.totalSamples)*100).toFixed(2);
         obj.frustrated.avgSessionLength = parseFloat(obj.frustrated.totalSessionLength/obj.frustrated.totalSamples).toFixed(2);
         return obj;
@@ -126,13 +128,13 @@ export default class MyNerdlet extends React.Component {
                           results
                           totalResult
                         }
-                        satisfied: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp))/1000 as 'sessionLength' WHERE appName='${entity.name}' AND nr.apdexPerfZone = 'S' FACET session limit 2000 SINCE ${durationInMinutes} MINUTES AGO") {
+                        satisfied: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp))/1000 as 'sessionLength' WHERE appName='${entity.name}' AND nr.apdexPerfZone = 'S' FACET session limit MAX SINCE ${durationInMinutes} MINUTES AGO") {
                           results
                         }
-                        tolerated: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp))/1000 as 'sessionLength' WHERE appName='${entity.name}' AND nr.apdexPerfZone = 'T' FACET session limit 2000 SINCE ${durationInMinutes} MINUTES AGO") {
+                        tolerated: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp))/1000 as 'sessionLength' WHERE appName='${entity.name}' AND nr.apdexPerfZone = 'T' FACET session limit MAX SINCE ${durationInMinutes} MINUTES AGO") {
                           results
                         }
-                        frustrated: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp))/1000 as 'sessionLength' WHERE appName='${entity.name}' AND nr.apdexPerfZone = 'F' FACET session limit 2000 SINCE ${durationInMinutes} MINUTES AGO") {
+                        frustrated: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp))/1000 as 'sessionLength' WHERE appName='${entity.name}' AND nr.apdexPerfZone = 'F' FACET session limit MAX SINCE ${durationInMinutes} MINUTES AGO") {
                           results
                         }
                       }
@@ -207,7 +209,7 @@ export default class MyNerdlet extends React.Component {
                                                 <li className="wide"><span className="label">Load Times</span><ul>
                                                         <li><span className="label">Median</span>{results.frustrated.medianDuration}</li>
                                                         <li><span className="label">75th</span>{results.frustrated.duration75}</li>
-                                                        <li><span className="label">95th</span>{results.tolerated.duration95}</li>
+                                                        <li><span className="label">95th</span>{results.frustrated.duration95}</li>
                                                         <li><span className="label">99th</span>{results.frustrated.duration99}</li>
                                                     </ul>
                                                 </li>
