@@ -15,10 +15,11 @@
         "graphql": "^14.5.3",
         "graphql-tag": "^2.10.1",
         "lodash": "^4.17.15",
+        "nr1-bootstrap-theme": "git@github.com:newrelic/nr1-bootstrap-theme.git",
+        "numeral": "^2.0.6",
         "prop-types": "^15.6.2",
         "react": "^16.6.3",
         "react-bootstrap-table-next": "^3.1.9",
-        "nr1-bootstrap-theme": "git@github.com:newrelic/nr1-bootstrap-theme.git",
         "react-dom": "^16.6.3"
     },
     "browserslist": [

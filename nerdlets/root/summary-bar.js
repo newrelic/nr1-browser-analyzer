@@ -37,13 +37,9 @@ export default class SummaryBar extends Component {
               <BillboardChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(networkDuration) as 'Network Avg.' SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}'`}/>
               <SparklineChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(networkDuration) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}'`}/>
           </StackItem>
-          <StackItem className="inline">
+          <StackItem className="inline" grow>
               <BillboardChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(backendDuration) as 'Backend Avg.' SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}'`}/>
               <SparklineChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(backendDuration) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}'`}/>
-          </StackItem>
-          <StackItem className="inline"  grow={true}>
-            <Button iconType={Button.ICON_TYPE.DOCUMENTS__DOCUMENTS__NOTES__A_EDIT} onClick={callbacks.editClick} type={Button.TYPE.NORMAL} style={{height: '30px',
-    marginTop: '30px'}}>Configs</Button>
           </StackItem>
       </Stack>
     )
