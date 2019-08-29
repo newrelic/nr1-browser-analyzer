@@ -4,6 +4,7 @@ import { EntityByGuidQuery, BlockText, Grid, GridItem, NrqlQuery, Icon, HeadingT
 import { get } from 'lodash';
 import SummaryBar from './summary-bar';
 import numeral from 'numeral';
+import moment from 'moment';
 
 function calcTotalSessionLength(a) {
     let accumulator = 0;
@@ -61,6 +62,7 @@ export default class MyNerdlet extends React.Component {
         const obj = {
             satisfied: {
                 sessions: numeral(S.sessions).format("0,0"),
+                pageviews: S.count,
                 medianDuration: parseFloat(S.medianDuration["50"]).toFixed(2),
                 avgPageViews: parseFloat(S.avgPageViews).toFixed(2),
                 duration75: parseFloat(S["percentile.duration"]["75"]).toFixed(2),
@@ -72,6 +74,7 @@ export default class MyNerdlet extends React.Component {
             },
             tolerated: {
                 sessions: numeral(T.sessions).format("0,0"),
+                pageviews: T.count,
                 medianDuration: parseFloat(T.medianDuration["50"]).toFixed(2),
                 avgPageViews: parseFloat(T.avgPageViews).toFixed(2),
                 duration75: parseFloat(T["percentile.duration"]["75"]).toFixed(2),
@@ -83,6 +86,7 @@ export default class MyNerdlet extends React.Component {
             },
             frustrated: {
                 sessions: numeral(F.sessions).format("0,0"),
+                pageviews: F.count,
                 medianDuration: parseFloat(F.medianDuration["50"]).toFixed(2),
                 avgPageViews: parseFloat(F.avgPageViews).toFixed(2),
                 duration75: parseFloat(F["percentile.duration"]["75"]).toFixed(2),
@@ -93,14 +97,28 @@ export default class MyNerdlet extends React.Component {
                 bounces: calcBounces(frustrated.results)
             }
         };
-        obj.satisfied.bounceRate = parseFloat((obj.satisfied.bounces/obj.satisfied.totalSamples)*100).toFixed(2);
-        obj.satisfied.avgSessionLength = parseFloat(obj.satisfied.totalSessionLength/obj.satisfied.totalSamples).toFixed(2);
+        const rawBounceRate = obj.satisfied.bounces/obj.satisfied.totalSamples;
+        const retentionRate = 1.0 - rawBounceRate;
+        const rawSessionLength = obj.satisfied.totalSessionLength/obj.satisfied.totalSamples;
+
+        obj.satisfied.bounceRate = parseFloat(rawBounceRate*100).toFixed(2);
+        obj.satisfied.avgSessionLength = moment(rawSessionLength).format('m:ss');
 
         obj.tolerated.bounceRate = parseFloat((obj.tolerated.bounces/obj.tolerated.totalSamples)*100).toFixed(2);
-        obj.tolerated.avgSessionLength = parseFloat(obj.tolerated.totalSessionLength/obj.tolerated.totalSamples).toFixed(2);
+        obj.tolerated.avgSessionLength = moment(obj.tolerated.totalSessionLength/obj.tolerated.totalSamples).format('m:ss');
 
         obj.frustrated.bounceRate = parseFloat((obj.frustrated.bounces/obj.frustrated.totalSamples)*100).toFixed(2);
-        obj.frustrated.avgSessionLength = parseFloat(obj.frustrated.totalSessionLength/obj.frustrated.totalSamples).toFixed(2);
+        obj.frustrated.avgSessionLength = moment(obj.frustrated.totalSessionLength/obj.frustrated.totalSamples).format('m:ss');
+
+        const engagedSessions = Math.round((F.sessions + T.sessions) * retentionRate);
+
+        const additionalPageViews = (engagedSessions * S.avgPageViews);
+
+
+        obj.recommendations = {
+            engagedSessions,
+            additionalPageViews
+        }
         return obj;
     }
 
@@ -111,7 +129,7 @@ export default class MyNerdlet extends React.Component {
     //FROM PageView SELECT count(*) as 'pageCount', average(duration) as 'avgDuration', apdex(duration, ${apdexT}) WHERE appName='${entity.name}' FACET pageUrl LIMIT 100
     render() {
         const { entityGuid } = this.props.nerdletUrlState;
-        const { apdexT, bucketCeiling, hidden, percentage } = this.state;
+        const { apdexT, hidden } = this.state;
         const { duration } = this.props.launcherUrlState.timeRange;
         const durationInMinutes = duration/1000/60;
         return <EntityByGuidQuery entityGuid={entityGuid}>
@@ -127,17 +145,17 @@ export default class MyNerdlet extends React.Component {
                 const graphql = `{
                     actor {
                       account(id: ${entity.accountId}) {
-                        cohorts: nrql(query: "FROM PageView SELECT uniqueCount(session) as 'sessions', count(*)/uniqueCount(session) as 'avgPageViews', median(duration) as 'medianDuration', percentile(duration, 75, 95,99) WHERE appName='${entity.name}' FACET nr.apdexPerfZone SINCE ${durationInMinutes} MINUTES AGO") {
+                        cohorts: nrql(query: "FROM PageView SELECT uniqueCount(session) as 'sessions', count(*)/uniqueCount(session) as 'avgPageViews', median(duration) as 'medianDuration', percentile(duration, 75, 95,99), count(*) WHERE appName='${entity.name}' FACET nr.apdexPerfZone SINCE ${durationInMinutes} MINUTES AGO") {
                           results
                           totalResult
                         }
-                        satisfied: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp))/1000 as 'sessionLength' WHERE appName='${entity.name}' AND nr.apdexPerfZone = 'S' FACET session limit MAX SINCE ${durationInMinutes} MINUTES AGO") {
+                        satisfied: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${entity.name}' AND nr.apdexPerfZone = 'S' FACET session limit MAX SINCE ${durationInMinutes} MINUTES AGO") {
                           results
                         }
-                        tolerated: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp))/1000 as 'sessionLength' WHERE appName='${entity.name}' AND nr.apdexPerfZone = 'T' FACET session limit MAX SINCE ${durationInMinutes} MINUTES AGO") {
+                        tolerated: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${entity.name}' AND nr.apdexPerfZone = 'T' FACET session limit MAX SINCE ${durationInMinutes} MINUTES AGO") {
                           results
                         }
-                        frustrated: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp))/1000 as 'sessionLength' WHERE appName='${entity.name}' AND nr.apdexPerfZone = 'F' FACET session limit MAX SINCE ${durationInMinutes} MINUTES AGO") {
+                        frustrated: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${entity.name}' AND nr.apdexPerfZone = 'F' FACET session limit MAX SINCE ${durationInMinutes} MINUTES AGO") {
                           results
                         }
                       }
@@ -149,7 +167,7 @@ export default class MyNerdlet extends React.Component {
                         <GridItem columnSpan={12}>
                             <SummaryBar entity={entity} launcherUrlState={this.props.launcherUrlState} callbacks={this.callbacks} />
                         </GridItem>
-                        <GridItem className="row" columnSpan={11}>
+                        <GridItem className="row" columnSpan={12}>
                             <NerdGraphQuery query={graphql}>
                                 {({data, loading, error}) => {
                                     if (loading) {
@@ -170,7 +188,7 @@ export default class MyNerdlet extends React.Component {
                                                 <li><span className="label">Sessions</span>{results.satisfied.sessions}</li>
                                                 <li><span className="label">Pgs / Session</span>{results.satisfied.avgPageViews}</li>
                                                 <li><span className="label">Bounce Rate</span>{results.satisfied.bounceRate}%*</li>
-                                                <li><span className="label">Avg. Session</span>{results.satisfied.avgSessionLength} secs.*</li>
+                                                <li><span className="label">Avg. Session</span>{results.satisfied.avgSessionLength}*</li>
                                                 <li className="wide"><span className="label">Load Times</span><ul>
                                                         <li><span className="label">Median</span>{results.satisfied.medianDuration}</li>
                                                         <li><span className="label">75th</span>{results.satisfied.duration75}</li>
@@ -189,7 +207,7 @@ export default class MyNerdlet extends React.Component {
                                                 <li><span className="label">Sessions</span>{results.tolerated.sessions}</li>
                                                 <li><span className="label">Pgs / Session</span>{results.tolerated.avgPageViews}</li>
                                                 <li><span className="label">Bounce Rate</span>{results.tolerated.bounceRate}%*</li>
-                                                <li><span className="label">Avg. Session</span>{results.tolerated.avgSessionLength} secs.*</li>
+                                                <li><span className="label">Avg. Session</span>{results.tolerated.avgSessionLength}*</li>
                                                 <li className="wide"><span className="label">Load Times</span><ul>
                                                         <li><span className="label">Median</span>{results.tolerated.medianDuration}</li>
                                                         <li><span className="label">75th</span>{results.tolerated.duration75}</li>
@@ -208,7 +226,7 @@ export default class MyNerdlet extends React.Component {
                                                 <li><span className="label">Sessions</span>{results.frustrated.sessions}</li>
                                                 <li><span className="label">Pgs / Session</span>{results.frustrated.avgPageViews}</li>
                                                 <li><span className="label">Bounce Rate</span>{results.frustrated.bounceRate}%*</li>
-                                                <li><span className="label">Avg. Session</span>{results.frustrated.avgSessionLength} secs.*</li>
+                                                <li><span className="label">Avg. Session</span>{results.frustrated.avgSessionLength}*</li>
                                                 <li className="wide"><span className="label">Load Times</span><ul>
                                                         <li><span className="label">Median</span>{results.frustrated.medianDuration}</li>
                                                         <li><span className="label">75th</span>{results.frustrated.duration75}</li>
@@ -218,21 +236,25 @@ export default class MyNerdlet extends React.Component {
                                                 </li>
                                             </ul>
                                         </li>
+                                        <li>
+                                            <HeadingText>Business Impacts</HeadingText>
+                                            <BlockText>Performance improvements could produce the following additional outcomes.</BlockText>
+                                            <ul>
+                                                <li><span className="label">Engaged Sessions</span>{results.recommendations.engagedSessions}</li>
+                                                <li><span className="label">Page Views</span>{results.recommendations.additionalPageViews}</li>
+                                            </ul>
+                                        </li>
                                     </ul>
                                     <BlockText style={{ marginLeft: '50px'}}>* Note that these calculations are approximations based on a sample of the total data in New Relic for this Browser application.</BlockText>
                                     </React.Fragment>
                                 }}
                             </NerdGraphQuery>
                         </GridItem>
-                        <GridItem columnSpan={1}>
-                            <HeadingText>Improve</HeadingText>
-                            <input type="radio" name="improvement" />
-                        </GridItem>
                         <GridItem className="pageUrlTable" columnSpan={12}>
                             <HeadingText type={HeadingText.TYPE.HEADING3}>Top Performance Improvement Targets</HeadingText>
                             <TableChart
                                 accountId={entity.accountId}
-                                query={`FROM PageView SELECT count(*) as 'Page Count', average(duration) as 'Avg. Duration', apdex(duration, ${apdexT}) as 'Apdex' WHERE appName='${entity.name}' AND nr.apdexPerfZone in ('F', 'T') FACET pageUrl LIMIT 100 SINCE ${durationInMinutes} MINUTES AGO `}
+                                query={`FROM PageView SELECT count(*) as 'Page Count', average(duration) as 'Avg. Duration', apdex(duration) as 'Apdex' WHERE appName='${entity.name}' AND nr.apdexPerfZone in ('F', 'T') FACET pageUrl LIMIT 100 SINCE ${durationInMinutes} MINUTES AGO `}
                             />
                         </GridItem>
                     </Grid>

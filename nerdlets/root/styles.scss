@@ -12,8 +12,11 @@
   &:first-child {
     margin-left: 40px;
   }
+  table {
+    display: table;
+  }
   & > li {
-    width: 30%;
+    width: 24%;
     .stats {
       margin-top: 10px;
       list-style: none;
