@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { BlockText, Grid, GridItem, Icon, HeadingText, TableChart, Spinner, NerdGraphQuery, navigation, Button } from 'nr1';
 import SummaryBar from './summary-bar';
-import numeral from 'numeral';
-import moment from 'moment';
 import { get } from 'lodash';
+import {buildResults} from './stat-utils';
 
 function getIconType(apm) {
     if (apm.alertSeverity == 'NOT_ALERTING') {
@@ -16,25 +15,6 @@ function getIconType(apm) {
     } else {
         return Button.ICON_TYPE.HARDWARE_AND_SOFTWARE__SOFTWARE__SERVICE;
     }
-}
-
-function calcTotalSessionLength(a) {
-  let accumulator = 0;
-  a.forEach(result => {
-      accumulator += parseFloat(result.sessionLength);
-  })
-  return accumulator;
-}
-
-function calcBounces(a) {
-  let accumulator = 0;
-  a.forEach(result => {
-      const count = parseInt(result.count);
-      if (count == 1) {
-          accumulator++;
-      }
-  })
-  return accumulator;
 }
 
 export default class Breakdown extends Component {
@@ -56,103 +36,6 @@ export default class Breakdown extends Component {
         entity
       } })
   }
-
-  _buildResults({ cohorts, satisfied, tolerated, frustrated, bounceRate }) {
-    const S = cohorts.results.find(c => c.facet == 'S');
-    const T = cohorts.results.find(c => c.facet == 'T');
-    const F = cohorts.results.find(c => c.facet == 'F');
-    const obj = {
-        satisfied: {
-            sessions: numeral(S.sessions).format("0,0"),
-            pageviews: S.count,
-            medianDuration: parseFloat(S.medianDuration["50"]).toFixed(2),
-            avgPageViews: parseFloat(S.avgPageViews).toFixed(2),
-            duration75: parseFloat(S["percentile.duration"]["75"]).toFixed(2),
-            duration95: parseFloat(S["percentile.duration"]["95"]).toFixed(2),
-            duration99: parseFloat(S["percentile.duration"]["99"]).toFixed(2),
-            totalSessionLength: calcTotalSessionLength(satisfied.results),
-            totalSamples: satisfied.results.length,
-            bounces: calcBounces(satisfied.results)
-        },
-        tolerated: {
-            sessions: numeral(T.sessions).format("0,0"),
-            pageviews: T.count,
-            medianDuration: parseFloat(T.medianDuration["50"]).toFixed(2),
-            avgPageViews: parseFloat(T.avgPageViews).toFixed(2),
-            duration75: parseFloat(T["percentile.duration"]["75"]).toFixed(2),
-            duration95: parseFloat(T["percentile.duration"]["95"]).toFixed(2),
-            duration99: parseFloat(T["percentile.duration"]["99"]).toFixed(2),
-            totalSessionLength: calcTotalSessionLength(tolerated.results),
-            totalSamples: tolerated.results.length,
-            bounces: calcBounces(tolerated.results)
-        },
-        frustrated: {
-            sessions: numeral(F.sessions).format("0,0"),
-            pageviews: F.count,
-            medianDuration: parseFloat(F.medianDuration["50"]).toFixed(2),
-            avgPageViews: parseFloat(F.avgPageViews).toFixed(2),
-            duration75: parseFloat(F["percentile.duration"]["75"]).toFixed(2),
-            duration95: parseFloat(F["percentile.duration"]["95"]).toFixed(2),
-            duration99: parseFloat(F["percentile.duration"]["99"]).toFixed(2),
-            totalSessionLength: calcTotalSessionLength(frustrated.results),
-            totalSamples: frustrated.results.length,
-            bounces: calcBounces(frustrated.results)
-        }
-    };
-    if (bounceRate) {
-        const SbounceRate = bounceRate.results.find(r => r.facet == "S");
-        obj.satisfied.bounces = SbounceRate.steps[0] - SbounceRate.steps[1];
-        obj.satisfied.totalSamples = SbounceRate.steps[0];
-
-        const TbounceRate = bounceRate.results.find(r => r.facet == "T");
-        obj.tolerated.bounces = TbounceRate.steps[0] - TbounceRate.steps[1];
-        obj.tolerated.totalSamples = TbounceRate.steps[0];
-
-        const FbounceRate = bounceRate.results.find(r => r.facet == "F");
-        obj.frustrated.bounces = FbounceRate.steps[0] - FbounceRate.steps[1];
-        obj.frustrated.totalSamples = FbounceRate.steps[0];
-    }
-    const rawBounceRate = [
-        obj.satisfied.bounces/obj.satisfied.totalSamples,
-        obj.tolerated.bounces/obj.tolerated.totalSamples,
-        obj.frustrated.bounces/obj.frustrated.totalSamples
-    ];
-    const retentionRate = [
-        1.0 - rawBounceRate[0],
-        1.0 - rawBounceRate[1],
-        1.0 - rawBounceRate[2]
-    ];
-    const rawSessionLength = [
-        obj.satisfied.totalSessionLength/obj.satisfied.totalSamples,
-        obj.tolerated.totalSessionLength/obj.tolerated.totalSamples,
-        obj.frustrated.totalSessionLength/obj.frustrated.totalSamples
-    ];
-
-    obj.satisfied.bounceRate = parseFloat(rawBounceRate[0]*100).toFixed(2);
-    obj.satisfied.avgSessionLength = moment(rawSessionLength[0]).format('m:ss');
-
-    obj.tolerated.bounceRate = parseFloat((rawBounceRate[1])*100).toFixed(2);
-    obj.tolerated.avgSessionLength = moment(rawSessionLength[1]).format('m:ss');
-
-    obj.frustrated.bounceRate = parseFloat((rawBounceRate[2])*100).toFixed(2);
-    obj.frustrated.avgSessionLength = moment(rawSessionLength[2]).format('m:ss');
-
-    const engagedSessions = Math.round((F.sessions * rawBounceRate[2] + T.sessions * rawBounceRate[1]) * retentionRate[0]);
-
-    const additionalPageViews = (engagedSessions * S.avgPageViews) - (T.sessions * retentionRate[1] + F.sessions * retentionRate[2]);
-
-    const additionalTime = (engagedSessions * rawSessionLength[0]) - (T.sessions * rawSessionLength[1] + F.sessions * rawSessionLength[2]);
-
-    const loadTimeSavings = (T.count * (T.medianDuration["50"] - S.medianDuration["50"])) + (F.count * (F.medianDuration["50"] - S.medianDuration["50"]));
-
-    obj.recommendations = {
-        engagedSessions: engagedSessions > 0 ? numeral(engagedSessions).format("0,0") : "N/A",
-        additionalPageViews: additionalPageViews > 0 ? numeral(additionalPageViews).format("0,0") : "N/A",
-        additionalTime: additionalTime > 0 ? moment(additionalTime).format('H:mm:ss') : "N/A",
-        loadTimeSavings: loadTimeSavings > 0 ? moment(loadTimeSavings).format('H:mm:ss') : "N/A",
-    }
-    return obj;
-}
 
   render() {
     const { pageUrl, duration, entity } = this.props.nerdletUrlState;
@@ -210,14 +93,14 @@ export default class Breakdown extends Component {
         if (error) {
           return <BlockText>{JSON.stringify(error)}</BlockText>
         }
-        const results = this._buildResults(data.actor.account);
+        const results = buildResults(data.actor.account);
         const {settings: {apdexTarget}, servingApmApplicationId } = get(data, 'actor.entity');
         const browserSettingsUrl = `https://rpm.newrelic.com/accounts/${entity.accountId}/browser/${servingApmApplicationId}/edit#/settings`;
         const apmService = get(data, 'actor.entity.relationships[0].source.entity');
         if (apmService) {
             apmService.iconType = getIconType(apmService);
         }
-        //console.debug("Data", [data, results]);
+        console.debug("Data", [data, results]);
         return <Grid className="breakdownContainer">
         <GridItem columnSpan={12}>
           <SummaryBar {...this.props.nerdletUrlState} apmService={apmService}/>
@@ -368,19 +251,19 @@ export default class Breakdown extends Component {
             <div className="cohortStats improvementStats">
               <div className="cohortStat">
                   <span className="label">Engaged Sessions</span>
-                  <span className="value">{results.recommendations.engagedSessions}</span>
+                  <span className="value">{results.recommendations.sessions}</span>
               </div>
               <div className="cohortStat">
                   <span className="label">Added Page Views</span>
-                  <span className="value">{results.recommendations.additionalPageViews}</span>
+                  <span className="value">{results.recommendations.pageviews}</span>
               </div>
               <div className="cohortStat">
                   <span className="label">Added Time on Site</span>
-                  <span className="value">{results.recommendations.additionalTime}</span>
+                  <span className="value">{results.recommendations.siteTime}</span>
               </div>
               <div className="cohortStat">
                   <span className="label">Load Time Savings</span>
-                  <span className="value">{results.recommendations.loadTimeSavings}</span>
+                  <span className="value">{results.recommendations.loadTime}</span>
               </div>
             </div>
           </GridItem>

@@ -17,9 +17,9 @@ export default class SummaryBar extends Component {
     const durationInMinutes = duration/1000/60;
 
     // break the url up into separate piece so we can style them differently
-    const protocol = pageUrl.split('/').filter((piece, i) => i < 2 && piece).toString() + '//';
-    const domain = pageUrl.split('/').filter((piece, i) => i === 2 && piece).join('/');
-    let path = pageUrl.split('/').filter((piece, i) => i > 2 && piece).join('/')
+    const protocol = pageUrl ? pageUrl.split('/').filter((piece, i) => i < 2 && piece).toString() + '//' :  null;
+    const domain = pageUrl ? pageUrl.split('/').filter((piece, i) => i === 2 && piece).join('/') : null;
+    let path = pageUrl ? pageUrl.split('/').filter((piece, i) => i > 2 && piece).join('/') : null;
     path = '/' + path;
 
     //generate the appropriate NRQL where fragment for countryCode and regionCode
