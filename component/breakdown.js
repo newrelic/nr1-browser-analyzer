@@ -152,104 +152,186 @@ export default class Breakdown extends Component {
       }
     }`;
     console.debug("Graphql", graphql);
-    return (
-      <Grid>
+    return (<NerdGraphQuery query={graphql}>
+      {({data, loading, error}) => {
+        if (loading) {
+          return <Spinner fillContainer />
+        }
+        if (error) {
+          return <BlockText>{JSON.stringify(error)}</BlockText>
+        }
+        const results = this._buildResults(data.actor.account);
+        debugger;
+        console.debug("Data", [data, results]);
+        return <Grid>
         <GridItem columnSpan={12}>
           <SummaryBar {...this.props.nerdletUrlState} />
         </GridItem>
         <GridItem className="row" columnSpan={12}>
-            <NerdGraphQuery query={graphql}>
-              {({data, loading, error}) => {
-                if (loading) {
-                  return <Spinner fillContainer />
-                }
-                if (error) {
-                  return <BlockText>{JSON.stringify(error)}</BlockText>
-                }
-                const results = this._buildResults(data.actor.account);
-                console.debug("Data", [data, results]);
-                return <React.Fragment>
-                  <ul className="cohorts">
-                    <li className="satisfied">
-                        <Icon className="icon"
-                          type={Icon.TYPE.PROFILES__EVENTS__LIKE}
-                          color="green"
-                        />
-                        <ul className="stats">
-                          <li><span className="label">Sessions</span>{results.satisfied.sessions}</li>
-                          <li><span className="label">Pgs / Session</span>{results.satisfied.avgPageViews}</li>
-                          <li><span className="label">Bounce Rate</span>{results.satisfied.bounceRate}%*</li>
-                          <li><span className="label">Avg. Session</span>{results.satisfied.avgSessionLength}*</li>
-                          <li className="wide">
-                            <span className="label">Load Times</span>
-                            <ul>
-                              <li><span className="label">Median</span>{results.satisfied.medianDuration}</li>
-                              <li><span className="label">75th</span>{results.satisfied.duration75}</li>
-                              <li><span className="label">95th</span>{results.satisfied.duration95}</li>
-                              <li><span className="label">99th</span>{results.satisfied.duration99}</li>
-                            </ul>
-                          </li>
-                        </ul>
-                    </li>
-                    <li className="tolerated">
-                        <Icon className="icon"
-                          type={Icon.TYPE.INTERFACE__STATE__WARNING}
-                          color="#CCCC00"
-                        />
-                        <ul className="stats">
-                          <li><span className="label">Sessions</span>{results.tolerated.sessions}</li>
-                          <li><span className="label">Pgs / Session</span>{results.tolerated.avgPageViews}</li>
-                          <li><span className="label">Bounce Rate</span>{results.tolerated.bounceRate}%*</li>
-                          <li><span className="label">Avg. Session</span>{results.tolerated.avgSessionLength}*</li>
-                          <li className="wide">
-                            <span className="label">Load Times</span>
-                            <ul>
-                              <li><span className="label">Median</span>{results.tolerated.medianDuration}</li>
-                              <li><span className="label">75th</span>{results.tolerated.duration75}</li>
-                              <li><span className="label">95th</span>{results.tolerated.duration95}</li>
-                              <li><span className="label">99th</span>{results.tolerated.duration99}</li>
-                            </ul>
-                          </li>
-                        </ul>
-                    </li>
-                    <li className="frustrated">
-                        <Icon className="icon"
-                          type={Icon.TYPE.INTERFACE__STATE__CRITICAL}
-                          color="red"
-                        />
-                        <ul className="stats">
-                          <li><span className="label">Sessions</span>{results.frustrated.sessions}</li>
-                          <li><span className="label">Pgs / Session</span>{results.frustrated.avgPageViews}</li>
-                          <li><span className="label">Bounce Rate</span>{results.frustrated.bounceRate}%*</li>
-                          <li><span className="label">Avg. Session</span>{results.frustrated.avgSessionLength}*</li>
-                          <li className="wide">
-                            <span className="label">Load Times</span>
-                            <ul>
-                              <li><span className="label">Median</span>{results.frustrated.medianDuration}</li>
-                              <li><span className="label">75th</span>{results.frustrated.duration75}</li>
-                              <li><span className="label">95th</span>{results.frustrated.duration95}</li>
-                              <li><span className="label">99th</span>{results.frustrated.duration99}</li>
-                            </ul>
-                          </li>
-                        </ul>
-                    </li>
-                    <li>
-                      <HeadingText>Business Impacts</HeadingText>
-                      <BlockText>Estimated business improvements produced by performance improvements.</BlockText>
-                      <ul className="stats">
-                        <li className="wide"><span className="label">Engaged Sessions</span>{results.recommendations.engagedSessions}</li>
-                        <li className="wide"><span className="label">Added Page Views</span>{results.recommendations.additionalPageViews}</li>
-                        <li className="wide"><span className="label">Additional Time on Site</span>{results.recommendations.additionalTime}</li>
-                        <li className="wide"><span className="label">Load Time Savings</span>{results.recommendations.loadTimeSavings}</li>
-                      </ul>
-                    </li>
-                </ul>
-                <BlockText style={{ marginLeft: '50px'}}>* Note that these calculations are approximations based on a sample of the total data in New Relic for this Browser application.</BlockText>
-              </React.Fragment>
-            }}
-          </NerdGraphQuery>
+          <div className="cohorts">
+            <div className="cohort satisfied">
+                <Icon className="icon"
+                    type={Icon.TYPE.PROFILES__EVENTS__LIKE}
+                    color="green"
+                />
+                <h3 className="cohortTitle">Satisfied</h3>
+                <div className="cohortStats satisfiedStats">
+                    <div className="cohortStat">
+                        <span className="label">Sessions</span>
+                        <span className="value">{results.satisfied.sessions}</span>
+                    </div>
+                    <div className="cohortStat">
+                        <span className="label">Pgs / Session</span>
+                        <span className="value">{results.satisfied.avgPageViews}</span>
+                    </div>
+                    <div className="cohortStat">
+                        <span className="label">Bounce Rate</span>
+                        <span className="value">{results.satisfied.bounceRate}%*</span>
+                    </div>
+                    <div className="cohortStat">
+                        <span className="label">Avg. Session</span>
+                        <span className="value">{results.satisfied.avgSessionLength} secs.*</span>
+                    </div>
+                    <div className="cohortWideSection">
+                        <h5 className="sectionTitle">Load Times</h5>
+                        <div className="cohortStat">
+                            <span className="label">Median</span>
+                            <span className="value">{results.satisfied.medianDuration}</span>
+                        </div>
+                        <div className="cohortStat">
+                            <span className="label">75th</span>
+                            <span className="value">{results.satisfied.duration75}</span>
+                        </div>
+                        <div className="cohortStat">
+                            <span className="label">95th</span>
+                            <span className="value">{results.satisfied.duration95}</span>
+                        </div>
+                        <div className="cohortStat">
+                            <span className="label">99th</span>
+                            <span className="value">{results.satisfied.duration99}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="cohort tolerated">
+                <Icon className="icon"
+                    type={Icon.TYPE.INTERFACE__STATE__WARNING}
+                    color="#F5A020"
+                />
+                <h3 className="cohortTitle">Tolerated</h3>
+                <div className="cohortStats toleratedStats">
+                    <div className="cohortStat">
+                        <span className="label">Sessions</span>
+                        <span className="value">{results.tolerated.sessions}</span>
+                    </div>
+                    <div className="cohortStat">
+                        <span className="label">Pgs / Session</span>
+                        <span className="value">{results.tolerated.avgPageViews}</span>
+                    </div>
+                    <div className="cohortStat">
+                        <span className="label">Bounce Rate</span>
+                        <span className="value">{results.tolerated.bounceRate}%*</span>
+                    </div>
+                    <div className="cohortStat">
+                        <span className="label">Avg. Session</span>
+                        <span className="value">{results.tolerated.avgSessionLength} secs.*</span>
+                    </div>
+                    <div className="cohortWideSection">
+                        <h5 className="sectionTitle">Load Times</h5>
+                        <div className="cohortStat">
+                            <span className="label">Median</span>
+                            <span className="value">{results.tolerated.medianDuration}</span>
+                        </div>
+                        <div className="cohortStat">
+                            <span className="label">75th</span>
+                            <span className="value">{results.tolerated.duration75}</span>
+                        </div>
+                        <div className="cohortStat">
+                            <span className="label">95th</span>
+                            <span className="value">{results.tolerated.duration95}</span>
+                        </div>
+                        <div className="cohortStat">
+                            <span className="label">99th</span>
+                            <span className="value">{results.tolerated.duration99}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="cohort frustrated">
+                <Icon className="icon"
+                    type={Icon.TYPE.INTERFACE__STATE__CRITICAL}
+                    color="red"
+                />
+                <h3 className="cohortTitle">Frustrated</h3>
+                <div className="cohortStats frustratedStats">
+                    <div className="cohortStat">
+                        <span className="label">Sessions</span>
+                        <span className="value">{results.frustrated.sessions}</span>
+                    </div>
+                    <div className="cohortStat">
+                        <span className="label">Pgs / Session</span>
+                        <span className="value">{results.frustrated.avgPageViews}</span>
+                    </div>
+                    <div className="cohortStat">
+                        <span className="label">Bounce Rate</span>
+                        <span className="value">{results.frustrated.bounceRate}%*</span>
+                    </div>
+                    <div className="cohortStat">
+                        <span className="label">Avg. Session</span>
+                        <span className="value">{results.frustrated.avgSessionLength} secs.*</span>
+                    </div>
+                    <div className="cohortWideSection">
+                        <h5 className="sectionTitle">Load Times</h5>
+                        <div className="cohortStat">
+                            <span className="label">Median</span>
+                            <span className="value">{results.frustrated.medianDuration}</span>
+                        </div>
+                        <div className="cohortStat">
+                            <span className="label">75th</span>
+                            <span className="value">{results.frustrated.duration75}</span>
+                        </div>
+                        <div className="cohortStat">
+                            <span className="label">95th</span>
+                            <span className="value">{results.frustrated.duration95}</span>
+                        </div>
+                        <div className="cohortStat">
+                            <span className="label">99th</span>
+                            <span className="value">{results.frustrated.duration99}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <BlockText style={{ marginLeft: '50px'}}>* Note that these calculations are approximations based on a sample of the total data in New Relic for this Browser application.</BlockText>
+      </GridItem>
+        <GridItem className="row" columnSpan={4}>
+          <div className="cohort improvement">
+            <Icon className="icon"
+              type={Icon.TYPE.INTERFACE__CHEVRON__CHEVRON_TOP__V_ALTERNATE}
+              color="green"
+            />
+            <h3 className="cohortTitle">Improvements</h3>
+            <div className="cohortStats improvementStats">
+              <div className="cohortStat">
+                  <span className="label">Engaged Sessions</span>
+                  <span className="value">{results.recommendations.engagedSessions}</span>
+              </div>
+              <div className="cohortStat">
+                  <span className="label">Added Page Views</span>
+                  <span className="value">{results.recommendations.additionalPageViews}</span>
+              </div>
+              <div className="cohortStat">
+                  <span className="label">Added Time on Site</span>
+                  <span className="value">{results.recommendations.additionalTime}</span>
+              </div>
+              <div className="cohortStat">
+                  <span className="label">Load Time Savings</span>
+                  <span className="value">{results.recommendations.loadTimeSavings}</span>
+              </div>
+            </div>
+          </div>
         </GridItem>
-        {pageUrl ? null : <GridItem className="pageUrlTable" columnSpan={12}>
+        {pageUrl ? null : <GridItem className="pageUrlTable" columnSpan={8}>
             <HeadingText type={HeadingText.TYPE.HEADING3}>Top Performance Improvement Targets</HeadingText>
             <TableChart
                 accountId={entity.accountId}
@@ -260,7 +342,8 @@ export default class Breakdown extends Component {
                 }}
             />
         </GridItem>}
-      </Grid>
-    )
+    </Grid>;
+      }}
+    </NerdGraphQuery>);
   }
 }
