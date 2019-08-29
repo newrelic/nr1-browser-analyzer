@@ -55,36 +55,39 @@ export default class MyNerdlet extends React.Component {
     }
 
     _buildResults({ cohorts, satisfied, tolerated, frustrated }) {
+        const S = cohorts.results.find(c => c.facet == 'S');
+        const T = cohorts.results.find(c => c.facet == 'T');
+        const F = cohorts.results.find(c => c.facet == 'F');
         const obj = {
             satisfied: {
-                sessions: numeral(cohorts.results[1].sessions).format("0,0"),
-                medianDuration: parseFloat(cohorts.results[1].medianDuration["50"]).toFixed(2),
-                avgPageViews: parseFloat(cohorts.results[1].avgPageViews).toFixed(2),
-                duration75: parseFloat(cohorts.results[1]["percentile.duration"]["75"]).toFixed(2),
-                duration95: parseFloat(cohorts.results[1]["percentile.duration"]["95"]).toFixed(2),
-                duration99: parseFloat(cohorts.results[1]["percentile.duration"]["99"]).toFixed(2),
+                sessions: numeral(S.sessions).format("0,0"),
+                medianDuration: parseFloat(S.medianDuration["50"]).toFixed(2),
+                avgPageViews: parseFloat(S.avgPageViews).toFixed(2),
+                duration75: parseFloat(S["percentile.duration"]["75"]).toFixed(2),
+                duration95: parseFloat(S["percentile.duration"]["95"]).toFixed(2),
+                duration99: parseFloat(S["percentile.duration"]["99"]).toFixed(2),
                 totalSessionLength: calcTotalSessionLength(satisfied.results),
                 totalSamples: satisfied.results.length,
                 bounces: calcBounces(satisfied.results)
             },
             tolerated: {
-                sessions: numeral(cohorts.results[0].sessions).format("0,0"),
-                medianDuration: parseFloat(cohorts.results[0].medianDuration["50"]).toFixed(2),
-                avgPageViews: parseFloat(cohorts.results[0].avgPageViews).toFixed(2),
-                duration75: parseFloat(cohorts.results[0]["percentile.duration"]["75"]).toFixed(2),
-                duration95: parseFloat(cohorts.results[0]["percentile.duration"]["95"]).toFixed(2),
-                duration99: parseFloat(cohorts.results[0]["percentile.duration"]["99"]).toFixed(2),
+                sessions: numeral(T.sessions).format("0,0"),
+                medianDuration: parseFloat(T.medianDuration["50"]).toFixed(2),
+                avgPageViews: parseFloat(T.avgPageViews).toFixed(2),
+                duration75: parseFloat(T["percentile.duration"]["75"]).toFixed(2),
+                duration95: parseFloat(T["percentile.duration"]["95"]).toFixed(2),
+                duration99: parseFloat(T["percentile.duration"]["99"]).toFixed(2),
                 totalSessionLength: calcTotalSessionLength(tolerated.results),
                 totalSamples: tolerated.results.length,
                 bounces: calcBounces(tolerated.results)
             },
             frustrated: {
-                sessions: numeral(cohorts.results[2].sessions).format("0,0"),
-                medianDuration: parseFloat(cohorts.results[2].medianDuration["50"]).toFixed(2),
-                avgPageViews: parseFloat(cohorts.results[2].avgPageViews).toFixed(2),
-                duration75: parseFloat(cohorts.results[2]["percentile.duration"]["75"]).toFixed(2),
-                duration95: parseFloat(cohorts.results[2]["percentile.duration"]["95"]).toFixed(2),
-                duration99: parseFloat(cohorts.results[2]["percentile.duration"]["99"]).toFixed(2),
+                sessions: numeral(F.sessions).format("0,0"),
+                medianDuration: parseFloat(F.medianDuration["50"]).toFixed(2),
+                avgPageViews: parseFloat(F.avgPageViews).toFixed(2),
+                duration75: parseFloat(F["percentile.duration"]["75"]).toFixed(2),
+                duration95: parseFloat(F["percentile.duration"]["95"]).toFixed(2),
+                duration99: parseFloat(F["percentile.duration"]["99"]).toFixed(2),
                 totalSessionLength: calcTotalSessionLength(frustrated.results),
                 totalSamples: frustrated.results.length,
                 bounces: calcBounces(frustrated.results)

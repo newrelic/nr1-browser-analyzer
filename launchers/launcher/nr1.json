@@ -1,8 +1,0 @@
-{
-    "schemaType": "LAUNCHER",
-    "id": "launcher",
-    "description": "Describe me",
-    "displayName": "Web Performance Analysis",
-    "icon": "interface_operations_follow",
-    "rootNerdletId": "edf9ac5a-ba6d-4371-9cff-905a5d2c3238.root"
-}
