@@ -14,11 +14,25 @@ export default class SummaryBar extends Component {
     const { pageUrl, entity: { accountId, name }, duration } = this.props;
     //compute the duration in minutes
     const durationInMinutes = duration/1000/60;
+
+    // break the url up into separate piece so we can style them differently
+    const protocol = pageUrl.split('/').filter((piece, i) => i < 2 && piece).toString() + '//';
+    const domain = pageUrl.split('/').filter((piece, i) => i === 2 && piece).join('/');
+    let path = pageUrl.split('/').filter((piece, i) => i > 2 && piece).join('/')
+    path = '/' + path;
+
     //generate the appropriate NRQL where fragment for countryCode and regionCode
     //output a series of micro-charts to show overall KPI's
+
     return (
       <React.Fragment>
-        {pageUrl && <HeadingText>{pageUrl}</HeadingText>}
+        {
+          pageUrl && <HeadingText className="pageUrl">
+              <span className="pageUrlProtocol">{protocol}</span>
+              <span className="pageUrlDomain">{domain}</span>
+              <span className="pageUrlPath">{path}</span>
+            </HeadingText>
+        }
         <Stack
           alignmentType={Stack.ALIGNMENT_TYPE.FILL}
           directionType={Stack.DIRECTION_TYPE.HORIZONTAL}
