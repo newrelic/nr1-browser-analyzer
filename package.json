@@ -1,6 +1,6 @@
 {
     "private": true,
-    "name": "nr1-webperf-analysis-nerdpack",
+    "name": "nr1-browser-analyzer",
     "description": "NR1 Nerdpack business value analysis of Browser data.",
     "version": "0.1.0",
     "scripts": {
