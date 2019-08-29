@@ -51,7 +51,6 @@ export default class MyNerdlet extends React.Component {
                 return <React.Fragment>
                   <Breakdown nerdletUrlState={nerdletUrlState} />
                   <Modal hidden={hidden} onClose={this.callbacks.onEditClose}>
-
                   </Modal>
                 </React.Fragment>
             }}
