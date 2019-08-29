@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Stack, StackItem, SparklineChart, BillboardChart, HeadingText, Button } from 'nr1';
+import { Stack, StackItem, SparklineChart, BillboardChart, HeadingText } from 'nr1';
 
 export default class SummaryBar extends Component {
   static propTypes = {
     entity: PropTypes.object.isRequired,
-    launcherUrlState: PropTypes.object.isRequired,
-    callbacks: PropTypes.object.isRequired
+    duration: PropTypes.number.isRequired,
+    pageUrl: PropTypes.string
   }
 
   render() {
     //get props, including nested props
-    const { callbacks, entity: { accountId, name }, launcherUrlState: { timeRange: { duration } } } = this.props;
+    const { pageUrl, entity: { accountId, name }, duration } = this.props;
     //compute the duration in minutes
     const durationInMinutes = duration/1000/60;
     //generate the appropriate NRQL where fragment for countryCode and regionCode
     //output a series of micro-charts to show overall KPI's
     return (
-      <Stack
+      <React.Fragment>
+        {pageUrl && <HeadingText>{pageUrl}</HeadingText>}
+        <Stack
           alignmentType={Stack.ALIGNMENT_TYPE.FILL}
           directionType={Stack.DIRECTION_TYPE.HORIZONTAL}
           gapType={Stack.GAP_TYPE.TIGHT}
@@ -41,7 +43,8 @@ export default class SummaryBar extends Component {
               <BillboardChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(backendDuration) as 'Backend Avg.' SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}'`}/>
               <SparklineChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(backendDuration) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}'`}/>
           </StackItem>
-      </Stack>
+        </Stack>
+      </React.Fragment>
     )
   }
 }
