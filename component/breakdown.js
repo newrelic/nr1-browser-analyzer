@@ -40,12 +40,11 @@ export default class Breakdown extends Component {
       urlState: {
         pageUrl,
         duration,
-        apdexT,
         entity
       } })
   }
 
-  _buildResults({ cohorts, satisfied, tolerated, frustrated }) {
+  _buildResults({ cohorts, satisfied, tolerated, frustrated, bounceRate }) {
     const S = cohorts.results.find(c => c.facet == 'S');
     const T = cohorts.results.find(c => c.facet == 'T');
     const F = cohorts.results.find(c => c.facet == 'F');
@@ -87,6 +86,19 @@ export default class Breakdown extends Component {
             bounces: calcBounces(frustrated.results)
         }
     };
+    if (bounceRate) {
+        const SbounceRate = bounceRate.results.find(r => r.facet == "S");
+        obj.satisfied.bounces = SbounceRate.steps[0] - SbounceRate.steps[1];
+        obj.satisfied.totalSamples = SbounceRate.steps[0];
+
+        const TbounceRate = bounceRate.results.find(r => r.facet == "T");
+        obj.tolerated.bounces = TbounceRate.steps[0] - TbounceRate.steps[1];
+        obj.tolerated.totalSamples = TbounceRate.steps[0];
+
+        const FbounceRate = bounceRate.results.find(r => r.facet == "F");
+        obj.frustrated.bounces = FbounceRate.steps[0] - FbounceRate.steps[1];
+        obj.frustrated.totalSamples = FbounceRate.steps[0];
+    }
     const rawBounceRate = [
         obj.satisfied.bounces/obj.satisfied.totalSamples,
         obj.tolerated.bounces/obj.tolerated.totalSamples,
@@ -121,16 +133,16 @@ export default class Breakdown extends Component {
     const loadTimeSavings = (T.count * (T.medianDuration["50"] - S.medianDuration["50"])) + (F.count * (F.medianDuration["50"] - S.medianDuration["50"]));
 
     obj.recommendations = {
-        engagedSessions: numeral(engagedSessions).format("0,0"),
-        additionalPageViews: numeral(additionalPageViews).format("0,0"),
-        additionalTime: moment(additionalTime).format('H:mm:ss'),
-        loadTimeSavings: moment(loadTimeSavings).format('H:mm:ss'),
+        engagedSessions: engagedSessions > 0 ? numeral(engagedSessions).format("0,0") : "N/A",
+        additionalPageViews: additionalPageViews > 0 ? numeral(additionalPageViews).format("0,0") : "N/A",
+        additionalTime: additionalTime > 0 ? moment(additionalTime).format('H:mm:ss') : "N/A",
+        loadTimeSavings: loadTimeSavings > 0 ? moment(loadTimeSavings).format('H:mm:ss') : "N/A",
     }
     return obj;
 }
 
   render() {
-    const { pageUrl, duration, apdexT, entity } = this.props.nerdletUrlState;
+    const { pageUrl, duration, entity } = this.props.nerdletUrlState;
     const durationInMinutes = duration/1000/60;
     const graphql = `{
       actor {
@@ -139,6 +151,9 @@ export default class Breakdown extends Component {
             results
             totalResult
           }
+          ${pageUrl ? `bounceRate:nrql(query: "FROM PageView SELECT funnel(session, WHERE pageUrl = 'http://webportal.telco.nrdemo.com/browse/phones' as 'page', WHERE pageUrl != 'http://webportal.telco.nrdemo.com/browse/phones' as 'nextPage') FACET nr.apdexPerfZone") {
+              results
+          }` : ''}
           satisfied: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${entity.name}' AND nr.apdexPerfZone = 'S' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} FACET session limit MAX SINCE ${durationInMinutes} MINUTES AGO") {
             results
           }
@@ -147,6 +162,14 @@ export default class Breakdown extends Component {
           }
           frustrated: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${entity.name}' AND nr.apdexPerfZone = 'F' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} FACET session limit MAX SINCE ${durationInMinutes} MINUTES AGO") {
             results
+          }
+
+        }
+        entity(guid: "${entity.guid}") {
+          ... on BrowserApplicationEntity {
+            settings {
+              apdexTarget
+            }
           }
         }
       }
@@ -161,6 +184,7 @@ export default class Breakdown extends Component {
           return <BlockText>{JSON.stringify(error)}</BlockText>
         }
         const results = this._buildResults(data.actor.account);
+        const {apdexTarget} = data.actor.entity.settings;
         console.debug("Data", [data, results]);
         return <Grid className="breakdownContainer">
         <GridItem columnSpan={12}>
@@ -172,7 +196,7 @@ export default class Breakdown extends Component {
                 color="green"
             />
             <h3 className="cohortTitle">Satisfied</h3>
-            <p className="cohortDescription">Nulla quis tortor orci. Etiam at risus et justo dignissim.</p>
+            <p className="cohortDescription"><em>Satisfied</em> performance based on an apdex T of <em>{apdexTarget}</em>.</p>
             <div className="cohortStats satisfiedStats">
                 <div className="cohortStat">
                     <span className="label">Sessions</span>
@@ -183,8 +207,8 @@ export default class Breakdown extends Component {
                     <span className="value">{results.satisfied.avgPageViews}</span>
                 </div>
                 <div className="cohortStat">
-                    <span className="label">Bounce Rate</span>
-                    <span className="value">{results.satisfied.bounceRate}%*</span>
+                    <span className="label">{!pageUrl ? "Bounce Rate" : "Exit Rate"}</span>
+                    <span className="value">{results.satisfied.bounceRate}%{!pageUrl ? "*" : ""}</span>
                 </div>
                 <div className="cohortStat">
                     <span className="label">Avg. Session</span>
@@ -217,7 +241,7 @@ export default class Breakdown extends Component {
                 color="#F5A020"
             />
             <h3 className="cohortTitle">Tolerated</h3>
-            <p className="cohortDescription">Nulla quis tortor orci. Etiam at risus et justo dignissim.</p>
+            <p className="cohortDescription"><em>Tolerated</em> performance based on an apdex T of <em>{apdexTarget}</em>.</p>
             <div className="cohortStats toleratedStats">
                 <div className="cohortStat">
                     <span className="label">Sessions</span>
@@ -228,8 +252,8 @@ export default class Breakdown extends Component {
                     <span className="value">{results.tolerated.avgPageViews}</span>
                 </div>
                 <div className="cohortStat">
-                    <span className="label">Bounce Rate</span>
-                    <span className="value">{results.tolerated.bounceRate}%*</span>
+                    <span className="label">{!pageUrl ? "Bounce Rate" : "Exit Rate"}</span>
+                    <span className="value">{results.tolerated.bounceRate}%{!pageUrl ? "*" : ""}</span>
                 </div>
                 <div className="cohortStat">
                     <span className="label">Avg. Session</span>
@@ -262,7 +286,7 @@ export default class Breakdown extends Component {
                     color="red"
                 />
                 <h3 className="cohortTitle">Frustrated</h3>
-                <p className="cohortDescription">Nulla quis tortor orci. Etiam at risus et justo dignissim.</p>
+                <p className="cohortDescription"><em>Frustrated</em> performance based on an apdex T of <em>{apdexTarget}</em>.</p>
                 <div className="cohortStats frustratedStats">
                     <div className="cohortStat">
                         <span className="label">Sessions</span>
@@ -273,8 +297,8 @@ export default class Breakdown extends Component {
                         <span className="value">{results.frustrated.avgPageViews}</span>
                     </div>
                     <div className="cohortStat">
-                        <span className="label">Bounce Rate</span>
-                        <span className="value">{results.frustrated.bounceRate}%*</span>
+                        <span className="label">{!pageUrl ? "Bounce Rate" : "Exit Rate"}</span>
+                        <span className="value">{results.frustrated.bounceRate}%{!pageUrl ? "*" : ""}</span>
                     </div>
                     <div className="cohortStat">
                         <span className="label">Avg. Session</span>
@@ -308,7 +332,7 @@ export default class Breakdown extends Component {
               color="green"
             />
             <h3 className="cohortTitle">Improvements</h3>
-            <p className="cohortDescription">Nulla quis tortor orci. Etiam at risus et justo dignissim.</p>
+            <p className="cohortDescription">Moving <em>Tolerated</em> and <em>Frustrated</em> sessions to <em>Satisfied</em> and assuming no change in the Satisfied <em>Bounce Rate</em> or <em>Avg. Session</em> length.</p>
             <div className="cohortStats improvementStats">
               <div className="cohortStat">
                   <span className="label">Engaged Sessions</span>
@@ -332,7 +356,7 @@ export default class Breakdown extends Component {
             <HeadingText type={HeadingText.TYPE.HEADING3}>Top Performance Improvement Targets</HeadingText>
             <TableChart
                 accountId={entity.accountId}
-                query={`FROM PageView SELECT count(*) as 'Page Count', average(duration) as 'Avg. Duration', apdex(duration, ${apdexT}) as 'Apdex' WHERE appName='${entity.name}' AND nr.apdexPerfZone in ('F', 'T') FACET pageUrl LIMIT 100 SINCE ${durationInMinutes} MINUTES AGO `}
+                query={`FROM PageView SELECT count(*) as 'Page Count', average(duration) as 'Avg. Duration', apdex(duration, ${apdexTarget}) as 'Apdex' WHERE appName='${entity.name}' AND nr.apdexPerfZone in ('F', 'T') FACET pageUrl LIMIT 100 SINCE ${durationInMinutes} MINUTES AGO `}
                 onClickTable={(...args) => {
                     //console.debug(args);
                     this._openDetails(args[1].pageUrl);
