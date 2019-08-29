@@ -4,23 +4,28 @@
   margin-top: 30px;
 }
 
+.breakdownContainer {
+  padding: 0 50px;
+  grid-column-gap: 40px;
+  grid-row-gap: 20px;
+}
+
 .cohorts {
   display: flex;
+  margin: 80px 0 20px;
   padding-top: 50px;
   padding-left: 32px;
-  margin-bottom: 30px;
 }
 
 .cohort {
+  display: flex;
+  flex-direction: column;
   min-width: 335px;
+  margin-top: 50px;
   background: #FFFFFF;
   border: 1px solid #E3E4E4;
   box-shadow: 0 1px 3px 0 rgba(203,226,226,0.34);
   border-radius: 3px;
-
-  &:not(:last-child) {
-    margin-right: 20px;
-  }
 
   .sectionTitle {
     display:flex;
@@ -38,14 +43,15 @@
   }
 
   .icon {
+    display: inline-block;
     position: relative;
     max-width: 53px;
     max-height: 53px;
-    margin-bottom: 6px;
-    margin-top: -50px;
+    margin: -43px auto 6px;
     background-color: rgba(0,0,0, .3);
     padding: 40px;
     border-radius: 30px;
+    box-shadow: 0 0 0 8px #fff;
 
     svg {
       position: absolute;
@@ -57,12 +63,8 @@
   }
 }
 
-.improvement {
-  margin-left: 32px;
-  margin-top: 40px;
-}
-
-.satisfied .icon, .improvement .icon {
+.satisfied .icon,
+.improvement .icon {
   background-color: #F2FCF3;
 }
 
@@ -81,6 +83,16 @@
 
   & > .cohortStat {
     grid-column-end: span 2;
+  }
+}
+
+.improvement {
+  margin-top: 40px;
+  align-self: start;
+
+  .cohortStats {
+    grid-auto-rows: 70px;
+    grid-template-rows: inherit;
   }
 }
 
@@ -148,6 +160,11 @@
   font-weight: 400;
 }
 
+.cohortDescription {
+  text-align: center;
+  font-size: 12px;
+}
+
 .icon {
   display: inline-block;
   font-size: 125px !important;
@@ -161,7 +178,6 @@
 }
 .pageUrlTable {
   height: 100vh;
-  padding: 20px;
   h1 {
     margin-bottom: 10px;
   }
@@ -184,4 +200,13 @@
   span {
     font-size: 1.2em;
   }
+}
+
+.cohortsSmallPrint {
+  grid-column: auto / span 12;
+  background-color: #f2fafc;
+  color: #0079bf;
+  padding: 15px;
+  text-align: center;
+  border-radius: 3px;
 }

@@ -161,108 +161,108 @@ export default class Breakdown extends Component {
           return <BlockText>{JSON.stringify(error)}</BlockText>
         }
         const results = this._buildResults(data.actor.account);
-        debugger;
         console.debug("Data", [data, results]);
-        return <Grid>
+        return <Grid className="breakdownContainer">
         <GridItem columnSpan={12}>
           <SummaryBar {...this.props.nerdletUrlState} />
         </GridItem>
-        <GridItem className="row" columnSpan={12}>
-          <div className="cohorts">
-            <div className="cohort satisfied">
-                <Icon className="icon"
-                    type={Icon.TYPE.PROFILES__EVENTS__LIKE}
-                    color="green"
-                />
-                <h3 className="cohortTitle">Satisfied</h3>
-                <div className="cohortStats satisfiedStats">
+        <GridItem columnSpan={4} className="cohort satisfied">
+            <Icon className="icon"
+                type={Icon.TYPE.PROFILES__EVENTS__LIKE}
+                color="green"
+            />
+            <h3 className="cohortTitle">Satisfied</h3>
+            <p className="cohortDescription">Nulla quis tortor orci. Etiam at risus et justo dignissim.</p>
+            <div className="cohortStats satisfiedStats">
+                <div className="cohortStat">
+                    <span className="label">Sessions</span>
+                    <span className="value">{results.satisfied.sessions}</span>
+                </div>
+                <div className="cohortStat">
+                    <span className="label">Pgs / Session</span>
+                    <span className="value">{results.satisfied.avgPageViews}</span>
+                </div>
+                <div className="cohortStat">
+                    <span className="label">Bounce Rate</span>
+                    <span className="value">{results.satisfied.bounceRate}%*</span>
+                </div>
+                <div className="cohortStat">
+                    <span className="label">Avg. Session</span>
+                    <span className="value">{results.satisfied.avgSessionLength} secs.*</span>
+                </div>
+                <div className="cohortWideSection">
+                    <h5 className="sectionTitle">Load Times</h5>
                     <div className="cohortStat">
-                        <span className="label">Sessions</span>
-                        <span className="value">{results.satisfied.sessions}</span>
+                        <span className="label">Median</span>
+                        <span className="value">{results.satisfied.medianDuration}</span>
                     </div>
                     <div className="cohortStat">
-                        <span className="label">Pgs / Session</span>
-                        <span className="value">{results.satisfied.avgPageViews}</span>
+                        <span className="label">75th</span>
+                        <span className="value">{results.satisfied.duration75}</span>
                     </div>
                     <div className="cohortStat">
-                        <span className="label">Bounce Rate</span>
-                        <span className="value">{results.satisfied.bounceRate}%*</span>
+                        <span className="label">95th</span>
+                        <span className="value">{results.satisfied.duration95}</span>
                     </div>
                     <div className="cohortStat">
-                        <span className="label">Avg. Session</span>
-                        <span className="value">{results.satisfied.avgSessionLength} secs.*</span>
-                    </div>
-                    <div className="cohortWideSection">
-                        <h5 className="sectionTitle">Load Times</h5>
-                        <div className="cohortStat">
-                            <span className="label">Median</span>
-                            <span className="value">{results.satisfied.medianDuration}</span>
-                        </div>
-                        <div className="cohortStat">
-                            <span className="label">75th</span>
-                            <span className="value">{results.satisfied.duration75}</span>
-                        </div>
-                        <div className="cohortStat">
-                            <span className="label">95th</span>
-                            <span className="value">{results.satisfied.duration95}</span>
-                        </div>
-                        <div className="cohortStat">
-                            <span className="label">99th</span>
-                            <span className="value">{results.satisfied.duration99}</span>
-                        </div>
+                        <span className="label">99th</span>
+                        <span className="value">{results.satisfied.duration99}</span>
                     </div>
                 </div>
             </div>
-            <div className="cohort tolerated">
-                <Icon className="icon"
-                    type={Icon.TYPE.INTERFACE__STATE__WARNING}
-                    color="#F5A020"
-                />
-                <h3 className="cohortTitle">Tolerated</h3>
-                <div className="cohortStats toleratedStats">
+        </GridItem>
+        <GridItem columnSpan={4} className="cohort tolerated">
+            <Icon className="icon"
+                type={Icon.TYPE.INTERFACE__STATE__WARNING}
+                color="#F5A020"
+            />
+            <h3 className="cohortTitle">Tolerated</h3>
+            <p className="cohortDescription">Nulla quis tortor orci. Etiam at risus et justo dignissim.</p>
+            <div className="cohortStats toleratedStats">
+                <div className="cohortStat">
+                    <span className="label">Sessions</span>
+                    <span className="value">{results.tolerated.sessions}</span>
+                </div>
+                <div className="cohortStat">
+                    <span className="label">Pgs / Session</span>
+                    <span className="value">{results.tolerated.avgPageViews}</span>
+                </div>
+                <div className="cohortStat">
+                    <span className="label">Bounce Rate</span>
+                    <span className="value">{results.tolerated.bounceRate}%*</span>
+                </div>
+                <div className="cohortStat">
+                    <span className="label">Avg. Session</span>
+                    <span className="value">{results.tolerated.avgSessionLength} secs.*</span>
+                </div>
+                <div className="cohortWideSection">
+                    <h5 className="sectionTitle">Load Times</h5>
                     <div className="cohortStat">
-                        <span className="label">Sessions</span>
-                        <span className="value">{results.tolerated.sessions}</span>
+                        <span className="label">Median</span>
+                        <span className="value">{results.tolerated.medianDuration}</span>
                     </div>
                     <div className="cohortStat">
-                        <span className="label">Pgs / Session</span>
-                        <span className="value">{results.tolerated.avgPageViews}</span>
+                        <span className="label">75th</span>
+                        <span className="value">{results.tolerated.duration75}</span>
                     </div>
                     <div className="cohortStat">
-                        <span className="label">Bounce Rate</span>
-                        <span className="value">{results.tolerated.bounceRate}%*</span>
+                        <span className="label">95th</span>
+                        <span className="value">{results.tolerated.duration95}</span>
                     </div>
                     <div className="cohortStat">
-                        <span className="label">Avg. Session</span>
-                        <span className="value">{results.tolerated.avgSessionLength} secs.*</span>
-                    </div>
-                    <div className="cohortWideSection">
-                        <h5 className="sectionTitle">Load Times</h5>
-                        <div className="cohortStat">
-                            <span className="label">Median</span>
-                            <span className="value">{results.tolerated.medianDuration}</span>
-                        </div>
-                        <div className="cohortStat">
-                            <span className="label">75th</span>
-                            <span className="value">{results.tolerated.duration75}</span>
-                        </div>
-                        <div className="cohortStat">
-                            <span className="label">95th</span>
-                            <span className="value">{results.tolerated.duration95}</span>
-                        </div>
-                        <div className="cohortStat">
-                            <span className="label">99th</span>
-                            <span className="value">{results.tolerated.duration99}</span>
-                        </div>
+                        <span className="label">99th</span>
+                        <span className="value">{results.tolerated.duration99}</span>
                     </div>
                 </div>
             </div>
-            <div className="cohort frustrated">
+        </GridItem>
+        <GridItem columnSpan={4} className="cohort frustrated">
                 <Icon className="icon"
                     type={Icon.TYPE.INTERFACE__STATE__CRITICAL}
                     color="red"
                 />
                 <h3 className="cohortTitle">Frustrated</h3>
+                <p className="cohortDescription">Nulla quis tortor orci. Etiam at risus et justo dignissim.</p>
                 <div className="cohortStats frustratedStats">
                     <div className="cohortStat">
                         <span className="label">Sessions</span>
@@ -300,17 +300,15 @@ export default class Breakdown extends Component {
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <BlockText style={{ marginLeft: '50px'}}>* Note that these calculations are approximations based on a sample of the total data in New Relic for this Browser application.</BlockText>
-      </GridItem>
-        <GridItem className="row" columnSpan={4}>
-          <div className="cohort improvement">
+            </GridItem>
+        <BlockText className="cohortsSmallPrint">* Note that these calculations are approximations based on a sample of the total data in New Relic for this Browser application.</BlockText>
+        <GridItem columnSpan={4} className="cohort improvement">
             <Icon className="icon"
               type={Icon.TYPE.INTERFACE__CHEVRON__CHEVRON_TOP__V_ALTERNATE}
               color="green"
             />
             <h3 className="cohortTitle">Improvements</h3>
+            <p className="cohortDescription">Nulla quis tortor orci. Etiam at risus et justo dignissim.</p>
             <div className="cohortStats improvementStats">
               <div className="cohortStat">
                   <span className="label">Engaged Sessions</span>
@@ -329,8 +327,7 @@ export default class Breakdown extends Component {
                   <span className="value">{results.recommendations.loadTimeSavings}</span>
               </div>
             </div>
-          </div>
-        </GridItem>
+          </GridItem>
         {pageUrl ? null : <GridItem className="pageUrlTable" columnSpan={8}>
             <HeadingText type={HeadingText.TYPE.HEADING3}>Top Performance Improvement Targets</HeadingText>
             <TableChart
