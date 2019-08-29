@@ -18,7 +18,7 @@ export default class MyNerdlet extends React.Component {
             hidden: true,
             percentage: 0
         };
-        console.debug(this.props);
+        //console.debug(this.props);
         this.callbacks = {
             editClick: this.editClick.bind(this),
             onEditClose: this.onEditClose.bind(this)
@@ -46,7 +46,7 @@ export default class MyNerdlet extends React.Component {
                     return <BlockText>{JSON.stringify(error)}</BlockText>
                 }
                 const entity = get(data, 'actor.entities[0]');
-                console.debug("Entity", entity);
+                //console.debug("Entity", entity);
                 const nerdletUrlState = { duration, apdexT, entity };
                 return <React.Fragment>
                   <Breakdown nerdletUrlState={nerdletUrlState} />

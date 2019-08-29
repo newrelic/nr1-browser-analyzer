@@ -1,9 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { BlockText, Grid, GridItem, Icon, HeadingText, TableChart, Spinner, NerdGraphQuery, navigation } from 'nr1';
+import { BlockText, Grid, GridItem, Icon, HeadingText, TableChart, Spinner, NerdGraphQuery, navigation, Button } from 'nr1';
 import SummaryBar from './summary-bar';
 import numeral from 'numeral';
 import moment from 'moment';
+import { get } from 'lodash';
+
+function getIconType(apm) {
+    if (apm.alertSeverity == 'NOT_ALERTING') {
+        return Button.ICON_TYPE.HARDWARE_AND_SOFTWARE__SOFTWARE__SERVICE__S_OK;
+    } else if (apm.alertSeverity == 'WARNING') {
+        return Button.ICON_TYPE.HARDWARE_AND_SOFTWARE__SOFTWARE__SERVICE__S_WARNING;
+    } else if (apm.alertSeverity == 'CRITICAL') {
+        return Button.ICON_TYPE.HARDWARE_AND_SOFTWARE__SOFTWARE__SERVICE__S_ERROR;
+    } else {
+        return Button.ICON_TYPE.HARDWARE_AND_SOFTWARE__SOFTWARE__SERVICE;
+    }
+}
 
 function calcTotalSessionLength(a) {
   let accumulator = 0;
@@ -170,11 +183,25 @@ export default class Breakdown extends Component {
             settings {
               apdexTarget
             }
+            applicationId
+            servingApmApplicationId
+          }
+          relationships {
+            source {
+              entity {
+                domain
+                guid
+                type
+                ... on ApmApplicationEntityOutline {
+                  alertSeverity
+                }
+              }
+            }
           }
         }
       }
     }`;
-    console.debug("Graphql", graphql);
+    //console.debug("Graphql", graphql);
     return (<NerdGraphQuery query={graphql}>
       {({data, loading, error}) => {
         if (loading) {
@@ -184,11 +211,16 @@ export default class Breakdown extends Component {
           return <BlockText>{JSON.stringify(error)}</BlockText>
         }
         const results = this._buildResults(data.actor.account);
-        const {apdexTarget} = data.actor.entity.settings;
-        console.debug("Data", [data, results]);
+        const {settings: {apdexTarget}, servingApmApplicationId } = get(data, 'actor.entity');
+        const browserSettingsUrl = `https://rpm.newrelic.com/accounts/${entity.accountId}/browser/${servingApmApplicationId}/edit#/settings`;
+        const apmService = get(data, 'actor.entity.relationships[0].source.entity');
+        if (apmService) {
+            apmService.iconType = getIconType(apmService);
+        }
+        //console.debug("Data", [data, results]);
         return <Grid className="breakdownContainer">
         <GridItem columnSpan={12}>
-          <SummaryBar {...this.props.nerdletUrlState} />
+          <SummaryBar {...this.props.nerdletUrlState} apmService={apmService}/>
         </GridItem>
         <GridItem columnSpan={4} className="cohort satisfied">
             <Icon className="icon"
@@ -196,7 +228,7 @@ export default class Breakdown extends Component {
                 color="green"
             />
             <h3 className="cohortTitle">Satisfied</h3>
-            <p className="cohortDescription"><em>Satisfied</em> performance based on an apdex T of <em>{apdexTarget}</em>.</p>
+            <p className="cohortDescription"><em>Satisfied</em> performance based on an <a href={browserSettingsUrl} target="seldon">apdex T of <em>{apdexTarget}</em></a>.</p>
             <div className="cohortStats satisfiedStats">
                 <div className="cohortStat">
                     <span className="label">Sessions</span>
@@ -241,7 +273,7 @@ export default class Breakdown extends Component {
                 color="#F5A020"
             />
             <h3 className="cohortTitle">Tolerated</h3>
-            <p className="cohortDescription"><em>Tolerated</em> performance based on an apdex T of <em>{apdexTarget}</em>.</p>
+            <p className="cohortDescription"><em>Tolerated</em> performance based on an <a href={browserSettingsUrl} target="seldon">apdex T of <em>{apdexTarget}</em></a>.</p>
             <div className="cohortStats toleratedStats">
                 <div className="cohortStat">
                     <span className="label">Sessions</span>
@@ -286,7 +318,7 @@ export default class Breakdown extends Component {
                     color="red"
                 />
                 <h3 className="cohortTitle">Frustrated</h3>
-                <p className="cohortDescription"><em>Frustrated</em> performance based on an apdex T of <em>{apdexTarget}</em>.</p>
+                <p className="cohortDescription"><em>Frustrated</em> performance based on an <a href={browserSettingsUrl} target="seldon">apdex T of <em>{apdexTarget}</em></a>.</p>
                 <div className="cohortStats frustratedStats">
                     <div className="cohortStat">
                         <span className="label">Sessions</span>
