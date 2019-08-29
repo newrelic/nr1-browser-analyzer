@@ -157,65 +157,140 @@ export default class MyNerdlet extends React.Component {
                                     }
                                     const results = this._buildResults(data.actor.account);
                                     console.debug("Data", [data, results]);
-                                    return <React.Fragment><ul className="cohorts">
-                                        <li className="satisfied">
+                                    return <React.Fragment><div className="cohorts">
+                                        <div className="cohort satisfied">
                                             <Icon className="icon"
                                                 type={Icon.TYPE.PROFILES__EVENTS__LIKE}
                                                 color="green"
                                             />
-                                            <ul className="stats">
-                                                <li><span className="label">Sessions</span>{results.satisfied.sessions}</li>
-                                                <li><span className="label">Pgs / Session</span>{results.satisfied.avgPageViews}</li>
-                                                <li><span className="label">Bounce Rate</span>{results.satisfied.bounceRate}%*</li>
-                                                <li><span className="label">Avg. Session</span>{results.satisfied.avgSessionLength} secs.*</li>
-                                                <li className="wide"><span className="label">Load Times</span><ul>
-                                                        <li><span className="label">Median</span>{results.satisfied.medianDuration}</li>
-                                                        <li><span className="label">75th</span>{results.satisfied.duration75}</li>
-                                                        <li><span className="label">95th</span>{results.satisfied.duration95}</li>
-                                                        <li><span className="label">99th</span>{results.satisfied.duration99}</li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li className="tolerated">
+                                            <h3 className="cohortTitle">Satisfied</h3>
+                                            <div className="cohortStats satisfiedStats">
+                                                <div className="cohortStat">
+                                                    <span className="label">Sessions</span>
+                                                    <span className="value">{results.satisfied.sessions}</span>
+                                                </div>
+                                                <div className="cohortStat">
+                                                    <span className="label">Pgs / Session</span>
+                                                    <span className="value">{results.satisfied.avgPageViews}</span>
+                                                </div>
+                                                <div className="cohortStat">
+                                                    <span className="label">Bounce Rate</span>
+                                                    <span className="value">{results.satisfied.bounceRate}%*</span>
+                                                </div>
+                                                <div className="cohortStat">
+                                                    <span className="label">Avg. Session</span>
+                                                    <span className="value">{results.satisfied.avgSessionLength} secs.*</span>
+                                                </div>
+                                                <div className="cohortWideSection">
+                                                    <h5 className="sectionTitle">Load Times</h5>
+                                                    <div className="cohortStat">
+                                                        <span className="label">Median</span>
+                                                        <span className="value">{results.satisfied.medianDuration}</span>
+                                                    </div>
+                                                    <div className="cohortStat">
+                                                        <span className="label">75th</span>
+                                                        <span className="value">{results.satisfied.duration75}</span>
+                                                    </div>
+                                                    <div className="cohortStat">
+                                                        <span className="label">95th</span>
+                                                        <span className="value">{results.satisfied.duration95}</span>
+                                                    </div>
+                                                    <div className="cohortStat">
+                                                        <span className="label">99th</span>
+                                                        <span className="value">{results.satisfied.duration99}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="cohort tolerated">
                                             <Icon className="icon"
                                                 type={Icon.TYPE.INTERFACE__STATE__WARNING}
-                                                color="#CCCC00"
+                                                color="#F5A020"
                                             />
-                                            <ul className="stats">
-                                                <li><span className="label">Sessions</span>{results.tolerated.sessions}</li>
-                                                <li><span className="label">Pgs / Session</span>{results.tolerated.avgPageViews}</li>
-                                                <li><span className="label">Bounce Rate</span>{results.tolerated.bounceRate}%*</li>
-                                                <li><span className="label">Avg. Session</span>{results.tolerated.avgSessionLength} secs.*</li>
-                                                <li className="wide"><span className="label">Load Times</span><ul>
-                                                        <li><span className="label">Median</span>{results.tolerated.medianDuration}</li>
-                                                        <li><span className="label">75th</span>{results.tolerated.duration75}</li>
-                                                        <li><span className="label">95th</span>{results.tolerated.duration95}</li>
-                                                        <li><span className="label">99th</span>{results.tolerated.duration99}</li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li className="frustrated">
+                                            <h3 className="cohortTitle">Tolerated</h3>
+                                            <div className="cohortStats toleratedStats">
+                                                <div className="cohortStat">
+                                                    <span className="label">Sessions</span>
+                                                    <span className="value">{results.tolerated.sessions}</span>
+                                                </div>
+                                                <div className="cohortStat">
+                                                    <span className="label">Pgs / Session</span>
+                                                    <span className="value">{results.tolerated.avgPageViews}</span>
+                                                </div>
+                                                <div className="cohortStat">
+                                                    <span className="label">Bounce Rate</span>
+                                                    <span className="value">{results.tolerated.bounceRate}%*</span>
+                                                </div>
+                                                <div className="cohortStat">
+                                                    <span className="label">Avg. Session</span>
+                                                    <span className="value">{results.tolerated.avgSessionLength} secs.*</span>
+                                                </div>
+                                                <div className="cohortWideSection">
+                                                    <h5 className="sectionTitle">Load Times</h5>
+                                                    <div className="cohortStat">
+                                                        <span className="label">Median</span>
+                                                        <span className="value">{results.tolerated.medianDuration}</span>
+                                                    </div>
+                                                    <div className="cohortStat">
+                                                        <span className="label">75th</span>
+                                                        <span className="value">{results.tolerated.duration75}</span>
+                                                    </div>
+                                                    <div className="cohortStat">
+                                                        <span className="label">95th</span>
+                                                        <span className="value">{results.tolerated.duration95}</span>
+                                                    </div>
+                                                    <div className="cohortStat">
+                                                        <span className="label">99th</span>
+                                                        <span className="value">{results.tolerated.duration99}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="cohort frustrated">
                                             <Icon className="icon"
                                                 type={Icon.TYPE.INTERFACE__STATE__CRITICAL}
                                                 color="red"
                                             />
-                                            <ul className="stats">
-                                                <li><span className="label">Sessions</span>{results.frustrated.sessions}</li>
-                                                <li><span className="label">Pgs / Session</span>{results.frustrated.avgPageViews}</li>
-                                                <li><span className="label">Bounce Rate</span>{results.frustrated.bounceRate}%*</li>
-                                                <li><span className="label">Avg. Session</span>{results.frustrated.avgSessionLength} secs.*</li>
-                                                <li className="wide"><span className="label">Load Times</span><ul>
-                                                        <li><span className="label">Median</span>{results.frustrated.medianDuration}</li>
-                                                        <li><span className="label">75th</span>{results.frustrated.duration75}</li>
-                                                        <li><span className="label">95th</span>{results.frustrated.duration95}</li>
-                                                        <li><span className="label">99th</span>{results.frustrated.duration99}</li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
+                                            <h3 className="cohortTitle">Frustrated</h3>
+                                            <div className="cohortStats frustratedStats">
+                                                <div className="cohortStat">
+                                                    <span className="label">Sessions</span>
+                                                    <span className="value">{results.frustrated.sessions}</span>
+                                                </div>
+                                                <div className="cohortStat">
+                                                    <span className="label">Pgs / Session</span>
+                                                    <span className="value">{results.frustrated.avgPageViews}</span>
+                                                </div>
+                                                <div className="cohortStat">
+                                                    <span className="label">Bounce Rate</span>
+                                                    <span className="value">{results.frustrated.bounceRate}%*</span>
+                                                </div>
+                                                <div className="cohortStat">
+                                                    <span className="label">Avg. Session</span>
+                                                    <span className="value">{results.frustrated.avgSessionLength} secs.*</span>
+                                                </div>
+                                                <div className="cohortWideSection">
+                                                    <h5 className="sectionTitle">Load Times</h5>
+                                                    <div className="cohortStat">
+                                                        <span className="label">Median</span>
+                                                        <span className="value">{results.frustrated.medianDuration}</span>
+                                                    </div>
+                                                    <div className="cohortStat">
+                                                        <span className="label">75th</span>
+                                                        <span className="value">{results.frustrated.duration75}</span>
+                                                    </div>
+                                                    <div className="cohortStat">
+                                                        <span className="label">95th</span>
+                                                        <span className="value">{results.frustrated.duration95}</span>
+                                                    </div>
+                                                    <div className="cohortStat">
+                                                        <span className="label">99th</span>
+                                                        <span className="value">{results.frustrated.duration99}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <BlockText style={{ marginLeft: '50px'}}>* Note that these calculations are approximations based on a sample of the total data in New Relic for this Browser application.</BlockText>
                                     </React.Fragment>
                                 }}
