@@ -152,7 +152,7 @@ function buildRecommendations(obj) {
 
   recommendations.sessions = recommendations.engagedSessions > 0 ? numeral(recommendations.engagedSessions).format("0,0") : "N/A";
   recommendations.pageviews = recommendations.additionalPageViews > 0 ? numeral(recommendations.additionalPageViews).format("0,0") : "N/A";
-  recommendations.siteTime = recommendations.additionalTime > 0 ? moment.duration(recommendations.additionalTime).format() : "N/A";
+  recommendations.siteTime = recommendations.additionalTime > 0 ? moment.duration(recommendations.additionalTime/recommendations.engagedSessions).format() : "N/A";
   recommendations.loadTime = recommendations.loadTimeSavings > 0 ? moment.duration(recommendations.loadTimeSavings).format() : "N/A";
   return recommendations;
 }
