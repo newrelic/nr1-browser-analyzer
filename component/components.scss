@@ -1,4 +1,6 @@
 @import "~nr1-bootstrap-theme/dist/main.css";
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans:300,400,400i,600&display=swap');
+
 .row {
   text-align: center;
   margin-top: 30px;
@@ -119,14 +121,13 @@
 
 .cohortStat .value {
   display: block;
-  font-family: 'fira sans';
+  font-family: 'fira sans', 'open sans', sans-serif;
   font-size: 21px;
   color: #464e4e;
   letter-spacing: 0.5px;
   text-align: center;
   line-height: 24px;
   font-weight: 300;
-  -webkit-font-smoothing: antialiased;
 }
 
 .cohortWideSection {
@@ -167,10 +168,12 @@
 }
 
 .cohortDescription {
-  text-align: left;
+  text-align: center;
   font-size: 12px;
-  margin: 0px auto;
-  padding: 0px 5px 5px;
+  margin: 0px auto 8px;
+  padding: 0px 16px 5px;
+  line-height: 19px;
+  color: #8e9494;
 }
 
 .icon {
