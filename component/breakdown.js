@@ -27,8 +27,11 @@ export default class Breakdown extends Component {
   }
 
   _openDetails(pageUrl) {
-    const { duration, apdexT, entity } = this.props.nerdletUrlState;
+    const { duration, entity } = this.props.nerdletUrlState;
     navigation.openStackedNerdlet({
+      //staging
+      //id: '0a677466-f4b3-4af1-8e4c-bc8edbc84596.details',
+      //prod
       id: 'edf9ac5a-ba6d-4371-9cff-905a5d2c3238.details',
       urlState: {
         pageUrl,
@@ -93,6 +96,7 @@ export default class Breakdown extends Component {
         if (error) {
           return <BlockText>{JSON.stringify(error)}</BlockText>
         }
+        debugger;
         const results = buildResults(data.actor.account);
         const {settings: {apdexTarget}, servingApmApplicationId } = get(data, 'actor.entity');
         const browserSettingsUrl = `https://rpm.newrelic.com/accounts/${entity.accountId}/browser/${servingApmApplicationId}/edit#/settings`;
@@ -100,10 +104,10 @@ export default class Breakdown extends Component {
         if (apmService) {
             apmService.iconType = getIconType(apmService);
         }
-        console.debug("Data", [data, results]);
+        //console.debug("Data", [data, results]);
         return <Grid className="breakdownContainer">
         <GridItem columnSpan={12}>
-          <SummaryBar {...this.props.nerdletUrlState} apmService={apmService}/>
+          <SummaryBar {...this.props.nerdletUrlState} apmService={apmService} />
         </GridItem>
         <GridItem columnSpan={4} className="cohort satisfied">
             <Icon className="icon"
@@ -127,7 +131,7 @@ export default class Breakdown extends Component {
                 </div>
                 <div className="cohortStat">
                     <span className="label">Avg. Session</span>
-                    <span className="value">{results.satisfied.avgSessionLength} secs.*</span>
+                    <span className="value">{results.satisfied.avgSessionLength}*</span>
                 </div>
                 <div className="cohortWideSection">
                     <h5 className="sectionTitle">Load Times</h5>
@@ -172,7 +176,7 @@ export default class Breakdown extends Component {
                 </div>
                 <div className="cohortStat">
                     <span className="label">Avg. Session</span>
-                    <span className="value">{results.tolerated.avgSessionLength} secs.*</span>
+                    <span className="value">{results.tolerated.avgSessionLength}*</span>
                 </div>
                 <div className="cohortWideSection">
                     <h5 className="sectionTitle">Load Times</h5>
@@ -217,7 +221,7 @@ export default class Breakdown extends Component {
                     </div>
                     <div className="cohortStat">
                         <span className="label">Avg. Session</span>
-                        <span className="value">{results.frustrated.avgSessionLength} secs.*</span>
+                        <span className="value">{results.frustrated.avgSessionLength}*</span>
                     </div>
                     <div className="cohortWideSection">
                         <h5 className="sectionTitle">Load Times</h5>

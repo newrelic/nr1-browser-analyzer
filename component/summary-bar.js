@@ -43,20 +43,20 @@ export default class SummaryBar extends Component {
             <HeadingText className="summaryBarTitle" type={HeadingText.TYPE.HEADING4}>Performance Analysis</HeadingText>
           </StackItem>
           <StackItem className="inline">
-              <BillboardChart className="microchart" accountId={accountId} query={`FROM PageView SELECT count(*) as 'Page Views' SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}'`}/>
-              <SparklineChart className="microchart" accountId={accountId} query={`FROM PageView SELECT count(*) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}'`}/>
+              <BillboardChart className="microchart" accountId={accountId} query={`FROM PageView SELECT count(*) as 'Page Views' SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
+              <SparklineChart className="microchart" accountId={accountId} query={`FROM PageView SELECT count(*) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
           </StackItem>
           <StackItem className="inline">
-              <BillboardChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(duration) as 'Avg. Perf.' SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}'`}/>
-              <SparklineChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(duration) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}'`}/>
+              <BillboardChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(duration) as 'Avg. Perf.' SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
+              <SparklineChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(duration) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
           </StackItem>
           <StackItem className="inline">
-              <BillboardChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(networkDuration) as 'Network Avg.' SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}'`}/>
-              <SparklineChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(networkDuration) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}'`}/>
+              <BillboardChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(networkDuration) as 'Network Avg.' SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
+              <SparklineChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(networkDuration) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
           </StackItem>
           <StackItem className="inline">
-              <BillboardChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(backendDuration) as 'Backend Avg.' SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}'`}/>
-              <SparklineChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(backendDuration) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}'`}/>
+              <BillboardChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(backendDuration) as 'Backend Avg.' SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
+              <SparklineChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(backendDuration) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
           </StackItem>
     <StackItem className="inline" grow>{apmService && <Button className="apmButton" type={Button.TYPE.NORMAL} sizeType={Button.SIZE_TYPE.SLIM} onClick={() => { navigation.openStackedEntity(apmService); }} iconType={apmService.iconType}>Upstream Service</Button>}</StackItem>
         </Stack>

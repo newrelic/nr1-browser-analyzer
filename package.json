@@ -1,32 +1,32 @@
 {
-    "private": true,
-    "name": "nr1-browser-analyzer",
-    "description": "NR1 Nerdpack business value analysis of Browser data.",
-    "version": "0.1.0",
-    "scripts": {
-        "start": "nr1 nerdpack:serve",
-        "test": "exit 0"
-    },
-    "nr1": {
-        "uuid": "edf9ac5a-ba6d-4371-9cff-905a5d2c3238",
-        "sdkVersion": 2
-    },
-    "dependencies": {
-        "graphql": "^14.5.3",
-        "graphql-tag": "^2.10.1",
-        "lodash": "^4.17.15",
-        "moment": "^2.24.0",
-        "moment-duration-format": "^2.3.2",
-        "nr1-bootstrap-theme": "git@github.com:newrelic/nr1-bootstrap-theme.git",
-        "numeral": "^2.0.6",
-        "prop-types": "^15.6.2",
-        "react": "^16.6.3",
-        "react-bootstrap-table-next": "^3.1.9",
-        "react-dom": "^16.6.3"
-    },
-    "browserslist": [
-        "last 2 versions",
-        "not ie < 11",
-        "not dead"
-    ]
+  "private": true,
+  "name": "nr1-browser-analyzer",
+  "description": "NR1 Nerdpack business value analysis of Browser data.",
+  "version": "0.1.2",
+  "scripts": {
+    "start": "nr1 nerdpack:serve",
+    "test": "exit 0"
+  },
+  "nr1": {
+    "uuid": "edf9ac5a-ba6d-4371-9cff-905a5d2c3238",
+    "sdkVersion": 2
+  },
+  "dependencies": {
+    "graphql": "^14.5.3",
+    "graphql-tag": "^2.10.1",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0",
+    "moment-duration-format": "^2.3.2",
+    "nr1-bootstrap-theme": "git@github.com:newrelic/nr1-bootstrap-theme.git",
+    "numeral": "^2.0.6",
+    "prop-types": "^15.6.2",
+    "react": "^16.6.3",
+    "react-bootstrap-table-next": "^3.1.9",
+    "react-dom": "^16.6.3"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "not ie < 11",
+    "not dead"
+  ]
 }
