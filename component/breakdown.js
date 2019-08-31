@@ -96,7 +96,7 @@ export default class Breakdown extends Component {
         if (error) {
           return <BlockText>{JSON.stringify(error)}</BlockText>
         }
-        debugger;
+        //debugger;
         const results = buildResults(data.actor.account);
         const {settings: {apdexTarget}, servingApmApplicationId } = get(data, 'actor.entity');
         const browserSettingsUrl = `https://rpm.newrelic.com/accounts/${entity.accountId}/browser/${servingApmApplicationId}/edit#/settings`;
