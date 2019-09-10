@@ -22,7 +22,7 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "moment-duration-format": "^2.3.2",
-    "nr1-bootstrap-theme": "git@github.com:newrelic/nr1-bootstrap-theme.git",
+    "nr1-bootstrap-theme": "github:newrelic/nr1-bootstrap-theme",
     "numeral": "^2.0.6",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
