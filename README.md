@@ -4,7 +4,7 @@
 
 ## Usage
 
-nr1-browser-analyzer uses the `PageView` events in New Relic to interrogate and categorize the performance of a web site, offering exploration of individual pages and projected business impacts of moving browsing sessions from `Tolerated` and `Frustrated` into `Satisfied` (as defined by the [`apdex`](https://docs.newrelic.com/docs/browser/new-relic-browser/configuration/browser-settings-ui-options-apdex-geography#) value for a given New Relic Browser application.)
+nr1-browser-analyzer uses the `PageView` events in New Relic to interrogate and categorize the performance of a web site. You can explore the performance of individual pages, and project the business impact of improving browsing sessions from `Tolerated` and `Frustrated` into `Satisfied` (as defined by the [`apdex`](https://docs.newrelic.com/docs/apm/new-relic-apm/apdex/apdex-measure-user-satisfaction) value for a given New Relic Browser application.)
 
 ![Screenshot #1](screenshots/screenshot_01.png)
 ![Screenshot #2](screenshots/screenshot_02.png)
@@ -15,7 +15,7 @@ This project is distributed under the [Apache 2 license](LICENSE).
 
 ## What do you need to make this work?
 
-1. [New Relic Browser Agent(s) installed](https://newrelic.com/products/browser-monitoring) and the related access to [New Relic One](https://newrelic.com/platform).
+1. [New Relic Browser agent(s) installed](https://newrelic.com/products/browser-monitoring) and the related access to [New Relic One](https://newrelic.com/platform).
 2. See step 1. :grin:
 
 ## Getting started
