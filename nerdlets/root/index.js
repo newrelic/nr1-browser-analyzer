@@ -45,7 +45,7 @@ export default class MyNerdlet extends React.Component {
                 if (error) {
                     return <BlockText>{JSON.stringify(error)}</BlockText>
                 }
-                const entity = get(data, 'actor.entities[0]');
+                const entity = get(data, 'entities[0]');
                 //console.debug("Entity", entity);
                 const nerdletUrlState = { duration, apdexT, entity };
                 return <React.Fragment>
