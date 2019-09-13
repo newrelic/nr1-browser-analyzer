@@ -91,7 +91,7 @@ export default class Breakdown extends Component {
     return (<NerdGraphQuery query={graphql}>
       {({data, loading, error}) => {
         if (loading) {
-          return <Spinner fillContainer />
+          return <Spinner />
         }
         if (error) {
           return <BlockText>{JSON.stringify(error)}</BlockText>

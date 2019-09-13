@@ -40,7 +40,7 @@ export default class MyNerdlet extends React.Component {
         return <EntityByGuidQuery entityGuid={entityGuid}>
             {({loading, error, data}) => {
                 if (loading) {
-                    return <Spinner fillContainer />
+                    return <Spinner/>
                 }
                 if (error) {
                     return <BlockText>{JSON.stringify(error)}</BlockText>
