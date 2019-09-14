@@ -1,19 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Breakdown from '../../component/breakdown';
+import Details from './details';
+import { NerdletStateContext } from 'nr1';
 
-// https://docs.newrelic.com/docs/new-relic-programmable-platform-introduction
-
-export default class Details extends React.Component {
-    static propTypes = {
-        nerdletUrlState: PropTypes.object,
-    };
-
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return <Breakdown {...this.props} />
-    }
+export default class Wrapper extends React.PureComponent {
+  render() {
+    return (
+      <NerdletStateContext.Consumer>
+        {nerdletUrlState => <Details nerdletUrlState={nerdletUrlState} />}
+      </NerdletStateContext.Consumer>
+    );
+  }
 }

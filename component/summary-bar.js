@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Stack, StackItem, SparklineChart, BillboardChart, HeadingText, navigation, Button } from 'nr1';
+import { Stack, StackItem, SparklineChart, BillboardChart, HeadingText, navigation, Button, ChartGroup } from 'nr1';
 
 export default class SummaryBar extends Component {
   static propTypes = {
@@ -26,7 +26,7 @@ export default class SummaryBar extends Component {
     //output a series of micro-charts to show overall KPI's
 
     return (
-      <React.Fragment>
+      <ChartGroup>
         {
           pageUrl && <HeadingText className="pageUrl">
               <span className="pageUrlProtocol">{protocol}</span>
@@ -35,32 +35,40 @@ export default class SummaryBar extends Component {
             </HeadingText>
         }
         <Stack
-          alignmentType={Stack.ALIGNMENT_TYPE.FILL}
+          className="summaryBar"
           directionType={Stack.DIRECTION_TYPE.HORIZONTAL}
           gapType={Stack.GAP_TYPE.TIGHT}
       >
-          <StackItem className="inline">
-            <HeadingText className="summaryBarTitle" type={HeadingText.TYPE.HEADING4}>Performance Analysis</HeadingText>
+          <StackItem className="summaryTitle">
+            <HeadingText type={HeadingText.TYPE.HEADING4}>Performance Analysis</HeadingText>
           </StackItem>
-          <StackItem className="inline">
-              <BillboardChart className="microchart" accountId={accountId} query={`FROM PageView SELECT count(*) as 'Page Views' SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
-              <SparklineChart className="microchart" accountId={accountId} query={`FROM PageView SELECT count(*) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
+          <StackItem>
+              <BillboardChart className="microchart"  accountId={accountId} query={`FROM PageView SELECT count(*) as 'Page Views' SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
           </StackItem>
-          <StackItem className="inline">
-              <BillboardChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(duration) as 'Avg. Perf.' SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
-              <SparklineChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(duration) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
+          <StackItem>
+              <SparklineChart className="microchart wider" accountId={accountId} query={`FROM PageView SELECT count(*) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
           </StackItem>
-          <StackItem className="inline">
+          <StackItem>
+              <BillboardChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(duration) as 'Avg. Performance' SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
+          </StackItem>
+          <StackItem>
+                  <SparklineChart className="microchart wider" accountId={accountId} query={`FROM PageView SELECT average(duration) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
+          </StackItem>
+          <StackItem>
               <BillboardChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(networkDuration) as 'Network Avg.' SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
-              <SparklineChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(networkDuration) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
           </StackItem>
-          <StackItem className="inline">
+          <StackItem>
+              <SparklineChart className="microchart wider" accountId={accountId} query={`FROM PageView SELECT average(networkDuration) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
+          </StackItem>
+          <StackItem>
               <BillboardChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(backendDuration) as 'Backend Avg.' SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
-              <SparklineChart className="microchart" accountId={accountId} query={`FROM PageView SELECT average(backendDuration) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
           </StackItem>
-    <StackItem className="inline" grow>{apmService && <Button className="apmButton" type={Button.TYPE.NORMAL} sizeType={Button.SIZE_TYPE.SLIM} onClick={() => { navigation.openStackedEntity(apmService); }} iconType={apmService.iconType}>Upstream Service</Button>}</StackItem>
+          <StackItem className="wider">
+              <SparklineChart className="microchart wider" accountId={accountId} query={`FROM PageView SELECT average(backendDuration) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO WHERE appName = '${name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''}`}/>
+          </StackItem>
+    <StackItem grow className="summaryEnd">{apmService && <Button className="apmButton" type={Button.TYPE.NORMAL} sizeType={Button.SIZE_TYPE.SLIM} onClick={() => { navigation.openStackedEntity(apmService.guid); }} iconType={apmService.iconType}>Upstream Service</Button>}</StackItem>
         </Stack>
-      </React.Fragment>
+      </ChartGroup>
     )
   }
 }

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { BlockText, Grid, GridItem, Icon, HeadingText, TableChart, Spinner, NerdGraphQuery, navigation, Button } from 'nr1';
+import { BlockText, Grid, GridItem, Icon, HeadingText, TableChart, Spinner, NerdGraphQuery, navigation, Button, Toast } from 'nr1';
 import SummaryBar from './summary-bar';
 import { get } from 'lodash';
-import {buildResults} from './stat-utils';
+import { buildResults } from './stat-utils';
 
 function getIconType(apm) {
     if (apm.alertSeverity == 'NOT_ALERTING') {
@@ -32,7 +32,7 @@ export default class Breakdown extends Component {
       //staging
       //id: '0a677466-f4b3-4af1-8e4c-bc8edbc84596.details',
       //prod
-      id: 'edf9ac5a-ba6d-4371-9cff-905a5d2c3238.details',
+      id: 'details',
       urlState: {
         pageUrl,
         duration,
@@ -91,10 +91,14 @@ export default class Breakdown extends Component {
     return (<NerdGraphQuery query={graphql}>
       {({data, loading, error}) => {
         if (loading) {
-          return <Spinner />
+          return <Spinner fillContainer />
         }
         if (error) {
-          return <BlockText>{JSON.stringify(error)}</BlockText>
+          Toast.showToast("An error occurred.", { type: Toast.TYPE.CRITICAL, sticky: true});
+          return <div className="error"><HeadingText>An error occurred</HeadingText>
+            <BlockText>We recommend reloading the page and sending the error content below to the Nerdpack developer.</BlockText>
+            <div className="errorDetails">{JSON.stringify(error)}</div>
+          </div>
         }
         //debugger;
         const results = buildResults(data.actor.account);
@@ -156,6 +160,7 @@ export default class Breakdown extends Component {
         </GridItem>
         <GridItem columnSpan={4} className="cohort tolerated">
             <Icon className="icon"
+                sizeType={Icon.SIZE_TYPE.NORMAL}
                 type={Icon.TYPE.INTERFACE__STATE__WARNING}
                 color="#F5A020"
             />
@@ -274,6 +279,7 @@ export default class Breakdown extends Component {
         {pageUrl ? null : <GridItem className="pageUrlTable" columnSpan={8}>
             <HeadingText type={HeadingText.TYPE.HEADING3}>Top Performance Improvement Targets</HeadingText>
             <TableChart
+                className="tableChart"
                 accountId={entity.accountId}
                 query={`FROM PageView SELECT count(*) as 'Page Count', average(duration) as 'Avg. Duration', apdex(duration, ${apdexTarget}) as 'Apdex' WHERE appName='${entity.name}' AND nr.apdexPerfZone in ('F', 'T') FACET pageUrl LIMIT 100 SINCE ${durationInMinutes} MINUTES AGO `}
                 onClickTable={(...args) => {

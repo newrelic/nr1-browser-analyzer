@@ -1,5 +1,14 @@
-@import "~nr1-bootstrap-theme/dist/main.css";
 @import url('https://fonts.googleapis.com/css?family=Fira+Sans:300,400,400i,600&display=swap');
+
+.error {
+  width: 50%;
+  margin: auto;
+  margin-top: 100px;
+  .errorDetails {
+    margin-top: 20px;
+    font-size: 0.9em;
+  }
+}
 
 .row {
   text-align: center;
@@ -51,7 +60,7 @@
     max-height: 53px;
     margin: -43px auto 6px;
     background-color: rgba(0,0,0, .3);
-    padding: 40px;
+    padding: 16px;
     border-radius: 30px;
     box-shadow: 0 0 0 8px #fff;
 
@@ -180,24 +189,46 @@
   display: inline-block;
   font-size: 125px !important;
 }
-.summaryBarTitle {
-  width: min-content;
-  margin-top: 30px;
+.summaryBar {
+  background: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  .summaryTitle {
+    padding-top: 10px;
+  }
+  .summaryEnd {
+    padding-left: 10px;
+    padding-top: 15px;
+  }
 }
 .ACB3AT-vz--viz-billboard-element {
   width: 33% !important;
 }
 .pageUrlTable {
-  height: 100vh;
+  width: 100%;
+  height: 600px;
   h1 {
     margin-bottom: 10px;
   }
 }
 
+.wider {
+  width: 120px;
+}
+
+.tableChart {
+  width: 100%;
+  height: 100%;
+}
+
 .microchart {
   height: 75px;
   width: 85px;
+  &.wider {
+    width: 120px;
+  }
 }
+
 .inline {
   padding-left: 20px;
   padding-right: 20px;

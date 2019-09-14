@@ -2,7 +2,7 @@
   "private": true,
   "name": "nr1-browser-analyzer",
   "description": "NR1 Nerdpack business value analysis of Browser data.",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "bugs": {
     "email": "opensource@newrelic.com"
   },
@@ -13,7 +13,7 @@
     "eslint-fix": "eslint nerdlets/ --fix"
   },
   "nr1": {
-    "uuid": "edf9ac5a-ba6d-4371-9cff-905a5d2c3238",
+    "uuid": "5d694ba3-14ec-4328-9e2d-6c51c33f3d79",
     "sdkVersion": 2
   },
   "dependencies": {
@@ -22,11 +22,9 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "moment-duration-format": "^2.3.2",
-    "nr1-bootstrap-theme": "github:newrelic/nr1-bootstrap-theme",
     "numeral": "^2.0.6",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
-    "react-bootstrap-table-next": "^3.1.9",
     "react-dom": "^16.6.3"
   },
   "devDependencies": {
