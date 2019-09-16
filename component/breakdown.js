@@ -94,7 +94,7 @@ export default class Breakdown extends Component {
           return <Spinner fillContainer />
         }
         if (error) {
-          Toast.showToast("An error occurred.", { type: Toast.TYPE.CRITICAL, sticky: true});
+          Toast.showToast({title: "An error occurred.", type: Toast.TYPE.CRITICAL, sticky: true});
           return <div className="error"><HeadingText>An error occurred</HeadingText>
             <BlockText>We recommend reloading the page and sending the error content below to the Nerdpack developer.</BlockText>
             <div className="errorDetails">{JSON.stringify(error)}</div>
