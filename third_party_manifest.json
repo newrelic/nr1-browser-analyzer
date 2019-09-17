@@ -1,0 +1,192 @@
+{
+  "lastUpdated": "Tue Sep 17 2019 10:21:50 GMT-0400 (Eastern Daylight Time)",
+  "projectName": "nr1-browser-analyzer",
+  "projectUrl": "https://github.com/newrelic/nr1-browser-analyzer",
+  "includeDev": true,
+  "dependencies": {
+    "graphql-tag@2.10.1": {
+      "name": "graphql-tag",
+      "version": "2.10.1",
+      "range": "^2.10.1",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/apollostack/graphql-tag",
+      "versionedRepoUrl": "https://github.com/apollostack/graphql-tag/tree/v2.10.1",
+      "licenseFile": "node_modules/graphql-tag/LICENSE",
+      "licenseUrl": "https://github.com/apollostack/graphql-tag/blob/v2.10.1/LICENSE",
+      "licenseTextSource": "file"
+    },
+    "graphql@14.5.4": {
+      "name": "graphql",
+      "version": "14.5.4",
+      "range": "^14.5.3",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/graphql/graphql-js",
+      "versionedRepoUrl": "https://github.com/graphql/graphql-js/tree/v14.5.4",
+      "licenseFile": "node_modules/graphql/LICENSE",
+      "licenseUrl": "https://github.com/graphql/graphql-js/blob/v14.5.4/LICENSE",
+      "licenseTextSource": "file"
+    },
+    "lodash@4.17.15": {
+      "name": "lodash",
+      "version": "4.17.15",
+      "range": "^4.17.15",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/lodash/lodash",
+      "versionedRepoUrl": "https://github.com/lodash/lodash/tree/v4.17.15",
+      "licenseFile": "node_modules/lodash/LICENSE",
+      "licenseUrl": "https://github.com/lodash/lodash/blob/v4.17.15/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "John-David Dalton",
+      "email": "john.david.dalton@gmail.com"
+    },
+    "moment-duration-format@2.3.2": {
+      "name": "moment-duration-format",
+      "version": "2.3.2",
+      "range": "^2.3.2",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/jsmreese/moment-duration-format",
+      "versionedRepoUrl": "https://github.com/jsmreese/moment-duration-format/tree/v2.3.2",
+      "licenseFile": "node_modules/moment-duration-format/LICENSE",
+      "licenseUrl": "https://github.com/jsmreese/moment-duration-format/blob/v2.3.2/LICENSE",
+      "licenseTextSource": "file"
+    },
+    "moment@2.24.0": {
+      "name": "moment",
+      "version": "2.24.0",
+      "range": "^2.24.0",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/moment/moment",
+      "versionedRepoUrl": "https://github.com/moment/moment/tree/v2.24.0",
+      "licenseFile": "node_modules/moment/LICENSE",
+      "licenseUrl": "https://github.com/moment/moment/blob/v2.24.0/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "Iskren Ivov Chernev",
+      "email": "iskren.chernev@gmail.com",
+      "url": "https://github.com/ichernev"
+    },
+    "numeral@2.0.6": {
+      "name": "numeral",
+      "version": "2.0.6",
+      "range": "^2.0.6",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/adamwdraper/Numeral-js",
+      "versionedRepoUrl": "https://github.com/adamwdraper/Numeral-js/tree/v2.0.6",
+      "licenseFile": "node_modules/numeral/LICENSE",
+      "licenseUrl": "https://github.com/adamwdraper/Numeral-js/blob/v2.0.6/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "Adam Draper",
+      "email": "adamwdraper@gmail.com",
+      "url": "http://github.com/adamwdraper"
+    },
+    "prop-types@15.7.2": {
+      "name": "prop-types",
+      "version": "15.7.2",
+      "range": "^15.6.2",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/facebook/prop-types",
+      "versionedRepoUrl": "https://github.com/facebook/prop-types/tree/v15.7.2",
+      "licenseFile": "node_modules/prop-types/LICENSE",
+      "licenseUrl": "https://github.com/facebook/prop-types/blob/v15.7.2/LICENSE",
+      "licenseTextSource": "file"
+    },
+    "react-dom@16.9.0": {
+      "name": "react-dom",
+      "version": "16.9.0",
+      "range": "^16.6.3",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/facebook/react",
+      "versionedRepoUrl": "https://github.com/facebook/react/tree/v16.9.0",
+      "licenseFile": "node_modules/react-dom/LICENSE",
+      "licenseUrl": "https://github.com/facebook/react/blob/v16.9.0/LICENSE",
+      "licenseTextSource": "file"
+    },
+    "react@16.9.0": {
+      "name": "react",
+      "version": "16.9.0",
+      "range": "^16.6.3",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/facebook/react",
+      "versionedRepoUrl": "https://github.com/facebook/react/tree/v16.9.0",
+      "licenseFile": "node_modules/react/LICENSE",
+      "licenseUrl": "https://github.com/facebook/react/blob/v16.9.0/LICENSE",
+      "licenseTextSource": "file"
+    }
+  },
+  "devDependencies": {
+    "babel-eslint@10.0.3": {
+      "name": "babel-eslint",
+      "version": "10.0.3",
+      "range": "^10.0.3",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/babel/babel-eslint",
+      "versionedRepoUrl": "https://github.com/babel/babel-eslint/tree/v10.0.3",
+      "licenseFile": "node_modules/babel-eslint/LICENSE",
+      "licenseUrl": "https://github.com/babel/babel-eslint/blob/v10.0.3/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "Sebastian McKenzie",
+      "email": "sebmck@gmail.com"
+    },
+    "eslint-config-prettier@6.2.0": {
+      "name": "eslint-config-prettier",
+      "version": "6.2.0",
+      "range": "^6.2.0",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/prettier/eslint-config-prettier",
+      "versionedRepoUrl": "https://github.com/prettier/eslint-config-prettier/tree/v6.2.0",
+      "licenseFile": "node_modules/eslint-config-prettier/LICENSE",
+      "licenseUrl": "https://github.com/prettier/eslint-config-prettier/blob/v6.2.0/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "Simon Lydell"
+    },
+    "eslint-plugin-prettier@3.1.0": {
+      "name": "eslint-plugin-prettier",
+      "version": "3.1.0",
+      "range": "^3.1.0",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/prettier/eslint-plugin-prettier",
+      "versionedRepoUrl": "https://github.com/prettier/eslint-plugin-prettier/tree/v3.1.0",
+      "licenseFile": "node_modules/eslint-plugin-prettier/LICENSE.md",
+      "licenseUrl": "https://github.com/prettier/eslint-plugin-prettier/blob/v3.1.0/LICENSE.md",
+      "licenseTextSource": "file",
+      "publisher": "Teddy Katz"
+    },
+    "eslint-plugin-react@7.14.3": {
+      "name": "eslint-plugin-react",
+      "version": "7.14.3",
+      "range": "^7.14.3",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/yannickcr/eslint-plugin-react",
+      "versionedRepoUrl": "https://github.com/yannickcr/eslint-plugin-react/tree/v7.14.3",
+      "licenseFile": "node_modules/eslint-plugin-react/LICENSE",
+      "licenseUrl": "https://github.com/yannickcr/eslint-plugin-react/blob/v7.14.3/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "Yannick Croissant",
+      "email": "yannick.croissant+npm@gmail.com"
+    },
+    "eslint@6.3.0": {
+      "name": "eslint",
+      "version": "6.3.0",
+      "range": "^6.3.0",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/eslint/eslint",
+      "versionedRepoUrl": "https://github.com/eslint/eslint/tree/v6.3.0",
+      "licenseFile": "node_modules/eslint/LICENSE",
+      "licenseUrl": "https://github.com/eslint/eslint/blob/v6.3.0/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "Nicholas C. Zakas",
+      "email": "nicholas+npm@nczconsulting.com"
+    },
+    "prettier@1.18.2": {
+      "name": "prettier",
+      "version": "1.18.2",
+      "range": "^1.18.2",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/prettier/prettier",
+      "versionedRepoUrl": "https://github.com/prettier/prettier/tree/v1.18.2",
+      "licenseFile": "node_modules/prettier/LICENSE",
+      "licenseUrl": "https://github.com/prettier/prettier/blob/v1.18.2/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "James Long"
+    }
+  }
+}
