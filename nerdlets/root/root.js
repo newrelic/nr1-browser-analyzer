@@ -45,7 +45,7 @@ export default class MyNerdlet extends React.Component {
     return (
       <EntityByGuidQuery entityGuid={entityGuid}>
         {({ loading, error, data }) => {
-          console.debug(data);
+          // console.debug(data);
           if (loading) {
             return <Spinner />;
           }

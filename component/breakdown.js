@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { BlockText, Grid, GridItem, Icon, HeadingText, TableChart, Spinner, NerdGraphQuery, navigation, Button, Toast } from 'nr1';
+import { BlockText, EntityByGuidQuery, Grid, GridItem, Icon, HeadingText, TableChart, Spinner, NerdGraphQuery, navigation, Button, Toast } from 'nr1';
 import SummaryBar from './summary-bar';
 import { get } from 'lodash';
 import { buildResults } from './stat-utils';
+import gql from 'graphql-tag';
 
 function getIconType(apm) {
     if (apm.alertSeverity == 'NOT_ALERTING') {
@@ -24,14 +25,16 @@ export default class Breakdown extends Component {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      entity: null,
+      pageUrl: this.props.nerdletUrlState.pageUrl ? this.props.nerdletUrlState.pageUrl : null,
+    }
   }
 
   _openDetails(pageUrl) {
     const { duration, entity } = this.props.nerdletUrlState;
     navigation.openStackedNerdlet({
-      //staging
-      //id: '0a677466-f4b3-4af1-8e4c-bc8edbc84596.details',
-      //prod
       id: 'details',
       urlState: {
         pageUrl,
@@ -40,26 +43,54 @@ export default class Breakdown extends Component {
       } })
   }
 
-  render() {
-    const { pageUrl, duration, entity } = this.props.nerdletUrlState;
-    const durationInMinutes = duration/1000/60;
+  async updateEntity () {
+    const { entity } = this.props.nerdletUrlState;
+    const { data, errors } = await EntityByGuidQuery.query({
+      entityGuid: entity.guid,
+      entityFragmentExtension: gql`
+      fragment EntityFragmentExtension on EntityOutline {
+        indexedAt
+        guid
+        ... on BrowserApplicationEntityOutline {
+          settings {
+            apdexTarget
+          }
+          applicationId
+          servingApmApplicationId
+        }
+      }`
+    });
+
+    const { entities } = data;
+    if (!errors && entities.length > 0) {
+      this.setState({ entity: entities[0] });
+    }
+
+  }
+
+  getQuery ({ durationInMinutes }) {
+    const { entity, pageUrl } = this.state;
+    const apdexTarget = entity.settings.apdexTarget || .5; // TO DO - Should we set a default value?
+    const frustratedApdex = Math.round((apdexTarget * 4) * 10)/10;
+    const facetCase = `FACET CASES( WHERE duration <= ${apdexTarget} AS 'S', WHERE duration > ${apdexTarget} AND duration < ${frustratedApdex} AS 'T', WHERE duration >= ${frustratedApdex} AS 'F')`;
+
     const graphql = `{
       actor {
         account(id: ${entity.accountId}) {
-          cohorts: nrql(query: "FROM PageView SELECT uniqueCount(session) as 'sessions', count(*)/uniqueCount(session) as 'avgPageViews', median(duration) as 'medianDuration', percentile(duration, 75, 95,99), count(*) WHERE appName='${entity.name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} FACET nr.apdexPerfZone SINCE ${durationInMinutes} MINUTES AGO") {
+          cohorts: nrql(query: "FROM PageView SELECT uniqueCount(session) as 'sessions', count(*)/uniqueCount(session) as 'avgPageViews', median(duration) as 'medianDuration', percentile(duration, 75, 95,99), count(*) WHERE appName='${entity.name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} ${facetCase} SINCE ${durationInMinutes} MINUTES AGO") {
             results
             totalResult
           }
-          ${pageUrl ? `bounceRate:nrql(query: "FROM PageView SELECT funnel(session, WHERE pageUrl = 'http://webportal.telco.nrdemo.com/browse/phones' as 'page', WHERE pageUrl != 'http://webportal.telco.nrdemo.com/browse/phones' as 'nextPage') FACET nr.apdexPerfZone") {
+          ${pageUrl ? `bounceRate:nrql(query: "FROM PageView SELECT funnel(session, ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} as 'page', ${pageUrl ? `WHERE pageUrl != '${pageUrl}'` : ''} as 'nextPage') ${facetCase}") {
               results
           }` : ''}
-          satisfied: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${entity.name}' AND nr.apdexPerfZone = 'S' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} FACET session limit MAX SINCE ${durationInMinutes} MINUTES AGO") {
+          satisfied: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${entity.name}' AND duration <= ${apdexTarget} ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} FACET session limit MAX SINCE ${durationInMinutes} MINUTES AGO") {
             results
           }
-          tolerated: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${entity.name}' AND nr.apdexPerfZone = 'T' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} FACET session limit MAX SINCE ${durationInMinutes} MINUTES AGO") {
+          tolerated: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${entity.name}' AND duration > ${apdexTarget} AND duration < ${frustratedApdex} ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} FACET session limit MAX SINCE ${durationInMinutes} MINUTES AGO") {
             results
           }
-          frustrated: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${entity.name}' AND nr.apdexPerfZone = 'F' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} FACET session limit MAX SINCE ${durationInMinutes} MINUTES AGO") {
+          frustrated: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${entity.name}' AND duration >= ${frustratedApdex} ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} FACET session limit MAX SINCE ${durationInMinutes} MINUTES AGO") {
             results
           }
 
@@ -87,8 +118,32 @@ export default class Breakdown extends Component {
         }
       }
     }`;
-    //console.debug("Graphql", graphql);
-    return (<NerdGraphQuery query={graphql}>
+
+    return graphql;
+  }
+
+  async componentDidMount () {
+    await this.updateEntity(this.props.nerdletUrlState.entity);
+  }
+
+  async componentDidUpdate(prevProps, prevState) {
+    // TO DO - Do we need this?
+    // if (this.props.entity && this.props.entity.guid !== prevProps.entity.guid) {
+    //   await this.updateEntity(this.props.nerdletUrlState.entity);
+    // }
+  }
+
+  render() {
+    const { duration } = this.props.nerdletUrlState;
+    const durationInMinutes = duration/1000/60;
+    const { entity, pageUrl } = this.state;
+    if (!entity) {
+      return <Spinner fillContainer />
+    }
+
+    const query = this.getQuery({ durationInMinutes });
+
+    return (<NerdGraphQuery query={query}>
       {({data, loading, error}) => {
         if (loading) {
           return <Spinner fillContainer />
