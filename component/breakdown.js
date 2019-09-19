@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { BlockText, EntityByGuidQuery, Grid, GridItem, Icon, HeadingText, TableChart, Spinner, NerdGraphQuery, navigation, Button, Toast } from 'nr1';
+import { BlockText, Grid, GridItem, Icon, HeadingText, TableChart, Spinner, NerdGraphQuery, navigation, Button, Toast } from 'nr1';
 import SummaryBar from './summary-bar';
 import { get } from 'lodash';
 import { buildResults } from './stat-utils';
-import gql from 'graphql-tag';
 
 function getIconType(apm) {
     if (apm.alertSeverity == 'NOT_ALERTING') {
@@ -20,56 +19,27 @@ function getIconType(apm) {
 
 export default class Breakdown extends Component {
   static propTypes = {
-    nerdletUrlState: PropTypes.object.isRequired
+    nerdletUrlState: PropTypes.object.isRequired,
+    platformUrlState: PropTypes.object.isRequired,
+    entity: PropTypes.object.isRequired
   }
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      entity: null,
-      pageUrl: this.props.nerdletUrlState.pageUrl ? this.props.nerdletUrlState.pageUrl : null,
-    }
   }
 
   _openDetails(pageUrl) {
-    const { duration, entity } = this.props.nerdletUrlState;
+    const { entity } = this.props;
     navigation.openStackedNerdlet({
       id: 'details',
       urlState: {
         pageUrl,
-        duration,
-        entity
+        entityGuid: entity.guid
       } })
   }
 
-  async updateEntity () {
-    const { entity } = this.props.nerdletUrlState;
-    const { data, errors } = await EntityByGuidQuery.query({
-      entityGuid: entity.guid,
-      entityFragmentExtension: gql`
-      fragment EntityFragmentExtension on EntityOutline {
-        indexedAt
-        guid
-        ... on BrowserApplicationEntityOutline {
-          settings {
-            apdexTarget
-          }
-          applicationId
-          servingApmApplicationId
-        }
-      }`
-    });
-
-    const { entities } = data;
-    if (!errors && entities.length > 0) {
-      this.setState({ entity: entities[0] });
-    }
-
-  }
-
   getQuery ({ durationInMinutes }) {
-    const { entity, pageUrl } = this.state;
+    const { entity, nerdletUrlState: { pageUrl } } = this.props;
     const apdexTarget = entity.settings.apdexTarget || .5; // TO DO - Should we set a default value?
     const frustratedApdex = Math.round((apdexTarget * 4) * 10)/10;
     const facetCase = `FACET CASES( WHERE duration <= ${apdexTarget} AS 'S', WHERE duration > ${apdexTarget} AND duration < ${frustratedApdex} AS 'T', WHERE duration >= ${frustratedApdex} AS 'F')`;
@@ -122,22 +92,11 @@ export default class Breakdown extends Component {
     return graphql;
   }
 
-  async componentDidMount () {
-    await this.updateEntity(this.props.nerdletUrlState.entity);
-  }
-
-  async componentDidUpdate(prevProps, prevState) {
-    // TO DO - Do we need this?
-    // if (this.props.entity && this.props.entity.guid !== prevProps.entity.guid) {
-    //   await this.updateEntity(this.props.nerdletUrlState.entity);
-    // }
-  }
-
   render() {
-    const { duration } = this.props.nerdletUrlState;
+    const { entity, nerdletUrlState: { pageUrl }, platformUrlState: { timeRange: { duration }} } = this.props;
     const durationInMinutes = duration/1000/60;
-    const { entity, pageUrl } = this.state;
     if (!entity) {
+      //this shouldn't happen
       return <Spinner fillContainer />
     }
 
@@ -157,7 +116,7 @@ export default class Breakdown extends Component {
         }
         //debugger;
         const results = buildResults(data.actor.account);
-        const {settings: {apdexTarget}, servingApmApplicationId } = get(data, 'actor.entity');
+        const {settings: {apdexTarget}, servingApmApplicationId } = entity;
         const browserSettingsUrl = `https://rpm.newrelic.com/accounts/${entity.accountId}/browser/${servingApmApplicationId}/edit#/settings`;
         const apmService = get(data, 'actor.entity.relationships[0].source.entity');
         if (apmService) {
@@ -166,7 +125,7 @@ export default class Breakdown extends Component {
         //console.debug("Data", [data, results]);
         return <Grid className="breakdownContainer">
         <GridItem columnSpan={12}>
-          <SummaryBar {...this.props.nerdletUrlState} apmService={apmService} />
+          <SummaryBar {...this.props} apmService={apmService} />
         </GridItem>
         <GridItem columnSpan={4} className="cohort satisfied">
             <Icon className="icon"
