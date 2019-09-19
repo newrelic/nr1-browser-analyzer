@@ -2,7 +2,7 @@
   "private": true,
   "name": "nr1-browser-analyzer",
   "description": "NR1 Nerdpack business value analysis of Browser data.",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "bugs": {
     "email": "opensource@newrelic.com"
   },
@@ -13,7 +13,7 @@
     "eslint-fix": "eslint nerdlets/ --fix"
   },
   "nr1": {
-    "uuid": "5d694ba3-14ec-4328-9e2d-6c51c33f3d79",
+    "uuid": "82cb9153-49c9-40e0-bf2c-13ad4a0dc213",
     "sdkVersion": 2
   },
   "dependencies": {
