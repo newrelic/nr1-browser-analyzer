@@ -4,15 +4,15 @@ import { Stack, StackItem, SparklineChart, BillboardChart, HeadingText, navigati
 
 export default class SummaryBar extends Component {
   static propTypes = {
+    nerdletUrlState: PropTypes.object.isRequired,
+    platformUrlState: PropTypes.object.isRequired,
     entity: PropTypes.object.isRequired,
-    duration: PropTypes.number.isRequired,
-    pageUrl: PropTypes.string,
     apmService: PropTypes.object
   }
 
   render() {
     //get props, including nested props
-    const { pageUrl, entity: { accountId, name }, duration, apmService } = this.props;
+    const { nerdletUrlState: { pageUrl }, entity: { accountId, name }, platformUrlState: { timeRange: { duration }}, apmService } = this.props;
     //compute the duration in minutes
     const durationInMinutes = duration/1000/60;
 
