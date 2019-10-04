@@ -20,25 +20,25 @@ This project is distributed under the [Apache 2 license](LICENSE).
 
 ## Getting started
 
-Clone this repository and run the following scripts:
+First, install the [NR1 CLI](https://one.newrelic.com/launcher/developer-center.launcher) by going to [this link](https://one.newrelic.com/launcher/developer-center.launcher) and following the instructions (5 minutes or less) to install and setup your New Relic development environment.
+
+Next, to clone this repository and run the code locally against your New Relic data, execute the following command:
 
 ```bash
 nr1 nerdpack:clone -r https://github.com/newrelic/nr1-browser-analyzer.git
 cd nr1-browser-analyzer
-nr1 nerdpack:uuid -gf
-npm install
-npm start
+nr1 nerdpack:serve
 ```
 
-Visit https://one.newrelic.com/?nerdpacks=local, navigate to the Nerdpack, and :sparkles:
+Visit [https://one.newrelic.com/?nerdpacks=local](https://one.newrelic.com/?nerdpacks=local), navigate to the Nerdpack, and :sparkles:
 
 ## Deploying this Nerdpack
 
 Open a command prompt in the nerdpack's directory and run the following commands.
 
 ```bash
-# this is to create a new uuid for the nerdpack so that you can deploy it to your account
-nr1 nerdpack:uuid -g [--profile=your_profile_name]
+# If you need to create a new uuid for the account to which you're deploying this Nerdpack, use the following
+# nr1 nerdpack:uuid -g [--profile=your_profile_name]
 # to see a list of APIkeys / profiles available in your development environment, run nr1 credentials:list
 nr1 nerdpack:publish [--profile=your_profile_name]
 nr1 nerdpack:deploy [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
