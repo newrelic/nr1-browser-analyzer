@@ -9,6 +9,8 @@ nr1-browser-analyzer uses the `PageView` events in New Relic to interrogate and 
 ![Screenshot #1](screenshots/screenshot_01.png)
 ![Screenshot #2](screenshots/screenshot_02.png)
 
+> Note that this NerdPack is not served as a launcher on the homepage of [New Relic One](https://one.newrelic.com). Instead, you'll have to navigate to a Browser app via the Entity Explorer in New Relic One.
+
 ## Open Source License
 
 This project is distributed under the [Apache 2 license](LICENSE).
