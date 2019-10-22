@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Stack, StackItem, SparklineChart, BillboardChart, HeadingText, navigation, Button, ChartGroup } from 'nr1';
+import { Stack, StackItem, SparklineChart, BillboardChart, HeadingText, navigation, Button, ChartGroup, Link } from 'nr1';
 
 export default class SummaryBar extends Component {
   static propTypes = {
@@ -29,10 +29,12 @@ export default class SummaryBar extends Component {
       <ChartGroup>
         {
           pageUrl && <HeadingText className="pageUrl">
+            <a href={protocol+domain+path} target="_blank">
               <span className="pageUrlProtocol">{protocol}</span>
               <span className="pageUrlDomain">{domain}</span>
               <span className="pageUrlPath">{path}</span>
-            </HeadingText>
+            </a>
+          </HeadingText>
         }
         <Stack
           className="summaryBar"

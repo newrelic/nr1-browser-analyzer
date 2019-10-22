@@ -1,50 +1,78 @@
 import React from 'react';
 import MyNerdlet from './root';
-import { PlatformStateContext, NerdletStateContext, EntityByGuidQuery, HeadingText, BlockText, Spinner } from 'nr1';
+import {
+  PlatformStateContext,
+  NerdletStateContext,
+  EntityByGuidQuery,
+  HeadingText,
+  BlockText,
+  Spinner,
+} from 'nr1';
 import gql from 'graphql-tag';
 
 export default class Wrapper extends React.PureComponent {
   render() {
     const fragment = gql`
-    fragment EntityFragmentExtension on EntityOutline {
-      indexedAt
-      guid
-      ... on BrowserApplicationEntityOutline {
-        settings {
-          apdexTarget
+      fragment EntityFragmentExtension on EntityOutline {
+        indexedAt
+        guid
+        ... on BrowserApplicationEntityOutline {
+          settings {
+            apdexTarget
+          }
+          applicationId
+          servingApmApplicationId
         }
-        applicationId
-        servingApmApplicationId
       }
-    }`;
+    `;
     return (
       <PlatformStateContext.Consumer>
         {platformUrlState => (
           <NerdletStateContext.Consumer>
-            {nerdletUrlState => (
-                <EntityByGuidQuery entityGuid={nerdletUrlState.entityGuid} entityFragmentExtension={fragment}>
-                  {({data, loading, error}) => {
+            {nerdletUrlState => {
+              console.log([nerdletUrlState, fragment]);
+              return (
+                <EntityByGuidQuery
+                  entityGuid={nerdletUrlState.entityGuid}
+                  entityFragmentExtension={fragment}
+                >
+                  {({ data, loading, error }) => {
+                    //debugger;
                     if (loading) {
-                      return <Spinner fillContainer />
+                      return <Spinner fillContainer />;
                     }
-                    if (error) {
-                      return <BlockText>{error.message}</BlockText>
-                    }
-                    if (data.entities && data.entities[0] && data.entities[0].guid) {
-                      return <MyNerdlet
-                        platformUrlState={platformUrlState}
-                        nerdletUrlState={nerdletUrlState}
-                        entity={data.entities[0]}
-                      />
+                    if (
+                      data.entities &&
+                      data.entities[0] &&
+                      data.entities[0].guid
+                    ) {
+                      return (
+                        <MyNerdlet
+                          platformUrlState={platformUrlState}
+                          nerdletUrlState={nerdletUrlState}
+                          entity={data.entities[0]}
+                        />
+                      );
+                    } else if (error) {
+                      return <BlockText>{error.message}</BlockText>;
                     } else {
-                      return <div className="message">
-                        <HeadingText>Site Analyzer is not available</HeadingText>
-                        <BlockText>You have access to this entity, but Site Analyzer is not enabled for Browser entities in this account. Please see your Nerdpack Manager with concerns.</BlockText>
-                      </div>
+                      return (
+                        <div className="message">
+                          <HeadingText>
+                            Site Analyzer is not available
+                          </HeadingText>
+                          <BlockText>
+                            You have access to this entity, but Site Analyzer is
+                            not enabled for Browser entities in this account.
+                            Please see your Nerdpack Manager with concerns.
+                          </BlockText>
+                        </div>
+                      );
                     }
                   }}
                 </EntityByGuidQuery>
-            )}
+              );
+            }}
           </NerdletStateContext.Consumer>
         )}
       </PlatformStateContext.Consumer>
