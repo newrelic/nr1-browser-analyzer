@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Stack, StackItem, SparklineChart, BillboardChart, HeadingText, navigation, Button, ChartGroup, Link } from 'nr1';
+import { Stack, StackItem, SparklineChart, BillboardChart, HeadingText, navigation, Button, ChartGroup } from 'nr1';
 
 export default class SummaryBar extends Component {
   static propTypes = {
