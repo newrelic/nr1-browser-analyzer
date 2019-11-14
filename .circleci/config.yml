@@ -378,6 +378,11 @@ jobs:
 
     steps:
       - command-restore-source
+
+      # Necessary so github.com is a known host
+      # TO DO - Replace with a smaller slice of the checkout command or cache .ssh folder
+      - command-checkout-source
+
       - command-restore-npm
       - command-install-oss-cli
       
