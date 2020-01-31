@@ -13,8 +13,7 @@
     "eslint-fix": "eslint nerdlets/ component/ --fix"
   },
   "nr1": {
-    "uuid": "82cb9153-49c9-40e0-bf2c-13ad4a0dc213",
-    "sdkVersion": 2
+    "uuid": "82cb9153-49c9-40e0-bf2c-13ad4a0dc213"
   },
   "dependencies": {
     "graphql": "^14.5.3",

@@ -1,5 +1,6 @@
 import React from 'react';
-import Breakdown from '../../component/breakdown';
+import gql from 'graphql-tag';
+
 import {
   PlatformStateContext,
   NerdletStateContext,
@@ -8,7 +9,8 @@ import {
   BlockText,
   Spinner
 } from 'nr1';
-import gql from 'graphql-tag';
+
+import Breakdown from '../shared/components/breakdown';
 
 export default class Wrapper extends React.PureComponent {
   render() {
@@ -29,31 +31,39 @@ export default class Wrapper extends React.PureComponent {
       <PlatformStateContext.Consumer>
         {platformUrlState => (
           <NerdletStateContext.Consumer>
-            {nerdletUrlState => (
-              <EntityByGuidQuery
-                entityGuid={nerdletUrlState.entityGuid}
-                entityFragmentExtension={fragment}
-              >
-                {({ data, loading, error }) => {
-                  if (loading) {
-                    return <Spinner fillContainer />;
-                  }
-                  if (error) {
-                    return <BlockText>{error.message}</BlockText>;
-                  }
-                  if (
-                    data.entities &&
-                    data.entities[0] &&
-                    data.entities[0].guid
-                  ) {
-                    return (
-                      <Breakdown
-                        platformUrlState={platformUrlState}
-                        nerdletUrlState={nerdletUrlState}
-                        entity={data.entities[0]}
-                      />
-                    );
-                  } else {
+            {nerdletUrlState => {
+              if (!nerdletUrlState.entityGuid) {
+                return null;
+              }
+
+              return (
+                <EntityByGuidQuery
+                  entityGuid={nerdletUrlState.entityGuid}
+                  entityFragmentExtension={fragment}
+                >
+                  {({ data, loading, error }) => {
+                    if (loading) {
+                      return <Spinner fillContainer />;
+                    }
+
+                    if (error) {
+                      return <BlockText>{error.message}</BlockText>;
+                    }
+
+                    if (
+                      data.entities &&
+                      data.entities[0] &&
+                      data.entities[0].guid
+                    ) {
+                      return (
+                        <Breakdown
+                          platformUrlState={platformUrlState}
+                          nerdletUrlState={nerdletUrlState}
+                          entity={data.entities[0]}
+                        />
+                      );
+                    }
+
                     return (
                       <div className="message">
                         <HeadingText>
@@ -66,10 +76,10 @@ export default class Wrapper extends React.PureComponent {
                         </BlockText>
                       </div>
                     );
-                  }
-                }}
-              </EntityByGuidQuery>
-            )}
+                  }}
+                </EntityByGuidQuery>
+              );
+            }}
           </NerdletStateContext.Consumer>
         )}
       </PlatformStateContext.Consumer>
