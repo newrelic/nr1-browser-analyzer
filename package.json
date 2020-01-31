@@ -2,7 +2,7 @@
   "private": true,
   "name": "nr1-browser-analyzer",
   "description": "NR1 Nerdpack business value analysis of Browser data.",
-  "version": "0.1.7",
+  "version": "1.0.0",
   "bugs": {
     "email": "opensource@newrelic.com"
   },
