@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { BlockText, Grid, GridItem, Icon, HeadingText, TableChart, Spinner, NerdGraphQuery, navigation, Button, Toast } from 'nr1';
 import SummaryBar from './summary-bar';
+import timePicker  from './timePicker'
 import { get } from 'lodash';
 import { buildResults } from './stat-utils';
 
@@ -38,7 +39,7 @@ export default class Breakdown extends Component {
       } })
   }
 
-  getQuery ({ durationInMinutes }) {
+  getQuery ({ timePickerRange }) {
     const { entity, nerdletUrlState: { pageUrl } } = this.props;
     const apdexTarget = entity.settings.apdexTarget || .5; // TO DO - Should we set a default value?
     const frustratedApdex = Math.round((apdexTarget * 4) * 10)/10;
@@ -47,20 +48,20 @@ export default class Breakdown extends Component {
     const graphql = `{
       actor {
         account(id: ${entity.accountId}) {
-          cohorts: nrql(query: "FROM PageView SELECT uniqueCount(session) as 'sessions', count(*)/uniqueCount(session) as 'avgPageViews', median(duration) as 'medianDuration', percentile(duration, 75, 95,99), count(*) WHERE appName='${entity.name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} ${facetCase} SINCE ${durationInMinutes} MINUTES AGO") {
+          cohorts: nrql(query: "FROM PageView SELECT uniqueCount(session) as 'sessions', count(*)/uniqueCount(session) as 'avgPageViews', median(duration) as 'medianDuration', percentile(duration, 75, 95,99), count(*) WHERE appName='${entity.name}' ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} ${facetCase} ${timePickerRange}  ") {
             results
             totalResult
           }
           ${pageUrl ? `bounceRate:nrql(query: "FROM PageView SELECT funnel(session, ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} as 'page', ${pageUrl ? `WHERE pageUrl != '${pageUrl}'` : ''} as 'nextPage') ${facetCase}") {
               results
           }` : ''}
-          satisfied: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${entity.name}' AND duration <= ${apdexTarget} ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} FACET session limit MAX SINCE ${durationInMinutes} MINUTES AGO") {
+          satisfied: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${entity.name}' AND duration <= ${apdexTarget} ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} FACET session limit MAX ${timePickerRange}") {
             results
           }
-          tolerated: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${entity.name}' AND duration > ${apdexTarget} AND duration < ${frustratedApdex} ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} FACET session limit MAX SINCE ${durationInMinutes} MINUTES AGO") {
+          tolerated: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${entity.name}' AND duration > ${apdexTarget} AND duration < ${frustratedApdex} ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} FACET session limit MAX ${timePickerRange}") {
             results
           }
-          frustrated: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${entity.name}' AND duration >= ${frustratedApdex} ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} FACET session limit MAX SINCE ${durationInMinutes} MINUTES AGO") {
+          frustrated: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${entity.name}' AND duration >= ${frustratedApdex} ${pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''} FACET session limit MAX ${timePickerRange}") {
             results
           }
 
@@ -92,15 +93,16 @@ export default class Breakdown extends Component {
     return graphql;
   }
 
+
   render() {
-    const { entity, nerdletUrlState: { pageUrl }, platformUrlState: { timeRange: { duration }} } = this.props;
-    const durationInMinutes = duration/1000/60;
+    const { entity, nerdletUrlState: { pageUrl }, platformUrlState: { timeRange: {}} } = this.props;
+    const timePickerRange = timePicker(this.props.platformUrlState.timeRange)
     if (!entity) {
       //this shouldn't happen
       return <Spinner fillContainer />
     }
 
-    const query = this.getQuery({ durationInMinutes });
+    const query = this.getQuery({ timePickerRange });
 
     return (<NerdGraphQuery query={query}>
       {({data, loading, error}) => {
@@ -295,7 +297,7 @@ export default class Breakdown extends Component {
             <TableChart
                 className="tableChart"
                 accountId={entity.accountId}
-                query={`FROM PageView SELECT count(*) as 'Page Count', average(duration) as 'Avg. Duration', apdex(duration, ${apdexTarget}) as 'Apdex' WHERE appName='${entity.name}' AND nr.apdexPerfZone in ('F', 'T') FACET pageUrl LIMIT 100 SINCE ${durationInMinutes} MINUTES AGO `}
+                query={`FROM PageView SELECT count(*) as 'Page Count', average(duration) as 'Avg. Duration', apdex(duration, ${apdexTarget}) as 'Apdex' WHERE appName='${entity.name}' AND nr.apdexPerfZone in ('F', 'T') FACET pageUrl LIMIT 100 ${timePickerRange}`}
                 onClickTable={(...args) => {
                     //console.debug(args);
                     this._openDetails(args[1].pageUrl);
