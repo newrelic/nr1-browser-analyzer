@@ -7,18 +7,18 @@ export default class MyNerdlet extends React.Component {
   static propTypes = {
     nerdletUrlState: PropTypes.object.isRequired,
     platformUrlState: PropTypes.object.isRequired,
-    entity: PropTypes.object.isRequired,
+    entity: PropTypes.object.isRequired
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      hidden: true,
+      hidden: true
     };
-    //console.debug(this.props);
+    // console.debug(this.props);
     this.callbacks = {
       editClick: this.editClick.bind(this),
-      onEditClose: this.onEditClose.bind(this),
+      onEditClose: this.onEditClose.bind(this)
     };
   }
 
@@ -33,10 +33,10 @@ export default class MyNerdlet extends React.Component {
   render() {
     const { hidden } = this.state;
     return (
-      <React.Fragment>
+      <>
         <Breakdown {...this.props} />
-        <Modal hidden={hidden} onClose={this.callbacks.onEditClose}></Modal>
-      </React.Fragment>
+        <Modal hidden={hidden} onClose={this.callbacks.onEditClose} />
+      </>
     );
   }
 }

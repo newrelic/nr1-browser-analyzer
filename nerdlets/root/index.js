@@ -6,7 +6,7 @@ import {
   EntityByGuidQuery,
   HeadingText,
   BlockText,
-  Spinner,
+  Spinner
 } from 'nr1';
 import gql from 'graphql-tag';
 
@@ -30,14 +30,14 @@ export default class Wrapper extends React.PureComponent {
         {platformUrlState => (
           <NerdletStateContext.Consumer>
             {nerdletUrlState => {
-              console.log([nerdletUrlState, fragment]);
+              // console.log([nerdletUrlState, fragment]);
               return (
                 <EntityByGuidQuery
                   entityGuid={nerdletUrlState.entityGuid}
                   entityFragmentExtension={fragment}
                 >
                   {({ data, loading, error }) => {
-                    //debugger;
+                    // debugger;
                     if (loading) {
                       return <Spinner fillContainer />;
                     }
