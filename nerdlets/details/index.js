@@ -6,7 +6,7 @@ import {
   EntityByGuidQuery,
   HeadingText,
   BlockText,
-  Spinner,
+  Spinner
 } from 'nr1';
 import gql from 'graphql-tag';
 
