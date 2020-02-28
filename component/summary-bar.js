@@ -84,7 +84,43 @@ export default class SummaryBar extends Component {
             <BillboardChart
               className="microchart"
               accountId={accountId}
-              query={`FROM PageView SELECT count(*) as 'Page Views' ${timePickerRange}  WHERE appName = '${name}' ${
+              query={`FROM BrowserInteraction SELECT count(*) as 'Page Views' ${timePickerRange}  WHERE appName = '${name}' ${
+                pageUrl ? `WHERE targetUrl = '${pageUrl}'` : ''
+              }`}
+            />
+          </StackItem>
+          <StackItem>
+            <SparklineChart
+              className="microchart wider"
+              accountId={accountId}
+              query={`FROM BrowserInteraction SELECT count(*) TIMESERIES ${timePickerRange}  WHERE appName = '${name}' ${
+                pageUrl ? `WHERE targetUrl = '${pageUrl}'` : ''
+              }`}
+            />
+          </StackItem>
+          <StackItem>
+            <BillboardChart
+              className="microchart"
+              accountId={accountId}
+              query={`FROM BrowserInteraction SELECT average(duration) as 'Avg. Duration' ${timePickerRange}  WHERE appName = '${name}' ${
+                pageUrl ? `WHERE targetUrl = '${pageUrl}'` : ''
+              }`}
+            />
+          </StackItem>
+          <StackItem>
+            <SparklineChart
+              className="microchart wider"
+              accountId={accountId}
+              query={`FROM BrowserInteraction SELECT average(duration) TIMESERIES ${timePickerRange}  WHERE appName = '${name}' ${
+                pageUrl ? `WHERE targetUrl = '${pageUrl}'` : ''
+              }`}
+            />
+          </StackItem>
+          <StackItem>
+            <BillboardChart
+              className="microchart"
+              accountId={accountId}
+              query={`FROM PageViewTiming SELECT average(firstContentfulPaint) as 'First Contentful Paint' ${timePickerRange}  WHERE appName = '${name}' ${
                 pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''
               }`}
             />
@@ -93,7 +129,7 @@ export default class SummaryBar extends Component {
             <SparklineChart
               className="microchart wider"
               accountId={accountId}
-              query={`FROM PageView SELECT count(*) TIMESERIES ${timePickerRange}  WHERE appName = '${name}' ${
+              query={`FROM PageViewTiming SELECT average(firstContentfulPaint) TIMESERIES ${timePickerRange}  WHERE appName = '${name}' ${
                 pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''
               }`}
             />
@@ -102,43 +138,7 @@ export default class SummaryBar extends Component {
             <BillboardChart
               className="microchart"
               accountId={accountId}
-              query={`FROM PageView SELECT average(duration) as 'Avg. Performance' ${timePickerRange}  WHERE appName = '${name}' ${
-                pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''
-              }`}
-            />
-          </StackItem>
-          <StackItem>
-            <SparklineChart
-              className="microchart wider"
-              accountId={accountId}
-              query={`FROM PageView SELECT average(duration) TIMESERIES ${timePickerRange}  WHERE appName = '${name}' ${
-                pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''
-              }`}
-            />
-          </StackItem>
-          <StackItem>
-            <BillboardChart
-              className="microchart"
-              accountId={accountId}
-              query={`FROM PageView SELECT average(networkDuration) as 'Network Avg.' ${timePickerRange}  WHERE appName = '${name}' ${
-                pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''
-              }`}
-            />
-          </StackItem>
-          <StackItem>
-            <SparklineChart
-              className="microchart wider"
-              accountId={accountId}
-              query={`FROM PageView SELECT average(networkDuration) TIMESERIES ${timePickerRange}  WHERE appName = '${name}' ${
-                pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''
-              }`}
-            />
-          </StackItem>
-          <StackItem>
-            <BillboardChart
-              className="microchart"
-              accountId={accountId}
-              query={`FROM PageView SELECT average(backendDuration) as 'Backend Avg.' ${timePickerRange}  WHERE appName = '${name}' ${
+              query={`FROM PageViewTiming SELECT average(firstInteraction) as 'First Interaction' ${timePickerRange}  WHERE appName = '${name}' ${
                 pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''
               }`}
             />
@@ -147,7 +147,7 @@ export default class SummaryBar extends Component {
             <SparklineChart
               className="microchart wider"
               accountId={accountId}
-              query={`FROM PageView SELECT average(backendDuration) TIMESERIES ${timePickerRange} WHERE appName = '${name}' ${
+              query={`FROM PageViewTiming SELECT average(firstInteraction) TIMESERIES ${timePickerRange} WHERE appName = '${name}' ${
                 pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''
               }`}
             />
