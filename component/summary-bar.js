@@ -139,7 +139,8 @@ export default class SummaryBar extends Component {
               className="microchart"
               accountId={accountId}
               query={`FROM PageViewTiming SELECT percentile(firstInteraction, 50) as 'First Interaction' ${timePickerRange}  WHERE appName = '${name}' ${
-                pageUrl ? `WHERE pageUrl = '${pageUrl}' AND firstInteraction < 300` : ''
+                pageUrl
+                ? `WHERE pageUrl = '${pageUrl}' AND firstInteraction < 300` : ''
               }`}
             />
           </StackItem>
@@ -148,7 +149,8 @@ export default class SummaryBar extends Component {
               className="microchart wider"
               accountId={accountId}
               query={`FROM PageViewTiming SELECT percentile(firstInteraction, 50) TIMESERIES ${timePickerRange} WHERE appName = '${name}' ${
-                pageUrl ? `WHERE pageUrl = '${pageUrl}' AND firstInteraction < 300` : ''
+                pageUrl
+                ? `WHERE pageUrl = '${pageUrl}' AND firstInteraction < 300` : ''
               }`}
             />
           </StackItem>
