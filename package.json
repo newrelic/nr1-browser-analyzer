@@ -4,16 +4,13 @@
   "description": "NR1 Nerdpack business value analysis of Browser data.",
   "version": "1.0.0",
   "bugs": {
-    "email": "opensource@newrelic.com"
+    "email": "opensource+nr1-browser-analyzer@newrelic.com"
   },
   "scripts": {
     "start": "nr1 nerdpack:serve",
     "test": "exit 0",
     "eslint-check": "eslint nerdlets/ component/",
     "eslint-fix": "eslint nerdlets/ component/ --fix"
-  },
-  "nr1": {
-    "uuid": "82cb9153-49c9-40e0-bf2c-13ad4a0dc213"
   },
   "dependencies": {
     "graphql": "^14.5.3",

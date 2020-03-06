@@ -10,14 +10,14 @@ Using the [`Apdex`](https://docs.newrelic.com/docs/apm/new-relic-apm/apdex/apdex
 
 This application allows you to explore the performance of individual site pages, and identifies improvement opportunities by showing which pages have the worst performance impact, allowing you to target high-impact fixes.
 
-![Screenshot #1](catalog/screenshots/nr1-browser-analyzer-01.png)
-![Screenshot #2](catalog/screenshots/nr1-browser-analyzer-02.png)
+![Screenshot #1](https://github.com/newrelic/nr1-browser-analyzer/tree/master/catalog/screenshots/nr1-browser-analyzer-01.png)
+![Screenshot #2](https://github.com/newrelic/nr1-browser-analyzer/tree/master/catalog/screenshots/nr1-browser-analyzer-02.png)
 
 > Note that this NerdPack is not served as a launcher on the homepage of [New Relic One](https://one.newrelic.com). Instead, you'll have to navigate to a Browser app via the Entity Explorer in New Relic One.
 
 ## Open Source License
 
-This project is distributed under the [Apache 2 license](LICENSE).
+This project is distributed under the [Apache 2 license](https://github.com/newrelic/nr1-browser-analyzer/blob/master/LICENSE).
 
 ## Dependencies
 
@@ -71,10 +71,10 @@ Please do not report issues with Browser Analyzer to New Relic Global Technical 
 
 ## Issues / Enhancement Requests
 
-Issues and enhancement requests can be submitted in the [Issues tab of this repository](../../issues). Please search for and review the existing open issues before submitting a new issue.
+Issues and enhancement requests can be submitted in the [Issues tab of this repository](https://github.com/newrelic/nr1-browser-analyzer/issues). Please search for and review the existing open issues before submitting a new issue.
 
 ## Contributing
 
-Contributions are welcome (and if you submit a Enhancement Request, expect to be invited to contribute it yourself :grin:). Please review our [Contributors Guide](CONTRIBUTING.md).
+Contributions are welcome (and if you submit a Enhancement Request, expect to be invited to contribute it yourself :grin:). Please review our [Contributors Guide](https://github.com/newrelic/nr1-browser-analyzer/blob/master/CONTRIBUTING.md).
 
 Keep in mind that when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. If you'd like to execute our corporate CLA, or if you have any questions, please drop us an email at opensource@newrelic.com.
