@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.0.0...v1.1.0) (2020-03-06)
+
+
+### Features
+
+* add catalog icon ([743b2ef](https://github.com/newrelic/nr1-browser-analyzer/commit/743b2ef36fa17f99f9f1e3a11cf36fb6eee9d479))
+
 # 1.0.0 (2020-01-31)
 
 
