@@ -4,10 +4,10 @@ import {
   PlatformStateContext,
   NerdletStateContext,
   EntityByGuidQuery,
-  HeadingText,
   BlockText,
   Spinner
 } from 'nr1';
+import { EmptyState } from '@newrelic/nr1-community';
 import gql from 'graphql-tag';
 
 export default class Wrapper extends React.PureComponent {
@@ -57,16 +57,13 @@ export default class Wrapper extends React.PureComponent {
                       return <BlockText>{error.message}</BlockText>;
                     } else {
                       return (
-                        <div className="message">
-                          <HeadingText>
-                            Site Analyzer is not available
-                          </HeadingText>
-                          <BlockText>
-                            You have access to this entity, but Site Analyzer is
-                            not enabled for Browser entities in this account.
-                            Please see your Nerdpack Manager with concerns.
-                          </BlockText>
-                        </div>
+                        <EmptyState
+                          heading="Site Analyzer is not available"
+                          description="You have access to this entity, but Site Analyzer is not
+                        enabled for Browser entities in this account. Please see
+                        your Nerdpack Manager with concerns."
+                          buttonText=""
+                        />
                       );
                     }
                   }}
