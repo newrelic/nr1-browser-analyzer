@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
   Stack,
@@ -10,9 +10,9 @@ import {
   Button,
   ChartGroup
 } from 'nr1';
-import timePicker from './timePicker';
+import { timeRangeToNrql } from '@newrelic/nr1-community';
 
-export default class SummaryBar extends Component {
+export default class SummaryBar extends PureComponent {
   static propTypes = {
     nerdletUrlState: PropTypes.object.isRequired,
     platformUrlState: PropTypes.object.isRequired,
@@ -29,7 +29,7 @@ export default class SummaryBar extends Component {
       apmService
     } = this.props;
     // compute the duration in minutes/hours/days
-    const timePickerRange = timePicker(platformUrlState.timeRange);
+    const timePickerRange = timeRangeToNrql(platformUrlState);
 
     // break the url up into separate piece so we can style them differently
     const protocol = pageUrl

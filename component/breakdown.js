@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
   BlockText,
@@ -14,7 +14,7 @@ import {
   Toast
 } from 'nr1';
 import SummaryBar from './summary-bar';
-import timePicker from './timePicker';
+import { timeRangeToNrql, NerdGraphQuery } from '@newrelic/nr1-community';
 import { get } from 'lodash';
 import { buildResults } from './stat-utils';
 
@@ -30,7 +30,7 @@ function getIconType(apm) {
   }
 }
 
-export default class Breakdown extends Component {
+export default class Breakdown extends PureComponent {
   static propTypes = {
     nerdletUrlState: PropTypes.object.isRequired,
     platformUrlState: PropTypes.object.isRequired,
@@ -139,7 +139,7 @@ export default class Breakdown extends Component {
       nerdletUrlState: { pageUrl },
       platformUrlState
     } = this.props;
-    const timePickerRange = timePicker(platformUrlState.timeRange);
+    const timePickerRange = timeRangeToNrql(platformUrlState);
 
     if (!entity) {
       return <Spinner fillContainer />;
@@ -166,7 +166,7 @@ export default class Breakdown extends Component {
                   We recommend reloading the page and sending the error content
                   below to the Nerdpack developer.
                 </BlockText>
-                <div className="errorDetails">{JSON.stringify(error)}</div>
+                <NerdGraphQuery error={error} />
               </div>
             );
           }

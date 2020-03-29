@@ -9,6 +9,7 @@ import {
   Spinner
 } from 'nr1';
 import gql from 'graphql-tag';
+import { NerdGraphError } from '@newrelic/nr1-community';
 
 export default class Wrapper extends React.PureComponent {
   render() {
@@ -54,7 +55,7 @@ export default class Wrapper extends React.PureComponent {
                         />
                       );
                     } else if (error) {
-                      return <BlockText>{error.message}</BlockText>;
+                      return <NerdGraphError error={error} />
                     } else {
                       return (
                         <div className="message">

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {
   BlockText,
   Grid,
@@ -14,16 +13,13 @@ import {
   PlatformStateContext,
   NerdletStateContext
 } from 'nr1';
-
 import { get } from 'lodash';
-
 import CohortTolerated from './cohort-tolerated';
 import CohortSatisifed from './cohort-satisfied';
 import CohortFrustrated from './cohort-frustrated';
 import CohortImprovement from './cohort-improvement';
 import SummaryBar from './summary-bar';
-import timePicker from './timePicker';
-
+import { timeRangeToNrql, NerdGraphError } from '@newrelic/nr1-community';
 import { getIconType } from '../utils';
 import { generateCohortsQuery } from '../utils/queries';
 import { buildResults } from './stat-utils';
@@ -61,7 +57,7 @@ export default class Breakdown extends React.PureComponent {
           <NerdletStateContext.Consumer>
             {nerdletUrlState => {
               const { pageUrl } = nerdletUrlState;
-              const timePickerRange = timePicker(platformUrlState.timeRange);
+              const timePickerRange = timeRangeToNrql(platformUrlState);
               const query = generateCohortsQuery({
                 entity,
                 pageUrl,
@@ -89,9 +85,7 @@ export default class Breakdown extends React.PureComponent {
                             We recommend reloading the page and sending the
                             error content below to the Nerdpack developer.
                           </BlockText>
-                          <div className="errorDetails">
-                            {JSON.stringify(error)}
-                          </div>
+                          <NerdGraphError error={error} />
                         </div>
                       );
                     }

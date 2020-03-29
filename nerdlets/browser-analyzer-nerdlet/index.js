@@ -2,7 +2,6 @@ import React from 'react';
 
 import { get } from 'lodash';
 import gql from 'graphql-tag';
-
 import {
   NerdletStateContext,
   EntityByGuidQuery,
@@ -10,6 +9,7 @@ import {
   BlockText,
   Spinner
 } from 'nr1';
+import { NerdGraphError } from '@newrelic/nr1-community';
 
 import Breakdown from '../shared/components/breakdown';
 
@@ -43,7 +43,7 @@ export default class Wrapper extends React.PureComponent {
                 }
 
                 if (error) {
-                  return <BlockText>{error.message}</BlockText>;
+                  return <NerdGraphError error={error} />
                 }
 
                 const entity = get(data, 'entities[0]', false);

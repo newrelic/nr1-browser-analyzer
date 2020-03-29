@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal } from 'nr1';
 import Breakdown from '../../component/breakdown';
 
-export default class MyNerdlet extends React.Component {
+export default class MyNerdlet extends React.PureComponent {
   static propTypes = {
     nerdletUrlState: PropTypes.object.isRequired,
     platformUrlState: PropTypes.object.isRequired,
