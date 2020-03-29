@@ -14,7 +14,7 @@ import {
   Toast
 } from 'nr1';
 import SummaryBar from './summary-bar';
-import { timeRangeToNrql, NerdGraphQuery } from '@newrelic/nr1-community';
+import { timeRangeToNrql, NerdGraphError } from '@newrelic/nr1-community';
 import { get } from 'lodash';
 import { buildResults } from './stat-utils';
 
@@ -166,7 +166,7 @@ export default class Breakdown extends PureComponent {
                   We recommend reloading the page and sending the error content
                   below to the Nerdpack developer.
                 </BlockText>
-                <NerdGraphQuery error={error} />
+                <NerdGraphError error={error} />
               </div>
             );
           }

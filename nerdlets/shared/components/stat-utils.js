@@ -1,8 +1,11 @@
 import numeral from 'numeral';
-import moment from 'moment';
-import momentDurationFormatSetup from 'moment-duration-format';
+import prettyMilliseconds from 'pretty-ms';
 
-momentDurationFormatSetup(moment);
+const durationFormat = value => {
+  const formatted = prettyMilliseconds(value);
+
+  return formatted;
+};
 
 function calcTotalSessionLength(a) {
   let accumulator = 0;
@@ -175,7 +178,7 @@ function buildRecommendations(obj) {
   obj.satisfied.avgSessionLength =
     recommendations.rawSessionLength[0] === 0
       ? 0
-      : moment.duration(recommendations.rawSessionLength[0]).format();
+      : durationFormat(recommendations.rawSessionLength[0]);
   // tolerated
   obj.tolerated.bounceRate =
     recommendations.rawBounceRate[1] === 0
@@ -184,7 +187,7 @@ function buildRecommendations(obj) {
   obj.tolerated.avgSessionLength =
     recommendations.rawSessionLength[1] === 0
       ? 0
-      : moment.duration(recommendations.rawSessionLength[1]).format();
+      : durationFormat(recommendations.rawSessionLength[1]);
   // frustrated
   obj.frustrated.bounceRate =
     recommendations.rawBounceRate[2] === 0
@@ -193,7 +196,7 @@ function buildRecommendations(obj) {
   obj.frustrated.avgSessionLength =
     recommendations.rawSessionLength[2] === 0
       ? 0
-      : moment.duration(recommendations.rawSessionLength[2]).format();
+      : durationFormat(recommendations.rawSessionLength[2]);
 
   // NOW, we can calculate some recommendations
   recommendations.engagedSessions =
@@ -248,15 +251,13 @@ function buildRecommendations(obj) {
       : 'N/A';
   recommendations.siteTime =
     recommendations.additionalTime > 0
-      ? moment
-          .duration(
-            recommendations.additionalTime / recommendations.engagedSessions
-          )
-          .format()
+      ? durationFormat(
+          recommendations.additionalTime / recommendations.engagedSessions
+        )
       : 'N/A';
   recommendations.loadTime =
     recommendations.loadTimeSavings > 0
-      ? moment.duration(recommendations.loadTimeSavings).format()
+      ? durationFormat(recommendations.loadTimeSavings)
       : 'N/A';
   return recommendations;
 }

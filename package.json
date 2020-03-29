@@ -2,7 +2,7 @@
   "private": true,
   "name": "nr1-browser-analyzer",
   "description": "NR1 Nerdpack business value analysis of Browser data.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "bugs": {
     "email": "opensource+nr1-browser-analyzer@newrelic.com"
   },
@@ -17,9 +17,8 @@
     "graphql": "^14.5.3",
     "graphql-tag": "^2.10.1",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
-    "moment-duration-format": "^2.3.2",
     "numeral": "^2.0.6",
+    "pretty-ms": "^6.0.1",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
     "react-dom": "^16.6.3"

@@ -1,3 +1,14 @@
+## [1.1.1](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.1.0...v1.1.1) (2020-03-25)
+
+
+### Bug Fixes
+
+* **deps:** update eslint dependencies resolves Issue [#30](https://github.com/newrelic/nr1-browser-analyzer/issues/30) ([#32](https://github.com/newrelic/nr1-browser-analyzer/issues/32)) ([9ccfea7](https://github.com/newrelic/nr1-browser-analyzer/commit/9ccfea7a2b01afd974ce5e8ccdc0f2368dba62c4))
+* **perf:** replace momentjs with pretty-ms resolves Issue [#26](https://github.com/newrelic/nr1-browser-analyzer/issues/26) ([#33](https://github.com/newrelic/nr1-browser-analyzer/issues/33)) ([f4ef6c7](https://github.com/newrelic/nr1-browser-analyzer/commit/f4ef6c7540fe007c9213283716a63b7e38086f25))
+* attempt to fix a bad merge ([e10027b](https://github.com/newrelic/nr1-browser-analyzer/commit/e10027ba40b93d9fb28fc3e3853b4fa1373090a0))
+* prevent new tab opening on table row click ([9c2bd5d](https://github.com/newrelic/nr1-browser-analyzer/commit/9c2bd5dea51ee4f654df75ce9627c36fada1fc04)), closes [newrelic#27](https://github.com/newrelic/issues/27)
+* use nr1-community empty state component ([8a0b51b](https://github.com/newrelic/nr1-browser-analyzer/commit/8a0b51b77024237b487b37268134b2cd050e76a0)), closes [newrelic#28](https://github.com/newrelic/issues/28)
+
 # [1.1.0](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.0.0...v1.1.0) (2020-03-06)
 
 

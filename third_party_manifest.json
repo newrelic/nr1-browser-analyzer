@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "Fri Mar 06 2020 14:45:46 GMT+0000 (Coordinated Universal Time)",
+  "lastUpdated": "Wed Mar 25 2020 14:44:31 GMT+0000 (Coordinated Universal Time)",
   "projectName": "nr1-browser-analyzer",
   "projectUrl": "https://github.com/newrelic/nr1-browser-analyzer",
   "includeDev": true,
@@ -39,31 +39,6 @@
       "publisher": "John-David Dalton",
       "email": "john.david.dalton@gmail.com"
     },
-    "moment-duration-format@2.3.2": {
-      "name": "moment-duration-format",
-      "version": "2.3.2",
-      "range": "^2.3.2",
-      "licenses": "MIT",
-      "repoUrl": "https://github.com/jsmreese/moment-duration-format",
-      "versionedRepoUrl": "https://github.com/jsmreese/moment-duration-format/tree/v2.3.2",
-      "licenseFile": "node_modules/moment-duration-format/LICENSE",
-      "licenseUrl": "https://github.com/jsmreese/moment-duration-format/blob/v2.3.2/LICENSE",
-      "licenseTextSource": "file"
-    },
-    "moment@2.24.0": {
-      "name": "moment",
-      "version": "2.24.0",
-      "range": "^2.24.0",
-      "licenses": "MIT",
-      "repoUrl": "https://github.com/moment/moment",
-      "versionedRepoUrl": "https://github.com/moment/moment/tree/v2.24.0",
-      "licenseFile": "node_modules/moment/LICENSE",
-      "licenseUrl": "https://github.com/moment/moment/blob/v2.24.0/LICENSE",
-      "licenseTextSource": "file",
-      "publisher": "Iskren Ivov Chernev",
-      "email": "iskren.chernev@gmail.com",
-      "url": "https://github.com/ichernev"
-    },
     "numeral@2.0.6": {
       "name": "numeral",
       "version": "2.0.6",
@@ -77,6 +52,20 @@
       "publisher": "Adam Draper",
       "email": "adamwdraper@gmail.com",
       "url": "http://github.com/adamwdraper"
+    },
+    "pretty-ms@6.0.1": {
+      "name": "pretty-ms",
+      "version": "6.0.1",
+      "range": "^6.0.1",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/sindresorhus/pretty-ms",
+      "versionedRepoUrl": "https://github.com/sindresorhus/pretty-ms/tree/v6.0.1",
+      "licenseFile": "node_modules/pretty-ms/license",
+      "licenseUrl": "https://github.com/sindresorhus/pretty-ms/blob/v6.0.1/license",
+      "licenseTextSource": "file",
+      "publisher": "Sindre Sorhus",
+      "email": "sindresorhus@gmail.com",
+      "url": "sindresorhus.com"
     },
     "prop-types@15.7.2": {
       "name": "prop-types",
