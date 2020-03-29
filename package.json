@@ -9,8 +9,8 @@
   "scripts": {
     "start": "nr1 nerdpack:serve",
     "test": "exit 0",
-    "eslint-check": "eslint nerdlets/ component/",
-    "eslint-fix": "eslint nerdlets/ component/ --fix"
+    "eslint-check": "eslint nerdlets/ ",
+    "eslint-fix": "eslint nerdlets/ --fix"
   },
   "dependencies": {
     "@newrelic/nr1-community": "^1.1.1",
