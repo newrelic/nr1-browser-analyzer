@@ -1,15 +1,12 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { EmptyState } from '@newrelic/nr1-community';
-
 import {
   PlatformStateContext,
   NerdletStateContext,
   EntityByGuidQuery,
-  BlockText,
   Spinner
 } from 'nr1';
-
+import { NerdGraphError, EmptyState } from '@newrelic/nr1-community';
 import Breakdown from '../shared/components/breakdown';
 
 export default class Wrapper extends React.PureComponent {
@@ -47,7 +44,7 @@ export default class Wrapper extends React.PureComponent {
                     }
 
                     if (error) {
-                      return <BlockText>{error.message}</BlockText>;
+                      return <NerdGraphError error={error} />;
                     }
 
                     if (
