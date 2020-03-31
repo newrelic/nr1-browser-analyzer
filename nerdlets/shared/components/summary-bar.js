@@ -15,7 +15,7 @@ import {
 } from 'nr1';
 
 import { splitPageUrl } from '../utils';
-import timePicker from './timePicker';
+import { timeRangeToNrql } from '@newrelic/nr1-community';
 
 export default class SummaryBar extends React.PureComponent {
   static propTypes = {
@@ -38,7 +38,7 @@ export default class SummaryBar extends React.PureComponent {
           <NerdletStateContext.Consumer>
             {nerdletUrlState => {
               const { pageUrl } = nerdletUrlState;
-              const timePickerRange = timePicker(platformUrlState.timeRange);
+              const timePickerRange = timeRangeToNrql(platformUrlState);
               const { protocol, domain, path } = splitPageUrl({ pageUrl });
 
               return (

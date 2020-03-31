@@ -1,5 +1,15 @@
 @import "../shared/components/components.scss";
+@import '~@newrelic/nr1-community/dist/index.css';
 .message {
   margin: auto;
   width: 50%;
+}
+
+.empty-state-container {
+  height: 100%;
+  background-color: #fff;
+}
+
+div[class*='style_empty-state'] {
+  height: calc(100% - 32px);
 }

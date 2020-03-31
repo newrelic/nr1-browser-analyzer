@@ -2,14 +2,8 @@ import React from 'react';
 
 import { get } from 'lodash';
 import gql from 'graphql-tag';
-
-import {
-  NerdletStateContext,
-  EntityByGuidQuery,
-  HeadingText,
-  BlockText,
-  Spinner
-} from 'nr1';
+import { NerdletStateContext, EntityByGuidQuery, Spinner } from 'nr1';
+import { NerdGraphError, EmptyState } from '@newrelic/nr1-community';
 
 import Breakdown from '../shared/components/breakdown';
 
@@ -43,7 +37,7 @@ export default class Wrapper extends React.PureComponent {
                 }
 
                 if (error) {
-                  return <BlockText>{error.message}</BlockText>;
+                  return <NerdGraphError error={error} />;
                 }
 
                 const entity = get(data, 'entities[0]', false);
@@ -52,13 +46,14 @@ export default class Wrapper extends React.PureComponent {
                 }
 
                 return (
-                  <div className="message">
-                    <HeadingText>Site Analyzer is not available</HeadingText>
-                    <BlockText>
-                      You have access to this entity, but Site Analyzer is not
-                      enabled for Browser entities in this account. Please see
-                      your Nerdpack Manager with concerns.
-                    </BlockText>
+                  <div className="empty-state-container">
+                    <EmptyState
+                      heading="Site Analyzer is not available"
+                      description="You have access to this entity, but Site Analyzer is not
+                        enabled for Browser entities in this account. Please see
+                        your Nerdpack Manager with concerns."
+                      buttonText=""
+                    />
                   </div>
                 );
               }}

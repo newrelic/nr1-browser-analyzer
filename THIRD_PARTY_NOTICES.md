@@ -17,9 +17,8 @@ code, the source code can be found at [https://github.com/newrelic/nr1-browser-a
 * [graphql-tag](#graphql-tag)
 * [graphql](#graphql)
 * [lodash](#lodash)
-* [moment-duration-format](#moment-duration-format)
-* [moment](#moment)
 * [numeral](#numeral)
+* [pretty-ms](#pretty-ms)
 * [prop-types](#prop-types)
 * [react-dom](#react-dom)
 * [react](#react)
@@ -148,64 +147,6 @@ terms above.
 
 ```
 
-### moment-duration-format
-
-This product includes source derived from [moment-duration-format](https://github.com/jsmreese/moment-duration-format) ([v2.3.2](https://github.com/jsmreese/moment-duration-format/tree/v2.3.2)), distributed under the [MIT License](https://github.com/jsmreese/moment-duration-format/blob/v2.3.2/LICENSE):
-
-```
-The MIT License (MIT)
-
-Copyright (c) 2019 John Madhavan-Reese
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-```
-
-### moment
-
-This product includes source derived from [moment](https://github.com/moment/moment) ([v2.24.0](https://github.com/moment/moment/tree/v2.24.0)), distributed under the [MIT License](https://github.com/moment/moment/blob/v2.24.0/LICENSE):
-
-```
-Copyright (c) JS Foundation and other contributors
-
-Permission is hereby granted, free of charge, to any person
-obtaining a copy of this software and associated documentation
-files (the "Software"), to deal in the Software without
-restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following
-conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
-
-```
-
 ### numeral
 
 This product includes source derived from [numeral](https://github.com/adamwdraper/Numeral-js) ([v2.0.6](https://github.com/adamwdraper/Numeral-js/tree/v2.0.6)), distributed under the [MIT License](https://github.com/adamwdraper/Numeral-js/blob/v2.0.6/LICENSE):
@@ -233,6 +174,23 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
+
+```
+
+### pretty-ms
+
+This product includes source derived from [pretty-ms](https://github.com/sindresorhus/pretty-ms) ([v6.0.1](https://github.com/sindresorhus/pretty-ms/tree/v6.0.1)), distributed under the [MIT License](https://github.com/sindresorhus/pretty-ms/blob/v6.0.1/license):
+
+```
+MIT License
+
+Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ```
 
