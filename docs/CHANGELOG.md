@@ -1,3 +1,12 @@
+## [1.1.2](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.1.1...v1.1.2) (2020-03-30)
+
+
+### Bug Fixes
+
+* Component to PureComponent and nr1-community implementation. ([9551463](https://github.com/newrelic/nr1-browser-analyzer/commit/95514638b07ea96e8b7765b29027d7a3ecf6b1a0))
+* merge conflicts with newrelic master updates. ([87d1859](https://github.com/newrelic/nr1-browser-analyzer/commit/87d1859f9172e82fdf52efac97d75ad44a53bc39))
+* remove component directory (unused). ([eb33061](https://github.com/newrelic/nr1-browser-analyzer/commit/eb330619e121f999ed62305dce0222be12d3712e))
+
 ## [1.1.1](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.1.0...v1.1.1) (2020-03-25)
 
 
