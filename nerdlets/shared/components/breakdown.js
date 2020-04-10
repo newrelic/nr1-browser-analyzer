@@ -34,8 +34,7 @@ export default class Breakdown extends React.PureComponent {
   static propTypes = {
     entity: PropTypes.object.isRequired,
     nrqlFactory: PropTypes.instanceOf(NrqlFactory).isRequired,
-    nerdletUrlState: PropTypes.object.isRequired,
-    browserAppMeasures: PropTypes.string
+    nerdletUrlState: PropTypes.object.isRequired
   };
 
   constructor(props) {

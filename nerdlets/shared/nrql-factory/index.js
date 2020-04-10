@@ -6,11 +6,9 @@ import { get } from 'lodash';
  */
 export default class NrqlFactory {
   static getFactory(data) {
-    const preference = get(
-      data,
-      'actor.entity.nerdStorage.collection[0].document.value'
-    );
-    if (preference === 'SPA') {
+    // console.debug(data);
+    const hasSpa = get(data, 'actor.entity.spa.results[0].count');
+    if (hasSpa > 0) {
       return new SPAFactory();
     } else {
       return new PageViewFactory();

@@ -1,25 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { BASE_NERDGRAPH_QUERY } from '../utils/queries';
 import { NerdletStateContext, NerdGraphQuery, Spinner } from 'nr1';
 import { NerdGraphError, EmptyState } from '@newrelic/nr1-community';
 import NrqlFactory from '../nrql-factory';
-import MeasureToggle from './measure-toggle';
 import Breakdown from './breakdown';
 
 export default class Wrapper extends React.PureComponent {
-  static propTypes = {
-    setBrowserAppMeasures: PropTypes.func,
-    browserAppMeasures: PropTypes.string
-  };
-
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-    const { setBrowserAppMeasures, browserAppMeasures } = this.props;
     return (
       <NerdletStateContext.Consumer>
         {nerdletUrlState => {
@@ -42,21 +30,11 @@ export default class Wrapper extends React.PureComponent {
                 if (entity) {
                   const nrqlFactory = NrqlFactory.getFactory(data);
                   return (
-                    <>
-                      {setBrowserAppMeasures && (
-                        <MeasureToggle
-                          setBrowserAppMeasures={setBrowserAppMeasures}
-                          nrqlFactory={nrqlFactory}
-                          entity={entity}
-                        />
-                      )}
-                      <Breakdown
-                        entity={entity}
-                        nrqlFactory={nrqlFactory}
-                        nerdletUrlState={nerdletUrlState}
-                        browserAppMeasures={browserAppMeasures}
-                      />
-                    </>
+                    <Breakdown
+                      entity={entity}
+                      nrqlFactory={nrqlFactory}
+                      nerdletUrlState={nerdletUrlState}
+                    />
                   );
                 } else {
                   return (
