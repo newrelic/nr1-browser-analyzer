@@ -13,5 +13,5 @@
       "url": "https://discuss.newrelic.com/t/browser-analyzer-nerdpack/82723"
     }
   },
-  "whatsNew": "\n-Fix: Replace nr.apdexPerfZone with duration\n-Fix: Support TimePicker custom dates\n-Fix: Infinite refresh/loading issues"
+  "whatsNew": "\n-Feat: Make use of nr1-community library\n-Feat: make use of the entityGuid in queries\n-Feat: Prep app for supporting SPA's"
 }

@@ -11,7 +11,6 @@ import {
   navigation,
   Toast,
   PlatformStateContext,
-  NerdletStateContext,
   Table,
   TableHeader,
   TableRow,
@@ -29,10 +28,13 @@ import { timeRangeToNrql, NerdGraphError } from '@newrelic/nr1-community';
 import { getIconType } from '../utils';
 import { generateCohortsQuery } from '../utils/queries';
 import { buildResults } from './stat-utils';
+import NrqlFactory from '../nrql-factory';
 
 export default class Breakdown extends React.PureComponent {
   static propTypes = {
-    entity: PropTypes.object.isRequired
+    entity: PropTypes.object.isRequired,
+    nrqlFactory: PropTypes.instanceOf(NrqlFactory).isRequired,
+    nerdletUrlState: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -184,7 +186,7 @@ export default class Breakdown extends React.PureComponent {
   }
 
   render() {
-    const { entity } = this.props;
+    const { entity, nrqlFactory, nerdletUrlState } = this.props;
 
     if (!entity) {
       return <Spinner fillContainer />;
@@ -192,123 +194,125 @@ export default class Breakdown extends React.PureComponent {
 
     return (
       <PlatformStateContext.Consumer>
-        {platformUrlState => (
-          <NerdletStateContext.Consumer>
-            {nerdletUrlState => {
-              const { pageUrl } = nerdletUrlState;
-              const timePickerRange = timeRangeToNrql(platformUrlState);
-              const query = generateCohortsQuery({
-                entity,
-                pageUrl,
-                timePickerRange
-              });
+        {platformUrlState => {
+          const { pageUrl } = nerdletUrlState;
+          const timePickerRange = timeRangeToNrql(platformUrlState);
+          const query = generateCohortsQuery({
+            entity,
+            pageUrl,
+            timePickerRange,
+            nrqlFactory
+          });
 
-              return (
-                <NerdGraphQuery query={query}>
-                  {({ data, loading, error }) => {
-                    if (loading) {
-                      return <Spinner fillContainer />;
-                    }
+          return (
+            <NerdGraphQuery query={query}>
+              {({ data, loading, error }) => {
+                if (loading) {
+                  return <Spinner fillContainer />;
+                }
 
-                    if (error) {
-                      Toast.showToast({
-                        title: 'An error occurred.',
-                        type: Toast.TYPE.CRITICAL,
-                        sticky: true
-                      });
+                if (error) {
+                  Toast.showToast({
+                    title: 'An error occurred.',
+                    type: Toast.TYPE.CRITICAL,
+                    sticky: true
+                  });
 
-                      return (
-                        <div className="error">
-                          <HeadingText>An error occurred</HeadingText>
-                          <BlockText>
-                            We recommend reloading the page and sending the
-                            error content below to the Nerdpack developer.
-                          </BlockText>
-                          <NerdGraphError error={error} />
-                        </div>
-                      );
-                    }
+                  return (
+                    <div className="error">
+                      <HeadingText>An error occurred</HeadingText>
+                      <BlockText>
+                        We recommend reloading the page and sending the error
+                        content below to the Nerdpack developer.
+                      </BlockText>
+                      <NerdGraphError error={error} />
+                    </div>
+                  );
+                }
 
-                    const results = buildResults(data.actor.account);
-                    const {
-                      settings: { apdexTarget },
-                      servingApmApplicationId
-                    } = entity;
-                    const browserSettingsUrl = `https://rpm.newrelic.com/accounts/${entity.accountId}/browser/${servingApmApplicationId}/edit#/settings`;
-                    const apmService = get(
-                      data,
-                      'actor.entity.relationships[0].source.entity'
-                    );
-                    if (apmService) {
-                      apmService.iconType = getIconType(apmService);
-                    }
+                const results = buildResults(data.actor.account);
+                const {
+                  settings: { apdexTarget },
+                  servingApmApplicationId
+                } = entity;
+                const browserSettingsUrl = `https://rpm.newrelic.com/accounts/${entity.accountId}/browser/${servingApmApplicationId}/edit#/settings`;
+                const apmService = get(
+                  data,
+                  'actor.entity.relationships[0].source.entity'
+                );
+                if (apmService) {
+                  apmService.iconType = getIconType(apmService);
+                }
 
-                    return (
-                      <Grid className="breakdownContainer">
-                        <GridItem columnSpan={12}>
-                          <SummaryBar {...this.props} apmService={apmService} />
-                        </GridItem>
-                        <GridItem columnSpan={4} className="cohort satisfied">
-                          <CohortSatisifed
-                            results={results}
-                            pageUrl={pageUrl}
-                            browserSettingsUrl={browserSettingsUrl}
-                            apdexTarget={apdexTarget}
-                          />
-                        </GridItem>
-                        <GridItem columnSpan={4} className="cohort tolerated">
-                          <CohortTolerated
-                            results={results}
-                            pageUrl={pageUrl}
-                            browserSettingsUrl={browserSettingsUrl}
-                            apdexTarget={apdexTarget}
-                          />
-                        </GridItem>
-                        <GridItem columnSpan={4} className="cohort frustrated">
-                          <CohortFrustrated
-                            results={results}
-                            pageUrl={pageUrl}
-                            browserSettingsUrl={browserSettingsUrl}
-                            apdexTarget={apdexTarget}
-                          />
-                        </GridItem>
-                        <BlockText className="cohortsSmallPrint">
-                          * Note that these calculations are approximations
-                          based on a sample of the total data in New Relic for
-                          this Browser application.
-                        </BlockText>
-                        <GridItem columnSpan={4} className="cohort improvement">
-                          <CohortImprovement results={results} />
-                        </GridItem>
+                return (
+                  <Grid className="breakdownContainer">
+                    <GridItem columnSpan={12}>
+                      <SummaryBar {...this.props} apmService={apmService} />
+                    </GridItem>
+                    <GridItem columnSpan={4} className="cohort satisfied">
+                      <CohortSatisifed
+                        results={results}
+                        pageUrl={pageUrl}
+                        browserSettingsUrl={browserSettingsUrl}
+                        apdexTarget={apdexTarget}
+                      />
+                    </GridItem>
+                    <GridItem columnSpan={4} className="cohort tolerated">
+                      <CohortTolerated
+                        results={results}
+                        pageUrl={pageUrl}
+                        browserSettingsUrl={browserSettingsUrl}
+                        apdexTarget={apdexTarget}
+                      />
+                    </GridItem>
+                    <GridItem columnSpan={4} className="cohort frustrated">
+                      <CohortFrustrated
+                        results={results}
+                        pageUrl={pageUrl}
+                        browserSettingsUrl={browserSettingsUrl}
+                        apdexTarget={apdexTarget}
+                      />
+                    </GridItem>
+                    <BlockText className="cohortsSmallPrint">
+                      * Note that these calculations are approximations based on
+                      a sample of the total data in New Relic for this Browser
+                      application.
+                    </BlockText>
+                    <GridItem columnSpan={4} className="cohort improvement">
+                      <CohortImprovement results={results} />
+                    </GridItem>
 
-                        {pageUrl ? null : (
-                          <GridItem className="pageUrlTable" columnSpan={8}>
-                            <HeadingText type={HeadingText.TYPE.HEADING3}>
-                              Top Performance Improvement Targets
-                            </HeadingText>
-                            <NrqlQuery
-                              accountId={entity.accountId}
-                              formatType={NrqlQuery.FORMAT_TYPE.RAW}
-                              query={`FROM PageView SELECT count(*) as 'Page Count', average(duration) as 'Avg. Duration', apdex(duration, ${apdexTarget}) as 'Apdex' WHERE appName='${entity.name}' AND nr.apdexPerfZone in ('F', 'T') FACET pageUrl LIMIT 100 ${timePickerRange}`}
-                            >
-                              {({ data }) => {
-                                if (data) {
-                                  return this.renderTopPerformanceTable(data);
-                                } else {
-                                  return '';
-                                }
-                              }}
-                            </NrqlQuery>
-                          </GridItem>
-                        )}
-                      </Grid>
-                    );
-                  }}
-                </NerdGraphQuery>
-              );
-            }}
-          </NerdletStateContext.Consumer>
-        )}
+                    {pageUrl ? null : (
+                      <GridItem className="pageUrlTable" columnSpan={8}>
+                        <HeadingText type={HeadingText.TYPE.HEADING3}>
+                          Top Performance Improvement Targets
+                        </HeadingText>
+                        <NrqlQuery
+                          accountId={entity.accountId}
+                          formatType={NrqlQuery.FORMAT_TYPE.RAW}
+                          query={nrqlFactory.getPerformanceTargets({
+                            entity,
+                            apdexTarget,
+                            platformUrlState,
+                            timeNrqlFragment: timePickerRange
+                          })}
+                        >
+                          {({ data }) => {
+                            if (data) {
+                              return this.renderTopPerformanceTable(data);
+                            } else {
+                              return '';
+                            }
+                          }}
+                        </NrqlQuery>
+                      </GridItem>
+                    )}
+                  </Grid>
+                );
+              }}
+            </NerdGraphQuery>
+          );
+        }}
       </PlatformStateContext.Consumer>
     );
   }

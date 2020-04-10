@@ -10,23 +10,27 @@ import {
   navigation,
   Button,
   ChartGroup,
-  PlatformStateContext,
-  NerdletStateContext
+  PlatformStateContext
 } from 'nr1';
-
 import { splitPageUrl } from '../utils';
 import { timeRangeToNrql } from '@newrelic/nr1-community';
+import NrqlFactory from '../nrql-factory';
 
 export default class SummaryBar extends React.PureComponent {
   static propTypes = {
     entity: PropTypes.object.isRequired,
-    apmService: PropTypes.object
+    apmService: PropTypes.object,
+    nrqlFactory: PropTypes.instanceOf(NrqlFactory).isRequired,
+    nerdletUrlState: PropTypes.object.isRequired
   };
 
   render() {
     const {
-      entity: { accountId, name },
-      apmService
+      entity: { accountId },
+      apmService,
+      nerdletUrlState,
+      nrqlFactory,
+      entity
     } = this.props;
 
     // generate the appropriate NRQL where fragment for countryCode and regionCode
@@ -34,131 +38,123 @@ export default class SummaryBar extends React.PureComponent {
 
     return (
       <PlatformStateContext.Consumer>
-        {platformUrlState => (
-          <NerdletStateContext.Consumer>
-            {nerdletUrlState => {
-              const { pageUrl } = nerdletUrlState;
-              const timePickerRange = timeRangeToNrql(platformUrlState);
-              const { protocol, domain, path } = splitPageUrl({ pageUrl });
-
-              return (
-                <ChartGroup>
-                  {pageUrl && (
-                    <HeadingText className="pageUrl">
-                      <a
-                        href={protocol + domain + path}
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                        <span className="pageUrlProtocol">{protocol}</span>
-                        <span className="pageUrlDomain">{domain}</span>
-                        <span className="pageUrlPath">{path}</span>
-                      </a>
-                    </HeadingText>
-                  )}
-                  <Stack
-                    className="summaryBar"
-                    directionType={Stack.DIRECTION_TYPE.HORIZONTAL}
-                    gapType={Stack.GAP_TYPE.TIGHT}
+        {platformUrlState => {
+          const { pageUrl } = nerdletUrlState;
+          const timePickerRange = timeRangeToNrql(platformUrlState);
+          const { protocol, domain, path } = splitPageUrl({ pageUrl });
+          const options = {
+            entity,
+            platformUrlState,
+            timeNrqlFragment: timePickerRange,
+            pageUrl
+          };
+          const optionTimeseries = {
+            entity,
+            platformUrlState,
+            timeNrqlFragment: timePickerRange,
+            pageUrl,
+            timeseries: true
+          };
+          return (
+            <ChartGroup>
+              {pageUrl && (
+                <HeadingText className="pageUrl">
+                  <a
+                    href={protocol + domain + path}
+                    rel="noopener noreferrer"
+                    target="_blank"
                   >
-                    <StackItem className="summaryTitle">
-                      <HeadingText type={HeadingText.TYPE.HEADING4}>
-                        Performance Analysis
-                      </HeadingText>
-                    </StackItem>
-                    <StackItem>
-                      <BillboardChart
-                        className="microchart"
-                        accountId={accountId}
-                        query={`FROM PageView SELECT count(*) as 'Page Views' ${timePickerRange}  WHERE appName = '${name}' ${
-                          pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''
-                        }`}
-                      />
-                    </StackItem>
-                    <StackItem>
-                      <SparklineChart
-                        className="microchart wider"
-                        accountId={accountId}
-                        query={`FROM PageView SELECT count(*) TIMESERIES ${timePickerRange}  WHERE appName = '${name}' ${
-                          pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''
-                        }`}
-                      />
-                    </StackItem>
-                    <StackItem>
-                      <BillboardChart
-                        className="microchart"
-                        accountId={accountId}
-                        query={`FROM PageView SELECT average(duration) as 'Avg. Performance' ${timePickerRange}  WHERE appName = '${name}' ${
-                          pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''
-                        }`}
-                      />
-                    </StackItem>
-                    <StackItem>
-                      <SparklineChart
-                        className="microchart wider"
-                        accountId={accountId}
-                        query={`FROM PageView SELECT average(duration) TIMESERIES ${timePickerRange}  WHERE appName = '${name}' ${
-                          pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''
-                        }`}
-                      />
-                    </StackItem>
-                    <StackItem>
-                      <BillboardChart
-                        className="microchart"
-                        accountId={accountId}
-                        query={`FROM PageView SELECT average(networkDuration) as 'Network Avg.' ${timePickerRange}  WHERE appName = '${name}' ${
-                          pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''
-                        }`}
-                      />
-                    </StackItem>
-                    <StackItem>
-                      <SparklineChart
-                        className="microchart wider"
-                        accountId={accountId}
-                        query={`FROM PageView SELECT average(networkDuration) TIMESERIES ${timePickerRange}  WHERE appName = '${name}' ${
-                          pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''
-                        }`}
-                      />
-                    </StackItem>
-                    <StackItem>
-                      <BillboardChart
-                        className="microchart"
-                        accountId={accountId}
-                        query={`FROM PageView SELECT average(backendDuration) as 'Backend Avg.' ${timePickerRange}  WHERE appName = '${name}' ${
-                          pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''
-                        }`}
-                      />
-                    </StackItem>
-                    <StackItem className="wider">
-                      <SparklineChart
-                        className="microchart wider"
-                        accountId={accountId}
-                        query={`FROM PageView SELECT average(backendDuration) TIMESERIES ${timePickerRange} WHERE appName = '${name}' ${
-                          pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''
-                        }`}
-                      />
-                    </StackItem>
-                    {apmService && (
-                      <StackItem grow className="summaryEnd">
-                        <Button
-                          className="apmButton"
-                          type={Button.TYPE.NORMAL}
-                          sizeType={Button.SIZE_TYPE.SLIM}
-                          onClick={() => {
-                            navigation.openStackedEntity(apmService.guid);
-                          }}
-                          iconType={apmService.iconType}
-                        >
-                          Upstream Service
-                        </Button>
-                      </StackItem>
-                    )}
-                  </Stack>
-                </ChartGroup>
-              );
-            }}
-          </NerdletStateContext.Consumer>
-        )}
+                    <span className="pageUrlProtocol">{protocol}</span>
+                    <span className="pageUrlDomain">{domain}</span>
+                    <span className="pageUrlPath">{path}</span>
+                  </a>
+                </HeadingText>
+              )}
+              <Stack
+                className="summaryBar"
+                directionType={Stack.DIRECTION_TYPE.HORIZONTAL}
+                gapType={Stack.GAP_TYPE.TIGHT}
+              >
+                <StackItem className="summaryTitle">
+                  <HeadingText type={HeadingText.TYPE.HEADING4}>
+                    Performance Analysis
+                  </HeadingText>
+                </StackItem>
+                <StackItem>
+                  <BillboardChart
+                    className="microchart"
+                    accountId={accountId}
+                    query={nrqlFactory.getQuery1(options)}
+                  />
+                </StackItem>
+                <StackItem>
+                  <SparklineChart
+                    className="microchart wider"
+                    accountId={accountId}
+                    query={nrqlFactory.getQuery1(optionTimeseries)}
+                  />
+                </StackItem>
+                <StackItem>
+                  <BillboardChart
+                    className="microchart"
+                    accountId={accountId}
+                    query={nrqlFactory.getQuery2(options)}
+                  />
+                </StackItem>
+                <StackItem>
+                  <SparklineChart
+                    className="microchart wider"
+                    accountId={accountId}
+                    query={nrqlFactory.getQuery2(optionTimeseries)}
+                  />
+                </StackItem>
+                <StackItem>
+                  <BillboardChart
+                    className="microchart"
+                    accountId={accountId}
+                    query={nrqlFactory.getQuery3(options)}
+                  />
+                </StackItem>
+                <StackItem>
+                  <SparklineChart
+                    className="microchart wider"
+                    accountId={accountId}
+                    query={nrqlFactory.getQuery3(optionTimeseries)}
+                  />
+                </StackItem>
+                <StackItem>
+                  <BillboardChart
+                    className="microchart"
+                    accountId={accountId}
+                    query={nrqlFactory.getQuery4(options)}
+                  />
+                </StackItem>
+                <StackItem className="wider">
+                  <SparklineChart
+                    className="microchart wider"
+                    accountId={accountId}
+                    query={nrqlFactory.getQuery4(optionTimeseries)}
+                  />
+                </StackItem>
+                {apmService && (
+                  <StackItem grow className="summaryEnd">
+                    <Button
+                      className="apmButton"
+                      type={Button.TYPE.NORMAL}
+                      sizeType={Button.SIZE_TYPE.SLIM}
+                      onClick={() => {
+                        navigation.openStackedEntity(apmService.guid);
+                      }}
+                      iconType={apmService.iconType}
+                    >
+                      Upstream Service
+                    </Button>
+                  </StackItem>
+                )}
+              </Stack>
+            </ChartGroup>
+          );
+        }}
       </PlatformStateContext.Consumer>
     );
   }
