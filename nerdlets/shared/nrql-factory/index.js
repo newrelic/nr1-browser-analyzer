@@ -142,8 +142,8 @@ class PageViewFactory extends NrqlFactory {
     const graphql = `{
       actor {
         account(id: ${entity.accountId}) {
-          cohorts: nrql(query: "FROM PageView SELECT uniqueCount(session) as 'sessions', count(*)/uniqueCount(session) as 'avgPageViews', median(duration) as 'medianDuration', percentile(duration, 75, 95,99), count(*) WHERE appName='${
-            entity.name
+          cohorts: nrql(query: "FROM PageView SELECT uniqueCount(session) as 'sessions', count(*)/uniqueCount(session) as 'avgPageViews', median(duration) as 'medianDuration', percentile(duration, 75, 95,99), count(*) WHERE entityGuid='${
+            entity.guid
           }' ${
       pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''
     } ${facetCaseStmt} ${timeFragment}  ") {
@@ -161,22 +161,22 @@ class PageViewFactory extends NrqlFactory {
           }`
               : ''
           }
-          satisfied: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${
-            entity.name
+          satisfied: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE entityGuid='${
+            entity.guid
           }' AND duration <= ${apdexTarget} ${
       pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''
     } FACET session limit MAX ${timeFragment}") {
             results
           }
-          tolerated: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${
-            entity.name
+          tolerated: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE entityGuid='${
+            entity.guid
           }' AND duration > ${apdexTarget} AND duration < ${frustratedApdex} ${
       pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''
     } FACET session limit MAX ${timeFragment}") {
             results
           }
-          frustrated: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${
-            entity.name
+          frustrated: nrql(query: "FROM PageView SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE entityGuid='${
+            entity.guid
           }' AND duration >= ${frustratedApdex} ${
       pageUrl ? `WHERE pageUrl = '${pageUrl}'` : ''
     } FACET session limit MAX ${timeFragment}") {
@@ -223,7 +223,7 @@ class SPAFactory extends NrqlFactory {
   getPerformanceTargets(options) {
     const { timeNrqlFragment, platformUrlState, entity, apdexTarget } = options;
     const timeFragment = timeNrqlFragment || timeRangeToNrql(platformUrlState);
-    return `FROM BrowserInteraction SELECT count(*) as 'Page Count', average(duration) as 'Avg. Duration', apdex(duration, ${apdexTarget}) as 'Apdex' WHERE appName='${entity.name}' FACET targetUrl LIMIT 100 ${timeFragment}`;
+    return `FROM BrowserInteraction SELECT count(*) as 'Page Count', average(duration) as 'Avg. Duration', apdex(duration, ${apdexTarget}) as 'Apdex' WHERE entityGuid='${entity.guid}' FACET targetUrl LIMIT 100 ${timeFragment}`;
   }
 
   getQuery1(options) {
@@ -304,8 +304,8 @@ class SPAFactory extends NrqlFactory {
     const graphql = `{
       actor {
         account(id: ${entity.accountId}) {
-          cohorts: nrql(query: "FROM BrowserInteraction SELECT uniqueCount(session) as 'sessions', count(*)/uniqueCount(session) as 'avgPageViews', median(duration) as 'medianDuration', percentile(duration, 75, 95,99), count(*) WHERE appName='${
-            entity.name
+          cohorts: nrql(query: "FROM BrowserInteraction SELECT uniqueCount(session) as 'sessions', count(*)/uniqueCount(session) as 'avgPageViews', median(duration) as 'medianDuration', percentile(duration, 75, 95,99), count(*) WHERE entityGuid='${
+            entity.guid
           }' ${
       targetUrl ? `WHERE targetUrl = '${targetUrl}'` : ''
     } ${facetCaseStmt} ${timeFragment}  ") {
@@ -323,22 +323,22 @@ class SPAFactory extends NrqlFactory {
           }`
               : ''
           }
-          satisfied: nrql(query: "FROM BrowserInteraction SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${
-            entity.name
+          satisfied: nrql(query: "FROM BrowserInteraction SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE entityGuid='${
+            entity.guid
           }' AND duration <= ${apdexTarget} ${
       targetUrl ? `WHERE targetUrl = '${targetUrl}'` : ''
     } FACET session limit MAX ${timeFragment}") {
             results
           }
-          tolerated: nrql(query: "FROM BrowserInteraction SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${
-            entity.name
+          tolerated: nrql(query: "FROM BrowserInteraction SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE entityGuid='${
+            entity.guid
           }' AND duration > ${apdexTarget} AND duration < ${frustratedApdex} ${
       targetUrl ? `WHERE targetUrl = '${targetUrl}'` : ''
     } FACET session limit MAX ${timeFragment}") {
             results
           }
-          frustrated: nrql(query: "FROM BrowserInteraction SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE appName='${
-            entity.name
+          frustrated: nrql(query: "FROM BrowserInteraction SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE entityGuid='${
+            entity.guid
           }' AND duration >= ${frustratedApdex} ${
       targetUrl ? `WHERE targetUrl = '${targetUrl}'` : ''
     } FACET session limit MAX ${timeFragment}") {
