@@ -35,11 +35,7 @@ export const BASE_NERDGRAPH_QUERY = `query($entityGuid: String!) {
         servingApmApplicationId
       }
       accountId
-      pages: nrdbQuery(nrql: "SELECT count(*) FROM PageView SINCE 30 minutes ago") {
-        results
-        nrql
-      }
-      spa: nrdbQuery(nrql: "SELECT count(*) FROM BrowserInteraction SINCE 30 minutes ago") {
+      spa: nrdbQuery(nrql: "SELECT count(*) FROM BrowserInteraction") {
         results
         nrql
       }
