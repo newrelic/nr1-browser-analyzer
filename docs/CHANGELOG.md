@@ -1,3 +1,17 @@
+# [1.2.0](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.1.2...v1.2.0) (2020-04-10)
+
+
+### Bug Fixes
+
+* graphql query optimization. whatsNew update. ([c269f60](https://github.com/newrelic/nr1-browser-analyzer/commit/c269f6000db4d70eaacc05facb657ef67b5caf08))
+* use entityGuid in queries. ([d1192b4](https://github.com/newrelic/nr1-browser-analyzer/commit/d1192b40d84dc4d4cfa75d035a7eb490ee3c38bf))
+
+
+### Features
+
+* remove toggle. Use entity-scoped query to support SPA choice. ([4649de1](https://github.com/newrelic/nr1-browser-analyzer/commit/4649de1dba5353e277759c2b80b67a5eb9725877))
+* WIP ammending @ShuJackson work to support SPA's. Added factory class for encapsulating the NRQL changes. ([fc0c7a3](https://github.com/newrelic/nr1-browser-analyzer/commit/fc0c7a37c7e18fb9f85a0e8934c37754add93b59))
+
 ## [1.1.2](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.1.1...v1.1.2) (2020-03-30)
 
 
