@@ -39,12 +39,6 @@ export const BASE_NERDGRAPH_QUERY = `query($entityGuid: String!) {
         results
         nrql
       }
-      nerdStorage {
-        collection(collection: "browser-analyzer-pref") {
-          document
-          id
-        }
-      }
     }
   }
 }`;
