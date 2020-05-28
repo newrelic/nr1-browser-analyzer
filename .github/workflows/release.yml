@@ -8,8 +8,8 @@ on:
     types: [semantic-release]
 
 env:
-  THIRD_PARTY_GIT_AUTHOR_EMAIL: opensource+newrelicbot@newrelic.com
-  THIRD_PARTY_GIT_AUTHOR_NAME: Newrelicbot
+  THIRD_PARTY_GIT_AUTHOR_EMAIL: jbeveland@newrelic.com
+  THIRD_PARTY_GIT_AUTHOR_NAME: jbeveland27
 
 jobs:
   job-checkout-and-build:
