@@ -128,7 +128,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Validate Open Source Files
-        uses: newrelic/validate-nerdpack-action@v1
+        uses: newrelic/validate-nerdpack-action@v1.0.2
       
       - name: Install NR1 CLI
         run: |
