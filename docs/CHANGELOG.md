@@ -1,3 +1,28 @@
+# [1.3.0](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.2.0...v1.3.0) (2020-05-29)
+
+
+### Bug Fixes
+
+* addressing security issue in dependency ([f6b7758](https://github.com/newrelic/nr1-browser-analyzer/commit/f6b7758815e165da1c24417480f78bc4c297f00d))
+* **README:** aligned title with nerdpack README convention. ([961b800](https://github.com/newrelic/nr1-browser-analyzer/commit/961b800f4b80646842c14112f057f82fd52a6a0b))
+* continue when Eslint Annotation fails and add check for output of eslint-check step ([5cb1958](https://github.com/newrelic/nr1-browser-analyzer/commit/5cb1958d70cfdcd844fabc1d55e5e7d5cce63ab4))
+* use a repo admin email/name ([adab177](https://github.com/newrelic/nr1-browser-analyzer/commit/adab1771af1b1bde44341025c4a006bd5df42a02))
+* use a repo admin email/name for third_party_notices commit ([96eea04](https://github.com/newrelic/nr1-browser-analyzer/commit/96eea04c7483a33e706bd870f5996d298492b41f))
+* use newrelicbot to commit ([#42](https://github.com/newrelic/nr1-browser-analyzer/issues/42)) ([9ff7b11](https://github.com/newrelic/nr1-browser-analyzer/commit/9ff7b11a580aedf1150dbee811d59d3272a990fe))
+* uses GH API to disable/enable branch protection so committing works ([#43](https://github.com/newrelic/nr1-browser-analyzer/issues/43)) ([e1ca6c4](https://github.com/newrelic/nr1-browser-analyzer/commit/e1ca6c40d271b137098ec9334202e2564e40cf66))
+
+
+### Features
+
+* **ci:** removing circleci and replacing with GH Actions ([1fa929f](https://github.com/newrelic/nr1-browser-analyzer/commit/1fa929ffb3e60c528f36fc8ad562a04075a60df5))
+* Switch CI to GitHub Actions ([1f520f6](https://github.com/newrelic/nr1-browser-analyzer/commit/1f520f6c5f5c6cae1b433c39f893d64cb1d9671c)), closes [#41](https://github.com/newrelic/nr1-browser-analyzer/issues/41)
+
+
+### Reverts
+
+* Revert "chore: semantic-release updates package-lock when version increments" ([440a4f6](https://github.com/newrelic/nr1-browser-analyzer/commit/440a4f6967115d967490a8b4bdd48df51d53c08c))
+* Revert "feat(ci): removing circleci and replacing with GH Actions" ([4222317](https://github.com/newrelic/nr1-browser-analyzer/commit/42223172b5ade5f1c03c1aef9c1616ed267f3401))
+
 # [1.2.0](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.1.2...v1.2.0) (2020-04-10)
 
 
