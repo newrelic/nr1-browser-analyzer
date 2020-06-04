@@ -19,7 +19,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: '10.x'
+          node-version: 10.x
 
       - name: Cache node_modules
         id: cache-node-modules
@@ -53,7 +53,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: '10.x'
+          node-version: 10.x
 
       - name: Cache node_modules
         id: cache-node-modules
@@ -81,13 +81,12 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           report-json: eslint_report.json
         continue-on-error: true
-      
+
       - name: Check eslint-check outcome
         if: steps.eslint-check.outcome != 'success'
         run: |
           echo "::error::eslint-check failed. View output of _Run eslint-check and generate report_ step"
           exit 1
-
 
   test:
     name: test
@@ -100,7 +99,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: '10.x'
+          node-version: 10.x
 
       - name: Cache node_modules
         id: cache-node-modules
@@ -129,10 +128,11 @@ jobs:
 
       - name: Validate Open Source Files
         uses: newrelic/validate-nerdpack-action@v1.0.2
-      
+
       - name: Install NR1 CLI
         run: |
           curl -s https://cli.nr-ext.net/installer.sh | sudo bash
+
       - name: Validate Nerdpack Schema
         run: |
           nr1 nerdpack:validate
