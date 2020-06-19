@@ -1,29 +1,41 @@
 {
-  "lastUpdated": "Wed Mar 25 2020 14:44:31 GMT+0000 (Coordinated Universal Time)",
+  "lastUpdated": "Fri Jun 05 2020 03:00:47 GMT+0000 (Coordinated Universal Time)",
   "projectName": "nr1-browser-analyzer",
   "projectUrl": "https://github.com/newrelic/nr1-browser-analyzer",
   "includeDev": true,
   "dependencies": {
-    "graphql-tag@2.10.1": {
+    "@newrelic/nr1-community@1.1.1": {
+      "name": "@newrelic/nr1-community",
+      "version": "1.1.1",
+      "range": "^1.1.1",
+      "licenses": "Apache-2.0",
+      "repoUrl": "https://github.com/newrelic/nr1-community",
+      "versionedRepoUrl": "https://github.com/newrelic/nr1-community/tree/v1.1.1",
+      "licenseFile": "node_modules/@newrelic/nr1-community/LICENSE",
+      "licenseUrl": "https://github.com/newrelic/nr1-community/blob/v1.1.1/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "newrelic"
+    },
+    "graphql-tag@2.10.3": {
       "name": "graphql-tag",
-      "version": "2.10.1",
+      "version": "2.10.3",
       "range": "^2.10.1",
       "licenses": "MIT",
-      "repoUrl": "https://github.com/apollostack/graphql-tag",
-      "versionedRepoUrl": "https://github.com/apollostack/graphql-tag/tree/v2.10.1",
+      "repoUrl": "https://github.com/apollographql/graphql-tag",
+      "versionedRepoUrl": "https://github.com/apollographql/graphql-tag/tree/v2.10.3",
       "licenseFile": "node_modules/graphql-tag/LICENSE",
-      "licenseUrl": "https://github.com/apollostack/graphql-tag/blob/v2.10.1/LICENSE",
+      "licenseUrl": "https://github.com/apollographql/graphql-tag/blob/v2.10.3/LICENSE",
       "licenseTextSource": "file"
     },
-    "graphql@14.5.4": {
+    "graphql@14.6.0": {
       "name": "graphql",
-      "version": "14.5.4",
+      "version": "14.6.0",
       "range": "^14.5.3",
       "licenses": "MIT",
       "repoUrl": "https://github.com/graphql/graphql-js",
-      "versionedRepoUrl": "https://github.com/graphql/graphql-js/tree/v14.5.4",
+      "versionedRepoUrl": "https://github.com/graphql/graphql-js/tree/v14.6.0",
       "licenseFile": "node_modules/graphql/LICENSE",
-      "licenseUrl": "https://github.com/graphql/graphql-js/blob/v14.5.4/LICENSE",
+      "licenseUrl": "https://github.com/graphql/graphql-js/blob/v14.6.0/LICENSE",
       "licenseTextSource": "file"
     },
     "lodash@4.17.15": {
@@ -78,26 +90,26 @@
       "licenseUrl": "https://github.com/facebook/prop-types/blob/v15.7.2/LICENSE",
       "licenseTextSource": "file"
     },
-    "react-dom@16.9.0": {
+    "react-dom@16.13.1": {
       "name": "react-dom",
-      "version": "16.9.0",
+      "version": "16.13.1",
       "range": "^16.6.3",
       "licenses": "MIT",
       "repoUrl": "https://github.com/facebook/react",
-      "versionedRepoUrl": "https://github.com/facebook/react/tree/v16.9.0",
+      "versionedRepoUrl": "https://github.com/facebook/react/tree/v16.13.1",
       "licenseFile": "node_modules/react-dom/LICENSE",
-      "licenseUrl": "https://github.com/facebook/react/blob/v16.9.0/LICENSE",
+      "licenseUrl": "https://github.com/facebook/react/blob/v16.13.1/LICENSE",
       "licenseTextSource": "file"
     },
-    "react@16.9.0": {
+    "react@16.13.1": {
       "name": "react",
-      "version": "16.9.0",
+      "version": "16.13.1",
       "range": "^16.6.3",
       "licenses": "MIT",
       "repoUrl": "https://github.com/facebook/react",
-      "versionedRepoUrl": "https://github.com/facebook/react/tree/v16.9.0",
+      "versionedRepoUrl": "https://github.com/facebook/react/tree/v16.13.1",
       "licenseFile": "node_modules/react/LICENSE",
-      "licenseUrl": "https://github.com/facebook/react/blob/v16.9.0/LICENSE",
+      "licenseUrl": "https://github.com/facebook/react/blob/v16.13.1/LICENSE",
       "licenseTextSource": "file"
     }
   },
