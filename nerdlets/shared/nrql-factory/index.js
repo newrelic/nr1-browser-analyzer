@@ -16,9 +16,9 @@ export default class NrqlFactory {
   }
 
   constructor() {
-    if (this.constructor === 'NrlFactory') {
+    if (this.constructor === 'NrqlFactory') {
       throw new TypeError(
-        'Abstract class "NrlFactory" cannot be instantiated.'
+        'Abstract class "NrqlFactory" cannot be instantiated.'
       );
     }
     if (this.getType === undefined) {
