@@ -1,3 +1,12 @@
+## [1.3.1](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.3.0...v1.3.1) (2020-07-23)
+
+
+### Bug Fixes
+
+* **nrqlfactory:** untouched error handling catch ([0c6ed27](https://github.com/newrelic/nr1-browser-analyzer/commit/0c6ed273124f87c20b93c9301dd514fa2da709f7))
+* package.json & package-lock.json to reduce vulnerabilities ([7d1f2a0](https://github.com/newrelic/nr1-browser-analyzer/commit/7d1f2a0f03dcdd4c0fa241ad5e9e538c2d12557a))
+* upgrade @newrelic/nr1-community from 1.1.1 to 1.2.0 ([2a742c2](https://github.com/newrelic/nr1-browser-analyzer/commit/2a742c23b82811f64492d3d5d15ce3128afa5e5a))
+
 # [1.3.0](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.2.0...v1.3.0) (2020-05-29)
 
 
