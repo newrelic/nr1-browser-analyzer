@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.3.1...v1.3.2) (2020-07-24)
+
+
+### Bug Fixes
+
+* catalog screenshots ([61f375f](https://github.com/newrelic/nr1-browser-analyzer/commit/61f375feef3e819ae0bb24eb32e42a50989bc65a))
+
 ## [1.3.1](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.3.0...v1.3.1) (2020-07-23)
 
 
