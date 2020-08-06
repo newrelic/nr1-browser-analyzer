@@ -1,3 +1,10 @@
+## [1.3.3](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.3.2...v1.3.3) (2020-08-06)
+
+
+### Bug Fixes
+
+* upgrade graphql-tag from 2.10.3 to 2.10.4 ([#51](https://github.com/newrelic/nr1-browser-analyzer/issues/51)) ([035cbc8](https://github.com/newrelic/nr1-browser-analyzer/commit/035cbc8df939ccfefe5d0d001d2f33d90b5fbfd6))
+
 ## [1.3.2](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.3.1...v1.3.2) (2020-07-24)
 
 
