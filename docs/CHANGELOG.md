@@ -1,3 +1,10 @@
+## [1.3.4](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.3.3...v1.3.4) (2020-09-02)
+
+
+### Bug Fixes
+
+* update master to main ([684cecf](https://github.com/newrelic/nr1-browser-analyzer/commit/684cecf0a576e84da2ea809bccc6ce1a20bef3dd))
+
 ## [1.3.3](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.3.2...v1.3.3) (2020-08-06)
 
 
