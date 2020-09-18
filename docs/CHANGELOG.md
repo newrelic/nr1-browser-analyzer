@@ -1,3 +1,10 @@
+## [1.3.5](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.3.4...v1.3.5) (2020-09-18)
+
+
+### Bug Fixes
+
+* overflow on icons ([#57](https://github.com/newrelic/nr1-browser-analyzer/issues/57)) ([cbe5542](https://github.com/newrelic/nr1-browser-analyzer/commit/cbe5542163ab789eb1cfe2180dc790a8c0a8865d))
+
 ## [1.3.4](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.3.3...v1.3.4) (2020-09-02)
 
 
