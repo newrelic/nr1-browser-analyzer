@@ -231,11 +231,8 @@ export default class Breakdown extends React.PureComponent {
                 }
 
                 const results = buildResults(data.actor.account);
-                const {
-                  settings,
-                  servingApmApplicationId
-                } = entity;
-                const apdexTarget  = settings ? settings.apdexTarget : 0.5;
+                const { settings, servingApmApplicationId } = entity;
+                const apdexTarget = settings ? settings.apdexTarget : 0.5;
                 const browserSettingsUrl = `https://rpm.newrelic.com/accounts/${entity.accountId}/browser/${servingApmApplicationId}/edit#/settings`;
                 const apmService = get(
                   data,
