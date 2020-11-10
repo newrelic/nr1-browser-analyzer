@@ -1,3 +1,10 @@
+## [1.3.6](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.3.5...v1.3.6) (2020-11-10)
+
+
+### Bug Fixes
+
+* work around for change in graphql settings query ([d7bb24d](https://github.com/newrelic/nr1-browser-analyzer/commit/d7bb24d7748dc19af57b0fe7149da897af41eaf6))
+
 ## [1.3.5](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.3.4...v1.3.5) (2020-09-18)
 
 
