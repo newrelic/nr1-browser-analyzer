@@ -232,9 +232,10 @@ export default class Breakdown extends React.PureComponent {
 
                 const results = buildResults(data.actor.account);
                 const {
-                  settings: { apdexTarget },
+                  settings,
                   servingApmApplicationId
                 } = entity;
+                const apdexTarget  = settings ? settings.apdexTarget : 0.5;
                 const browserSettingsUrl = `https://rpm.newrelic.com/accounts/${entity.accountId}/browser/${servingApmApplicationId}/edit#/settings`;
                 const apmService = get(
                   data,
@@ -243,7 +244,6 @@ export default class Breakdown extends React.PureComponent {
                 if (apmService) {
                   apmService.iconType = getIconType(apmService);
                 }
-
                 return (
                   <Grid className="breakdownContainer">
                     <GridItem columnSpan={12}>

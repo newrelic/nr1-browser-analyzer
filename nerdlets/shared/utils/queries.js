@@ -4,7 +4,7 @@ export const generateCohortsQuery = ({
   timePickerRange,
   nrqlFactory
 }) => {
-  const apdexTarget = entity.settings.apdexTarget || 0.5; // TO DO - Should we set a default value?
+  const apdexTarget = entity.settings ? entity.settings.apdexTarget : 0.5; // TO DO - Should we set a default value?
   const frustratedApdex = Math.round(apdexTarget * 4 * 10) / 10;
   const facetCaseStmt = `FACET CASES( WHERE duration <= ${apdexTarget} AS 'S', WHERE duration > ${apdexTarget} AND duration < ${frustratedApdex} AS 'T', WHERE duration >= ${frustratedApdex} AS 'F')`;
   const options = {
