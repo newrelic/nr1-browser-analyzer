@@ -21,6 +21,9 @@ jobs:
         if: ${{ steps.default-branch.outputs.result == 'true' }}
         uses: newrelic/repolinter-action@v1
         with:
+          output_name: 'NR1 library deprecation issues'
+          label_name: 'nr1-deprecations'
+          label_color: '800000'
           # FIXME: Replace with the appropriate ruleset URL
           config_url: https://raw.githubusercontent.com/newrelic/.github/main/repolinter-rulesets/nr1-lib-deprecations.yml
           output_type: issue
