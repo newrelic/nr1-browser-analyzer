@@ -15,8 +15,7 @@ import {
   TableHeader,
   TableRow,
   TableHeaderCell,
-  TableRowCell,
-  Icon
+  TableRowCell
 } from 'nr1';
 import { get } from 'lodash';
 import CohortTolerated from './cohort-tolerated';
@@ -161,7 +160,6 @@ export default class Breakdown extends React.PureComponent {
           <TableRow
             actions={[
               {
-                iconType: Icon.TYPE.INTERFACE__INFO__INFO,
                 label: 'View details for this page',
                 onClick: () => this._openDetails(item.pageUrl)
               }
