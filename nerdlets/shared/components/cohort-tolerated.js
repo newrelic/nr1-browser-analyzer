@@ -13,7 +13,6 @@ const CohortTolerated = function({
     <>
       <Icon
         className="icon"
-        sizeType={Icon.SIZE_TYPE.NORMAL}
         type={Icon.TYPE.INTERFACE__STATE__WARNING}
         color="#F5A020"
       />
