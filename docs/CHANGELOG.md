@@ -1,3 +1,10 @@
+## [1.3.7](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.3.6...v1.3.7) (2021-02-02)
+
+
+### Bug Fixes
+
+* Trigger new patch release ([18d4d91](https://github.com/newrelic/nr1-browser-analyzer/commit/18d4d919a090fee4a6c28df62620bccb1755ef6c))
+
 ## [1.3.6](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.3.5...v1.3.6) (2020-11-10)
 
 
