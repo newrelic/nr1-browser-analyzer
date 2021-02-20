@@ -15,7 +15,7 @@
   "dependencies": {
     "@newrelic/nr1-community": "^1.2.0",
     "graphql": "^14.7.0",
-    "graphql-tag": "^2.10.4",
+    "graphql-tag": "^2.12.0",
     "lodash": "^4.17.19",
     "numeral": "^2.0.6",
     "pretty-ms": "^6.0.1",
