@@ -246,7 +246,7 @@ This product includes source derived from [@newrelic/nr1-community](https://gith
 
 ### graphql-tag
 
-This product includes source derived from [graphql-tag](https://github.com/apollographql/graphql-tag) ([v2.10.4](https://github.com/apollographql/graphql-tag/tree/v2.10.4)), distributed under the [MIT License](https://github.com/apollographql/graphql-tag/blob/v2.10.4/LICENSE):
+This product includes source derived from [graphql-tag](https://github.com/apollographql/graphql-tag) ([v2.12.0](https://github.com/apollographql/graphql-tag/tree/v2.12.0)), distributed under the [MIT License](https://github.com/apollographql/graphql-tag/blob/v2.12.0/LICENSE):
 
 ```
 The MIT License (MIT)
