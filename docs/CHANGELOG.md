@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.3.7...v1.4.0) (2021-10-01)
+
+
+### Features
+
+* update semantic release with node ([f9493e2](https://github.com/newrelic/nr1-browser-analyzer/commit/f9493e2d17277be610b62744a308b802d1d85fa4))
+
 ## [1.3.7](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.3.6...v1.3.7) (2021-02-02)
 
 
