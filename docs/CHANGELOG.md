@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.4.0...v1.5.0) (2021-10-18)
+
+
+### Features
+
+* add whats inside screenshots for nerdlets ([929d609](https://github.com/newrelic/nr1-browser-analyzer/commit/929d6093e0463361b24fd4a47021eab863720537))
+
 # [1.4.0](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.3.7...v1.4.0) (2021-10-01)
 
 
