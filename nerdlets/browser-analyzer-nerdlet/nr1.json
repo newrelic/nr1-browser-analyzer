@@ -2,7 +2,13 @@
     "schemaType": "NERDLET",
     "id": "root",
     "description": "Analyze your web property. Connect performance improvements to business outcomes.",
-    "entities": [{ "domain": "BROWSER", "type": "APPLICATION"}],
-    "displayName": "Site Analyzer",
-    "actionCategory": "monitor"
+    "context": {
+        "entities": [
+            {
+                "domain": "BROWSER",
+                "type": "APPLICATION"
+            }
+        ]
+    },
+    "displayName": "Site Analyzer"
 }
