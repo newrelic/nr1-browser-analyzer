@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.5.0...v1.5.1) (2021-10-19)
+
+
+### Bug Fixes
+
+* deprecated platform parameters ([14cf6aa](https://github.com/newrelic/nr1-browser-analyzer/commit/14cf6aa7137af62b45ff22458c97085b405ddbd5))
+
 # [1.5.0](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.4.0...v1.5.0) (2021-10-18)
 
 
