@@ -1,3 +1,15 @@
+# [1.6.0](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.5.1...v1.6.0) (2021-11-05)
+
+
+### Bug Fixes
+
+* revert uuid change ([899cdf5](https://github.com/newrelic/nr1-browser-analyzer/commit/899cdf54b58d92fd2a7cca6d63945d22e7049d1d))
+
+
+### Features
+
+* add catalog keywords and categoryTerms ([c02177c](https://github.com/newrelic/nr1-browser-analyzer/commit/c02177cee6383569c7c0da061dc1ececacd85aed))
+
 ## [1.5.1](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.5.0...v1.5.1) (2021-10-19)
 
 
