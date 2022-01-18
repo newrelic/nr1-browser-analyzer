@@ -28,16 +28,21 @@ import { getIconType } from '../utils';
 import { generateCohortsQuery } from '../utils/queries';
 import { buildResults } from './stat-utils';
 import NrqlFactory from '../nrql-factory';
+import ToggleButton from "react-toggle-button";
 
 export default class Breakdown extends React.PureComponent {
   static propTypes = {
     entity: PropTypes.object.isRequired,
     nrqlFactory: PropTypes.instanceOf(NrqlFactory).isRequired,
-    nerdletUrlState: PropTypes.object.isRequired
-  };
+    nerdletUrlState: PropTypes.object.isRequired,
+  }
 
   constructor(props) {
     super(props);
+    
+    const [state, setState] = React.useState({
+      ParentOn: false}); 
+
 
     this.state = {
       sortingType: TableHeaderCell.SORTING_TYPE.ASCENDING,
@@ -69,6 +74,8 @@ export default class Breakdown extends React.PureComponent {
       };
     });
   }
+
+  
 
   renderTopPeformanceTableItems(data) {
     return data.map((item, index) => {
@@ -273,6 +280,14 @@ export default class Breakdown extends React.PureComponent {
                       a sample of the total data in New Relic for this Browser
                       application.
                     </BlockText>
+                    <GridItem>
+                      To view only Mobile Browser Sessions, Toggle here
+                      <ToggleButton value={state.ParentOn}
+                          onToggle={value => {
+                          setState({ ...state, ParentOn: !value });
+                          }}
+                      />
+                    </GridItem>
                     <GridItem columnSpan={4} className="cohort improvement">
                       <CohortImprovement results={results} />
                     </GridItem>
