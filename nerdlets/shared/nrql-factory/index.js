@@ -1,5 +1,6 @@
 import { timeRangeToNrql } from '@newrelic/nr1-community';
 import { get } from 'lodash';
+import { checkPropTypes } from 'prop-types';
 
 /**
  * Generate the NRQL for a given type of Browser application, traditional or single page app
@@ -10,7 +11,12 @@ export default class NrqlFactory {
     const hasSpa = get(data, 'actor.entity.spa.results[0].count');
     if (hasSpa > 0) {
       return new SPAFactory();
-    } else {
+    } 
+    else if (checkPropTypes.ParentOn) {
+      return new MobileFactory();
+    }
+    
+    else {
       return new PageViewFactory();
     }
   }
@@ -345,6 +351,171 @@ class SPAFactory extends NrqlFactory {
             results
           }
 
+        }
+        entity(guid: "${entity.guid}") {
+          ... on BrowserApplicationEntity {
+            settings {
+              apdexTarget
+            }
+            applicationId
+            servingApmApplicationId
+          }
+          relationships {
+            source {
+              entity {
+                domain
+                guid
+                type
+                ... on ApmApplicationEntityOutline {
+                  alertSeverity
+                }
+              }
+            }
+          }
+        }
+      }
+    }`;
+    return graphql;
+  }
+}
+
+// Adds mobile only data to queries
+class MobileFactory extends NrqlFactory {
+  constructor() {
+    super();
+  }
+
+  getType() {
+    return 'MobileOnly';
+  }
+  //add deviceType = 'Mobile'
+  getPerformanceTargets(options) {
+    const { timeNrqlFragment, platformUrlState, entity, apdexTarget } = options;
+    const timeFragment = timeNrqlFragment || timeRangeToNrql(platformUrlState);
+    return `FROM BrowserInteraction SELECT count(*) as 'Page Count', average(duration) as 'Avg. Duration', apdex(duration, ${apdexTarget}) as 'Apdex' WHERE entityGuid='${entity.guid}' AND deviceType = 'Mobile' FACET targetUrl LIMIT 100 ${timeFragment}`;
+  }
+  //add deviceType = 'Mobile'
+  getQuery1(options) {
+    const {
+      timeNrqlFragment,
+      platformUrlState,
+      entity,
+      targetUrl,
+      timeseries
+    } = options;
+    const timeFragment = timeNrqlFragment || timeRangeToNrql(platformUrlState);
+    return `FROM BrowserInteraction SELECT count(*) as 'Page Views' ${timeFragment}  WHERE deviceType = 'Mobile' AND entityGuid = '${
+      entity.guid
+    }' ${targetUrl ? `WHERE targetUrl = '${targetUrl}'` : ''} ${
+      timeseries ? 'TIMESERIES' : ''
+    }`;
+  }
+  //deviceType = 'Mobile'
+  getQuery2(options) {
+    const {
+      timeNrqlFragment,
+      platformUrlState,
+      entity,
+      targetUrl,
+      timeseries
+    } = options;
+    const timeFragment = timeNrqlFragment || timeRangeToNrql(platformUrlState);
+    return `FROM BrowserInteraction SELECT percentile(duration, 50) as 'Avg. Duration' ${timeFragment}  WHERE deviceType = 'Mobile' AND entityGuid = '${
+      entity.guid
+    }' ${targetUrl ? `WHERE targetUrl = '${targetUrl}'` : ''} ${
+      timeseries ? 'TIMESERIES' : ''
+    }`;
+  }
+
+
+  // where deviceType = 'Mobile'
+  getQuery3(options) {
+    const {
+      timeNrqlFragment,
+      platformUrlState,
+      entity,
+      targetUrl,
+      timeseries
+    } = options;
+    const timeFragment = timeNrqlFragment || timeRangeToNrql(platformUrlState);
+    return `FROM PageViewTiming SELECT percentile(firstContentfulPaint, 50) as 'First Contentful Paint' ${timeFragment}  WHERE deviceType = 'Mobile' AND entityGuid = '${
+      entity.guid
+    }' ${targetUrl ? `WHERE targetUrl = '${targetUrl}'` : ''} ${
+      timeseries ? 'TIMESERIES' : ''
+    }`;
+  }
+
+  // where deviceType = 'Mobile'
+  getQuery4(options) {
+    const {
+      timeNrqlFragment,
+      platformUrlState,
+      entity,
+      targetUrl,
+      timeseries
+    } = options;
+    const timeFragment = timeNrqlFragment || timeRangeToNrql(platformUrlState);
+    return `FROM PageViewTiming SELECT percentile(firstInteraction, 50) as 'First Interaction' ${timeFragment}  WHERE deviceType = 'Mobile' AND entityGuid = '${
+      entity.guid
+    }' ${targetUrl ? `WHERE targetUrl = '${targetUrl}'` : ''} ${
+      timeseries ? 'TIMESERIES' : ''
+    }`;
+  }
+  // add deviceType = 'Mobile'
+  getCohortGraphQL(options) {
+    const {
+      targetUrl,
+      entity,
+      facetCaseStmt,
+      platformUrlState,
+      timeNrqlFragment,
+      apdexTarget,
+      frustratedApdex
+    } = options;
+    const timeFragment = timeNrqlFragment || timeRangeToNrql(platformUrlState);
+    const graphql = `{
+      actor {
+        account(id: ${entity.accountId}) {
+          cohorts: nrql(query: "FROM BrowserInteraction SELECT uniqueCount(session) as 'sessions', count(*)/uniqueCount(session) as 'avgPageViews', median(duration) as 'medianDuration', percentile(duration, 75, 95,99), count(*) WHERE deviceType = 'Mobile' AND entityGuid='${
+            entity.guid
+          }' ${
+      targetUrl ? `WHERE targetUrl = '${targetUrl}'` : ''
+    } ${facetCaseStmt} ${timeFragment}  ") {
+            results
+            totalResult
+          }
+          ${
+            targetUrl
+              ? `bounceRate:nrql(query: "FROM BrowserInteraction SELECT funnel(session, ${
+                  targetUrl ? `WHERE targetUrl = '${targetUrl}'` : ''
+                } as 'page', ${
+                  targetUrl ? `WHERE targetUrl != '${targetUrl}'` : ''
+                } as 'nextPage') ${facetCaseStmt}") {
+              results
+          }`
+              : ''
+          }
+          satisfied: nrql(query: "FROM BrowserInteraction SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE entityGuid='${
+            entity.guid
+          }' AND duration <= ${apdexTarget} ${
+      targetUrl ? `WHERE targetUrl = '${targetUrl}'` : ''
+    } FACET session limit MAX ${timeFragment}") {
+            results
+          }
+          tolerated: nrql(query: "FROM BrowserInteraction SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE entityGuid='${
+            entity.guid
+          }' AND duration > ${apdexTarget} AND duration < ${frustratedApdex} ${
+      targetUrl ? `WHERE targetUrl = '${targetUrl}'` : ''
+    } FACET session limit MAX ${timeFragment}") {
+            results
+          }
+          frustrated: nrql(query: "FROM BrowserInteraction SELECT count(*), (max(timestamp)-min(timestamp)) as 'sessionLength' WHERE entityGuid='${
+            entity.guid
+          }' AND duration >= ${frustratedApdex} ${
+      targetUrl ? `WHERE targetUrl = '${targetUrl}'` : ''
+    } FACET session limit MAX ${timeFragment}") {
+            results
+          }
         }
         entity(guid: "${entity.guid}") {
           ... on BrowserApplicationEntity {
