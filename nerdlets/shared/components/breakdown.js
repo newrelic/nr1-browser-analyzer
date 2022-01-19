@@ -28,7 +28,7 @@ import { getIconType } from '../utils';
 import { generateCohortsQuery } from '../utils/queries';
 import { buildResults } from './stat-utils';
 import NrqlFactory from '../nrql-factory';
-import ToggleButton from "react-toggle-button";
+import ToggleButton from "react";
 
 export default class Breakdown extends React.PureComponent {
   static propTypes = {
@@ -191,7 +191,7 @@ export default class Breakdown extends React.PureComponent {
   }
 
   render() {
-    const { entity, nrqlFactory, nerdletUrlState } = this.props;
+    const { entity, nrqlFactory, nerdletUrlState, ParentOn } = this.props;
 
     if (!entity) {
       return <Spinner fillContainer />;
@@ -206,7 +206,8 @@ export default class Breakdown extends React.PureComponent {
             entity,
             pageUrl,
             timePickerRange,
-            nrqlFactory
+            nrqlFactory,
+            ParentOn
           });
 
           return (
@@ -304,7 +305,8 @@ export default class Breakdown extends React.PureComponent {
                             entity,
                             apdexTarget,
                             platformUrlState,
-                            timeNrqlFragment: timePickerRange
+                            timeNrqlFragment: timePickerRange, 
+                            ParentOn
                           })}
                         >
                           {({ data }) => {

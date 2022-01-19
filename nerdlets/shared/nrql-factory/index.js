@@ -13,6 +13,7 @@ export default class NrqlFactory {
       return new SPAFactory();
     } 
     else if (checkPropTypes.ParentOn) {
+      console.log("checkingproptype", checkPropTypes.ParentOn)
       return new MobileFactory();
     }
     
