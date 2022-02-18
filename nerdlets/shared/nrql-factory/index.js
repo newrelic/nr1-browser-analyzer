@@ -192,14 +192,16 @@ class PageViewFactory extends NrqlFactory {
             applicationId
             servingApmApplicationId
           }
-          relationships {
-            source {
-              entity {
-                domain
-                guid
-                type
-                ... on ApmApplicationEntityOutline {
-                  alertSeverity
+          relatedEntities {
+            results {
+              source {
+                entity {
+                  domain
+                  guid
+                  type
+                  ... on ApmApplicationEntityOutline {
+                    alertSeverity
+                  }
                 }
               }
             }
@@ -354,14 +356,16 @@ class SPAFactory extends NrqlFactory {
             applicationId
             servingApmApplicationId
           }
-          relationships {
-            source {
-              entity {
-                domain
-                guid
-                type
-                ... on ApmApplicationEntityOutline {
-                  alertSeverity
+          relatedEntities {
+            results {
+              source {
+                entity {
+                  domain
+                  guid
+                  type
+                  ... on ApmApplicationEntityOutline {
+                    alertSeverity
+                  }
                 }
               }
             }

@@ -83,56 +83,56 @@ export default class SummaryBar extends React.PureComponent {
                 <StackItem>
                   <BillboardChart
                     className="microchart"
-                    accountId={accountId}
+                    accountIds={[accountId]}
                     query={nrqlFactory.getQuery1(options)}
                   />
                 </StackItem>
                 <StackItem>
                   <SparklineChart
                     className="microchart wider"
-                    accountId={accountId}
+                    accountIds={[accountId]}
                     query={nrqlFactory.getQuery1(optionTimeseries)}
                   />
                 </StackItem>
                 <StackItem>
                   <BillboardChart
                     className="microchart"
-                    accountId={accountId}
+                    accountIds={[accountId]}
                     query={nrqlFactory.getQuery2(options)}
                   />
                 </StackItem>
                 <StackItem>
                   <SparklineChart
                     className="microchart wider"
-                    accountId={accountId}
+                    accountIds={[accountId]}
                     query={nrqlFactory.getQuery2(optionTimeseries)}
                   />
                 </StackItem>
                 <StackItem>
                   <BillboardChart
                     className="microchart"
-                    accountId={accountId}
+                    accountIds={[accountId]}
                     query={nrqlFactory.getQuery3(options)}
                   />
                 </StackItem>
                 <StackItem>
                   <SparklineChart
                     className="microchart wider"
-                    accountId={accountId}
+                    accountIds={[accountId]}
                     query={nrqlFactory.getQuery3(optionTimeseries)}
                   />
                 </StackItem>
                 <StackItem>
                   <BillboardChart
                     className="microchart"
-                    accountId={accountId}
+                    accountIds={[accountId]}
                     query={nrqlFactory.getQuery4(options)}
                   />
                 </StackItem>
                 <StackItem className="wider">
                   <SparklineChart
                     className="microchart wider"
-                    accountId={accountId}
+                    accountIds={[accountId]}
                     query={nrqlFactory.getQuery4(optionTimeseries)}
                   />
                 </StackItem>

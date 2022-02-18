@@ -283,7 +283,7 @@ export default class Breakdown extends React.PureComponent {
                           Top Performance Improvement Targets
                         </HeadingText>
                         <NrqlQuery
-                          accountId={entity.accountId}
+                          accountIds={[entity.accountId]}
                           formatType={NrqlQuery.FORMAT_TYPE.RAW}
                           query={nrqlFactory.getPerformanceTargets({
                             entity,
