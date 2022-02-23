@@ -1,3 +1,12 @@
+## [1.6.1](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.6.0...v1.6.1) (2022-02-23)
+
+
+### Bug Fixes
+
+* app deprecation update ([c75204a](https://github.com/newrelic/nr1-browser-analyzer/commit/c75204aa7d56900032284362164072f23c4ae3b8))
+* update package-lock with Node 16 stuffs ([8e5bf69](https://github.com/newrelic/nr1-browser-analyzer/commit/8e5bf69765b4e3d5ce48e247d2779dc2de180483))
+* update relatedEntities when reading from results ([e6f0933](https://github.com/newrelic/nr1-browser-analyzer/commit/e6f09333f1ffa17baf8180a0ba55c3c7eea62961))
+
 # [1.6.0](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.5.1...v1.6.0) (2021-11-05)
 
 
