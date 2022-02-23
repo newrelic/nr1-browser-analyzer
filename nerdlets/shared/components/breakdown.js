@@ -234,7 +234,7 @@ export default class Breakdown extends React.PureComponent {
                 const browserSettingsUrl = `https://rpm.newrelic.com/accounts/${entity.accountId}/browser/${servingApmApplicationId}/edit#/settings`;
                 const apmService = get(
                   data,
-                  'actor.entity.relationships[0].source.entity'
+                  'actor.entity.relatedEntities.results[0].source.entity'
                 );
                 if (apmService) {
                   apmService.iconType = getIconType(apmService);
@@ -283,7 +283,7 @@ export default class Breakdown extends React.PureComponent {
                           Top Performance Improvement Targets
                         </HeadingText>
                         <NrqlQuery
-                          accountId={entity.accountId}
+                          accountIds={[entity.accountId]}
                           formatType={NrqlQuery.FORMAT_TYPE.RAW}
                           query={nrqlFactory.getPerformanceTargets({
                             entity,
