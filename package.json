@@ -19,7 +19,7 @@
     "lodash": "^4.17.19",
     "numeral": "^2.0.6",
     "pretty-ms": "^6.0.1",
-    "prop-types": "^15.6.2",
+    "prop-types": "^15.8.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3"
   },
