@@ -1,3 +1,10 @@
+## [1.6.2](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.6.1...v1.6.2) (2023-01-23)
+
+
+### Bug Fixes
+
+* update package-lock.json ([9fb667a](https://github.com/newrelic/nr1-browser-analyzer/commit/9fb667a466bf7a424892681d66d1e48985a84602))
+
 ## [1.6.1](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.6.0...v1.6.1) (2022-02-23)
 
 
