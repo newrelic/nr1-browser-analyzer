@@ -14,12 +14,9 @@
   },
   "dependencies": {
     "@newrelic/nr1-community": "^1.2.0",
-    "graphql": "^14.7.0",
-    "graphql-tag": "^2.11.0",
     "lodash": "^4.17.21",
     "numeral": "^2.0.6",
-    "pretty-ms": "^6.0.1",
-    "prop-types": "^15.6.2"
+    "pretty-ms": "^6.0.1"
   },
   "devDependencies": {
     "@newrelic/eslint-plugin-newrelic": "^0.3.1",
@@ -27,6 +24,7 @@
     "@semantic-release/git": "^9.0.0",
     "eslint": "^6.8.0",
     "prettier": "^1.19.1",
+    "prop-types": "^15.6.2",
     "react": "16.6.3",
     "react-dom": "16.6.3"
   },
