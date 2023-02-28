@@ -95,13 +95,13 @@ export default class Wrapper extends React.PureComponent {
             isModalOpen={helpModalOpen}
             setModalOpen={this.setHelpModalOpen}
             urls={{
-              docs: 'https://github.com/newrelic/nr1-status-pages#readme',
+              docs: 'https://github.com/newrelic/nr1-browser-analyzer#readme',
               createIssue:
-                'https://github.com/newrelic/nr1-status-pages/issues/new?assignees=&labels=bug%2C+needs-triage&template=bug_report.md&title=',
+                'https://github.com/newrelic/nr1-browser-analyzer/issues/new?assignees=&labels=bug%2C+needs-triage&template=bug_report.md&title=',
               createFeature:
-                'https://github.com/newrelic/nr1-status-pages/issues/new?assignees=&labels=enhancement%2C+needs-triage&template=enhancement.md&title=',
+                'https://github.com/newrelic/nr1-browser-analyzer/issues/new?assignees=&labels=enhancement%2C+needs-triage&template=enhancement.md&title=',
               createQuestion:
-                'https://github.com/newrelic/nr1-status-pages/discussions/new/choose'
+                'https://github.com/newrelic/nr1-browser-analyzer/discussions/new/choose'
             }}
             ownerBadge={{
               logo: {
