@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@newrelic/nr1-community": "^1.2.0",
+    "nr-labs-components": "github:newrelic/nr-labs-components",
     "lodash": "^4.17.21",
     "numeral": "^2.0.6",
     "pretty-ms": "^6.0.1"
