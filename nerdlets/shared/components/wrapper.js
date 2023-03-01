@@ -11,7 +11,7 @@ import {
 
 import { NerdGraphError, EmptyState } from '@newrelic/nr1-community';
 
-import { HelpModal } from 'nr-labs-components';
+import { HelpModal, Messages } from 'nr-labs-components';
 
 import NrqlFactory from '../nrql-factory';
 import Breakdown from './breakdown';
@@ -45,6 +45,7 @@ export default class Wrapper extends React.PureComponent {
 
     return (
       <>
+        <Messages repo="nr1-browser-analyzer" branch="main" />
         <NerdletStateContext.Consumer>
           {nerdletUrlState => {
             return (
