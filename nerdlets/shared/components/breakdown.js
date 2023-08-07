@@ -196,7 +196,6 @@ export default class Breakdown extends React.PureComponent {
         {(platformUrlState) => {
           const { pageUrl } = nerdletUrlState;
           const timePickerRange = timeRangeToNrql(platformUrlState);
-          console.log('### timePickerRange: ', timePickerRange);
           const query = generateCohortsQuery({
             entity,
             pageUrl,

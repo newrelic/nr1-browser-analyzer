@@ -6,7 +6,6 @@ import { get } from 'lodash';
  */
 export default class NrqlFactory {
   static getFactory(data) {
-    // console.debug(data);
     const hasSpa = get(data, 'actor.entity.spa.results[0].count');
     if (hasSpa > 0) {
       return new SPAFactory();

@@ -63,7 +63,6 @@ export default class Wrapper extends React.PureComponent {
                   if (error) {
                     return <NerdGraphError error={error} />;
                   }
-                  // console.debug(data);
                   const entity = get(data, 'actor.entity');
                   if (entity) {
                     const nrqlFactory = NrqlFactory.getFactory(data);
