@@ -2,6 +2,7 @@ import React from 'react';
 import { get } from 'lodash';
 import { BASE_NERDGRAPH_QUERY } from '../utils/queries';
 import {
+  EmptyState,
   Icon,
   nerdlet,
   NerdletStateContext,
@@ -9,7 +10,7 @@ import {
   Spinner,
 } from 'nr1';
 
-import { NerdGraphError, EmptyState } from '@newrelic/nr1-community';
+import { NerdGraphError } from './NerdGraphError';
 
 import { HelpModal, Messages } from '@newrelic/nr-labs-components';
 
@@ -77,11 +78,11 @@ export default class Wrapper extends React.PureComponent {
                     return (
                       <div className="empty-state-container">
                         <EmptyState
-                          heading="Site Analyzer is not available"
+                          fullHeight
+                          title="Site Analyzer is not available"
                           description="You have access to this entity, but Site Analyzer is not
                             enabled for Browser entities in this account. Please see
                             your Nerdpack Manager with concerns."
-                          buttonText=""
                         />
                       </div>
                     );
