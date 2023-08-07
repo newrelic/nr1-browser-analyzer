@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Icon, Button } from 'nr1';
+import { Icon } from 'nr1';
 
 import styles from './styles.scss';
 
-const _defaultDetails = function({ error }) {
+const _defaultDetails = function ({ error }) {
   // eslint-disable-next-line no-unused-vars
   const { graphQLErrors, message, stack } = error;
   return (
@@ -30,32 +30,32 @@ const _defaultDetails = function({ error }) {
   );
 };
 _defaultDetails.propTypes = {
-  error: PropTypes.object
+  error: PropTypes.object,
 };
 
 export class NerdGraphError extends React.Component {
   static propTypes = {
     error: PropTypes.object,
     showDetails: PropTypes.bool,
-    errorDetails: PropTypes.func
+    errorDetails: PropTypes.func,
   };
 
   static defaultProps = {
     showDetails: true,
-    errorDetails: _defaultDetails
+    errorDetails: _defaultDetails,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      expanded: false
+      expanded: false,
     };
     this.onClick = this.onClick.bind(this);
   }
 
   onClick() {
-    this.setState(prevState => ({
-      expanded: !prevState.expanded
+    this.setState((prevState) => ({
+      expanded: !prevState.expanded,
     }));
   }
 
