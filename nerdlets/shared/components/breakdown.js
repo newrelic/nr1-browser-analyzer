@@ -23,7 +23,8 @@ import CohortSatisifed from './cohort-satisfied';
 import CohortFrustrated from './cohort-frustrated';
 import CohortImprovement from './cohort-improvement';
 import SummaryBar from './summary-bar';
-import { timeRangeToNrql, NerdGraphError } from '@newrelic/nr1-community';
+import { timeRangeToNrql } from '../utils/timeRangeToNrql';
+import { NerdGraphError } from './NerdGraphError';
 import { getIconType } from '../utils';
 import { generateCohortsQuery } from '../utils/queries';
 import { buildResults } from './stat-utils';
@@ -195,6 +196,7 @@ export default class Breakdown extends React.PureComponent {
         {(platformUrlState) => {
           const { pageUrl } = nerdletUrlState;
           const timePickerRange = timeRangeToNrql(platformUrlState);
+          console.log('### timePickerRange: ', timePickerRange);
           const query = generateCohortsQuery({
             entity,
             pageUrl,
