@@ -1,7 +1,7 @@
 import numeral from 'numeral';
 import prettyMilliseconds from 'pretty-ms';
 
-const durationFormat = value => {
+const durationFormat = (value) => {
   const formatted = prettyMilliseconds(value);
 
   return formatted;
@@ -9,7 +9,7 @@ const durationFormat = value => {
 
 function calcTotalSessionLength(a) {
   let accumulator = 0;
-  a.forEach(result => {
+  a.forEach((result) => {
     accumulator += parseFloat(result.sessionLength);
   });
   return accumulator;
@@ -17,7 +17,7 @@ function calcTotalSessionLength(a) {
 
 function calcBounces(a) {
   let accumulator = 0;
-  a.forEach(result => {
+  a.forEach((result) => {
     const count = parseInt(result.count);
     if (count === 1) {
       accumulator++;
@@ -38,7 +38,7 @@ const baseCohort = {
   totalSamples: 0,
   bounces: 0,
   bounceRate: 0,
-  avgSessionLength: 0
+  avgSessionLength: 0,
 };
 
 function buildSatisfied(cohorts, satisfied, bounceRate) {
@@ -46,10 +46,10 @@ function buildSatisfied(cohorts, satisfied, bounceRate) {
   obj.raw = {};
   const SbounceRate = !bounceRate
     ? null
-    : bounceRate.results.find(r => r.facet === 'S');
+    : bounceRate.results.find((r) => r.facet === 'S');
   const S =
     cohorts && cohorts.results
-      ? cohorts.results.find(c => c.facet === 'S')
+      ? cohorts.results.find((c) => c.facet === 'S')
       : null;
   fillObject(obj, satisfied, S, SbounceRate);
   return obj;
@@ -60,10 +60,10 @@ function buildTolerated(cohorts, tolerated, bounceRate) {
   obj.raw = {};
   const TbounceRate = !bounceRate
     ? null
-    : bounceRate.results.find(r => r.facet === 'T');
+    : bounceRate.results.find((r) => r.facet === 'T');
   const T =
     cohorts && cohorts.results
-      ? cohorts.results.find(c => c.facet === 'T')
+      ? cohorts.results.find((c) => c.facet === 'T')
       : null;
   fillObject(obj, tolerated, T, TbounceRate);
   return obj;
@@ -74,10 +74,10 @@ function buildFrustrated(cohorts, frustrated, bounceRate) {
   obj.raw = {};
   const FbounceRate = !bounceRate
     ? null
-    : bounceRate.results.find(r => r.facet === 'F');
+    : bounceRate.results.find((r) => r.facet === 'F');
   const F =
     cohorts && cohorts.results
-      ? cohorts.results.find(c => c.facet === 'F')
+      ? cohorts.results.find((c) => c.facet === 'F')
       : null;
   fillObject(obj, frustrated, F, FbounceRate);
   return obj;
@@ -132,7 +132,7 @@ function buildRecommendations(obj) {
       : obj.tolerated.bounces / obj.tolerated.totalSamples,
     obj.frustrated.totalSamples === 0
       ? 0
-      : obj.frustrated.bounces / obj.frustrated.totalSamples
+      : obj.frustrated.bounces / obj.frustrated.totalSamples,
   ];
   recommendations.retentionRate = [
     recommendations.rawBounceRate[0] === 0
@@ -143,7 +143,7 @@ function buildRecommendations(obj) {
       : 1.0 - recommendations.rawBounceRate[1],
     recommendations.rawBounceRate[2] === 0
       ? null
-      : 1.0 - recommendations.rawBounceRate[2]
+      : 1.0 - recommendations.rawBounceRate[2],
   ];
   recommendations.rawSessionLength = [
     obj.satisfied.totalSamples === 0
@@ -154,7 +154,7 @@ function buildRecommendations(obj) {
       : obj.tolerated.totalSessionLength / obj.tolerated.totalSamples,
     obj.frustrated.totalSamples === 0
       ? 0
-      : obj.frustrated.totalSessionLength / obj.frustrated.totalSamples
+      : obj.frustrated.totalSessionLength / obj.frustrated.totalSamples,
   ];
   recommendations.rawEngagedSessions = [0, 0];
   if (obj.tolerated.raw.cohort && obj.tolerated.raw.cohort.sessions) {
@@ -267,12 +267,12 @@ export const buildResults = ({
   satisfied,
   tolerated,
   frustrated,
-  bounceRate
+  bounceRate,
 }) => {
   const obj = {
     satisfied: buildSatisfied(cohorts, satisfied, bounceRate),
     tolerated: buildTolerated(cohorts, tolerated, bounceRate),
-    frustrated: buildFrustrated(cohorts, frustrated, bounceRate)
+    frustrated: buildFrustrated(cohorts, frustrated, bounceRate),
   };
   obj.recommendations = buildRecommendations(obj);
   return obj;

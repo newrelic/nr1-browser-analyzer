@@ -15,7 +15,7 @@ import {
   TableHeader,
   TableRow,
   TableHeaderCell,
-  TableRowCell
+  TableRowCell,
 } from 'nr1';
 import { get } from 'lodash';
 import CohortTolerated from './cohort-tolerated';
@@ -33,7 +33,7 @@ export default class Breakdown extends React.PureComponent {
   static propTypes = {
     entity: PropTypes.object.isRequired,
     nrqlFactory: PropTypes.instanceOf(NrqlFactory).isRequired,
-    nerdletUrlState: PropTypes.object.isRequired
+    nerdletUrlState: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -41,7 +41,7 @@ export default class Breakdown extends React.PureComponent {
 
     this.state = {
       sortingType: TableHeaderCell.SORTING_TYPE.ASCENDING,
-      sortedColumn: 0
+      sortedColumn: 0,
     };
 
     this.toggleSortingType = this.toggleSortingType.bind(this);
@@ -53,19 +53,19 @@ export default class Breakdown extends React.PureComponent {
       id: 'details',
       urlState: {
         pageUrl,
-        entityGuid: entity.guid
-      }
+        entityGuid: entity.guid,
+      },
     });
   }
 
   toggleSortingType(sortedColumn) {
-    this.setState(prevState => {
+    this.setState((prevState) => {
       return {
         sortedColumn: sortedColumn,
         sortingType:
           prevState.sortingType === TableHeaderCell.SORTING_TYPE.DESCENDING
             ? TableHeaderCell.SORTING_TYPE.ASCENDING
-            : TableHeaderCell.SORTING_TYPE.DESCENDING
+            : TableHeaderCell.SORTING_TYPE.DESCENDING,
       };
     });
   }
@@ -82,7 +82,7 @@ export default class Breakdown extends React.PureComponent {
         pageCount,
         averageDuration,
         apdex,
-        columnIndex: index
+        columnIndex: index,
       };
 
       return output;
@@ -161,8 +161,8 @@ export default class Breakdown extends React.PureComponent {
             actions={[
               {
                 label: 'View details for this page',
-                onClick: () => this._openDetails(item.pageUrl)
-              }
+                onClick: () => this._openDetails(item.pageUrl),
+              },
             ]}
           >
             <TableRowCell onClick={() => this._openDetails(item.pageUrl)}>
@@ -192,14 +192,14 @@ export default class Breakdown extends React.PureComponent {
 
     return (
       <PlatformStateContext.Consumer>
-        {platformUrlState => {
+        {(platformUrlState) => {
           const { pageUrl } = nerdletUrlState;
           const timePickerRange = timeRangeToNrql(platformUrlState);
           const query = generateCohortsQuery({
             entity,
             pageUrl,
             timePickerRange,
-            nrqlFactory
+            nrqlFactory,
           });
 
           return (
@@ -213,7 +213,7 @@ export default class Breakdown extends React.PureComponent {
                   Toast.showToast({
                     title: 'An error occurred.',
                     type: Toast.TYPE.CRITICAL,
-                    sticky: true
+                    sticky: true,
                   });
 
                   return (
@@ -289,7 +289,7 @@ export default class Breakdown extends React.PureComponent {
                             entity,
                             apdexTarget,
                             platformUrlState,
-                            timeNrqlFragment: timePickerRange
+                            timeNrqlFragment: timePickerRange,
                           })}
                         >
                           {({ data }) => {

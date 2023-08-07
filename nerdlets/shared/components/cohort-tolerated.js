@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import { Icon } from 'nr1';
 
-const CohortTolerated = function({
+const CohortTolerated = function ({
   results,
   browserSettingsUrl,
   pageUrl,
-  apdexTarget
+  apdexTarget,
 }) {
   return (
     <>
@@ -73,7 +73,7 @@ CohortTolerated.propTypes = {
   results: PropTypes.object,
   pageUrl: PropTypes.string,
   browserSettingsUrl: PropTypes.string,
-  apdexTarget: PropTypes.number
+  apdexTarget: PropTypes.number,
 };
 
 export default CohortTolerated;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Icon } from 'nr1';
 
-const CohortImprovement = function({ results }) {
+const CohortImprovement = function ({ results }) {
   return (
     <>
       <Icon
@@ -40,7 +40,7 @@ const CohortImprovement = function({ results }) {
 };
 
 CohortImprovement.propTypes = {
-  results: PropTypes.object
+  results: PropTypes.object,
 };
 
 export default CohortImprovement;

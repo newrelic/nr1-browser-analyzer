@@ -25,7 +25,7 @@ export const splitPageUrl = ({ pageUrl }) => {
   return { protocol, domain, path };
 };
 
-export const getIconType = function(apm) {
+export const getIconType = function (apm) {
   if (apm.alertSeverity === 'NOT_ALERTING') {
     return Button.ICON_TYPE.HARDWARE_AND_SOFTWARE__SOFTWARE__SERVICE__S_OK;
   } else if (apm.alertSeverity === 'WARNING') {

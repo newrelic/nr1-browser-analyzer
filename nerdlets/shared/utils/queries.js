@@ -2,7 +2,7 @@ export const generateCohortsQuery = ({
   entity,
   pageUrl,
   timePickerRange,
-  nrqlFactory
+  nrqlFactory,
 }) => {
   const apdexTarget = entity.settings ? entity.settings.apdexTarget : 0.5; // TO DO - Should we set a default value?
   const frustratedApdex = Math.round(apdexTarget * 4 * 10) / 10;
@@ -14,7 +14,7 @@ export const generateCohortsQuery = ({
     apdexTarget,
     frustratedApdex,
     timeNrqlFragment: timePickerRange,
-    facetCaseStmt
+    facetCaseStmt,
   };
   return nrqlFactory.getCohortGraphQL(options);
 };
