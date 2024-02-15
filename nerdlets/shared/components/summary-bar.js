@@ -12,8 +12,8 @@ import {
   ChartGroup,
   PlatformStateContext,
 } from 'nr1';
+import { timeRangeToNrql } from '@newrelic/nr-labs-components';
 import { splitPageUrl } from '../utils';
-import { timeRangeToNrql } from '../utils/timeRangeToNrql';
 import NrqlFactory from '../nrql-factory';
 
 export default class SummaryBar extends React.PureComponent {

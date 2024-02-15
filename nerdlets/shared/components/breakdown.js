@@ -17,13 +17,13 @@ import {
   TableHeaderCell,
   TableRowCell,
 } from 'nr1';
+import { timeRangeToNrql } from '@newrelic/nr-labs-components';
 import { get } from 'lodash';
 import CohortTolerated from './cohort-tolerated';
 import CohortSatisifed from './cohort-satisfied';
 import CohortFrustrated from './cohort-frustrated';
 import CohortImprovement from './cohort-improvement';
 import SummaryBar from './summary-bar';
-import { timeRangeToNrql } from '../utils/timeRangeToNrql';
 import { NerdGraphError } from './NerdGraphError';
 import { getIconType } from '../utils';
 import { generateCohortsQuery } from '../utils/queries';

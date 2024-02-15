@@ -1,4 +1,4 @@
-import { timeRangeToNrql } from '../utils/timeRangeToNrql';
+import { timeRangeToNrql } from '@newrelic/nr-labs-components';
 import { get } from 'lodash';
 
 /**
