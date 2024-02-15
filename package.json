@@ -13,7 +13,7 @@
     "eslint-fix": "eslint nerdlets/ --fix"
   },
   "dependencies": {
-    "@newrelic/nr-labs-components": "^1.15.1",
+    "@newrelic/nr-labs-components": "^1.21.2",
     "lodash": "^4.17.21",
     "numeral": "^2.0.6",
     "pretty-ms": "^6.0.1",
