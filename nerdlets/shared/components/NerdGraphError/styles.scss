@@ -1,0 +1,75 @@
+.ng-error-container {
+  background-color: #fcf2f3;
+  border-radius: 4px;
+  transition: all .1s cubic-bezier(.25, .46, .45, .94);
+  border: 1px solid #fae1e4;
+
+  &:hover {
+    background-color: rgba(#bf0015, .08);
+
+    .ng-error-details {
+      border-color: rgba(#bf0015, .08);
+    }
+  }
+}
+
+
+.ng-error-body-header {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.ng-error-title {
+  display: inline-block;
+  flex-grow: 1;
+  margin-left: 8px;
+  font-size: 14px;
+  color: #bf0015;
+}
+
+.ng-error-details-button {
+  padding: 0 2px;
+  color: #bf0015;
+  border-bottom: 1px dotted rgba(#bf0015, .35);
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.ng-error-details {
+  display: none;
+  background-color: #fff;
+  border: 2px solid #fcf2f3;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  padding: 10px 12px;
+  transition: all .1s cubic-bezier(.25, .46, .45, .94);
+
+  .ng-error-container & ul {
+    padding: 0 0 0 16px;
+    font-size: 12px;
+    line-height: 19px;
+    color: #54000a;
+    font-family: 'Fira code', monospace;
+
+    .key {
+      margin-right: 4px;
+    }
+  }
+
+  .ng-error-container & p {
+    font-size: 12px;
+    line-height: 19px;
+    color: #54000a;
+  }
+
+  .ng-error-item-expanded & {
+    display: block;
+  }
+}

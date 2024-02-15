@@ -1,4 +1,4 @@
-import { timeRangeToNrql } from '@newrelic/nr1-community';
+import { timeRangeToNrql } from '@newrelic/nr-labs-components';
 import { get } from 'lodash';
 
 /**
@@ -6,7 +6,6 @@ import { get } from 'lodash';
  */
 export default class NrqlFactory {
   static getFactory(data) {
-    // console.debug(data);
     const hasSpa = get(data, 'actor.entity.spa.results[0].count');
     if (hasSpa > 0) {
       return new SPAFactory();
@@ -65,13 +64,8 @@ class PageViewFactory extends NrqlFactory {
   }
 
   getQuery1(options) {
-    const {
-      timeNrqlFragment,
-      platformUrlState,
-      entity,
-      pageUrl,
-      timeseries
-    } = options;
+    const { timeNrqlFragment, platformUrlState, entity, pageUrl, timeseries } =
+      options;
     const timeFragment = timeNrqlFragment || timeRangeToNrql(platformUrlState);
     return `FROM PageView SELECT count(*) as 'Page Views' ${timeFragment}  WHERE entityGuid = '${
       entity.guid
@@ -81,13 +75,8 @@ class PageViewFactory extends NrqlFactory {
   }
 
   getQuery2(options) {
-    const {
-      timeNrqlFragment,
-      platformUrlState,
-      entity,
-      pageUrl,
-      timeseries
-    } = options;
+    const { timeNrqlFragment, platformUrlState, entity, pageUrl, timeseries } =
+      options;
     const timeFragment = timeNrqlFragment || timeRangeToNrql(platformUrlState);
     return `FROM PageView SELECT average(duration) as 'Avg. Performance' ${timeFragment}  WHERE entityGuid = '${
       entity.guid
@@ -97,13 +86,8 @@ class PageViewFactory extends NrqlFactory {
   }
 
   getQuery3(options) {
-    const {
-      timeNrqlFragment,
-      platformUrlState,
-      entity,
-      pageUrl,
-      timeseries
-    } = options;
+    const { timeNrqlFragment, platformUrlState, entity, pageUrl, timeseries } =
+      options;
     const timeFragment = timeNrqlFragment || timeRangeToNrql(platformUrlState);
     return `FROM PageView SELECT average(networkDuration) as 'Avg. Network' ${timeFragment}  WHERE entityGuid = '${
       entity.guid
@@ -113,13 +97,8 @@ class PageViewFactory extends NrqlFactory {
   }
 
   getQuery4(options) {
-    const {
-      timeNrqlFragment,
-      platformUrlState,
-      entity,
-      pageUrl,
-      timeseries
-    } = options;
+    const { timeNrqlFragment, platformUrlState, entity, pageUrl, timeseries } =
+      options;
     const timeFragment = timeNrqlFragment || timeRangeToNrql(platformUrlState);
     return `FROM PageView SELECT average(backendDuration) as 'Avg. Backend' ${timeFragment}  WHERE entityGuid = '${
       entity.guid
@@ -136,7 +115,7 @@ class PageViewFactory extends NrqlFactory {
       platformUrlState,
       timeNrqlFragment,
       apdexTarget,
-      frustratedApdex
+      frustratedApdex,
     } = options;
     const timeFragment = timeNrqlFragment || timeRangeToNrql(platformUrlState);
     const graphql = `{
@@ -234,7 +213,7 @@ class SPAFactory extends NrqlFactory {
       platformUrlState,
       entity,
       targetUrl,
-      timeseries
+      timeseries,
     } = options;
     const timeFragment = timeNrqlFragment || timeRangeToNrql(platformUrlState);
     return `FROM BrowserInteraction SELECT count(*) as 'Page Views' ${timeFragment}  WHERE entityGuid = '${
@@ -250,7 +229,7 @@ class SPAFactory extends NrqlFactory {
       platformUrlState,
       entity,
       targetUrl,
-      timeseries
+      timeseries,
     } = options;
     const timeFragment = timeNrqlFragment || timeRangeToNrql(platformUrlState);
     return `FROM BrowserInteraction SELECT percentile(duration, 50) as 'Avg. Duration' ${timeFragment}  WHERE entityGuid = '${
@@ -266,7 +245,7 @@ class SPAFactory extends NrqlFactory {
       platformUrlState,
       entity,
       targetUrl,
-      timeseries
+      timeseries,
     } = options;
     const timeFragment = timeNrqlFragment || timeRangeToNrql(platformUrlState);
     return `FROM PageViewTiming SELECT percentile(firstContentfulPaint, 50) as 'First Contentful Paint' ${timeFragment}  WHERE entityGuid = '${
@@ -282,7 +261,7 @@ class SPAFactory extends NrqlFactory {
       platformUrlState,
       entity,
       targetUrl,
-      timeseries
+      timeseries,
     } = options;
     const timeFragment = timeNrqlFragment || timeRangeToNrql(platformUrlState);
     return `FROM PageViewTiming SELECT percentile(firstInteraction, 50) as 'First Interaction' ${timeFragment}  WHERE entityGuid = '${
@@ -300,7 +279,7 @@ class SPAFactory extends NrqlFactory {
       platformUrlState,
       timeNrqlFragment,
       apdexTarget,
-      frustratedApdex
+      frustratedApdex,
     } = options;
     const timeFragment = timeNrqlFragment || timeRangeToNrql(platformUrlState);
     const graphql = `{

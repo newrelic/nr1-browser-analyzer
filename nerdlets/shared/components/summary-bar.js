@@ -10,10 +10,10 @@ import {
   navigation,
   Button,
   ChartGroup,
-  PlatformStateContext
+  PlatformStateContext,
 } from 'nr1';
+import { timeRangeToNrql } from '@newrelic/nr-labs-components';
 import { splitPageUrl } from '../utils';
-import { timeRangeToNrql } from '@newrelic/nr1-community';
 import NrqlFactory from '../nrql-factory';
 
 export default class SummaryBar extends React.PureComponent {
@@ -21,7 +21,7 @@ export default class SummaryBar extends React.PureComponent {
     entity: PropTypes.object.isRequired,
     apmService: PropTypes.object,
     nrqlFactory: PropTypes.instanceOf(NrqlFactory).isRequired,
-    nerdletUrlState: PropTypes.object.isRequired
+    nerdletUrlState: PropTypes.object.isRequired,
   };
 
   render() {
@@ -30,7 +30,7 @@ export default class SummaryBar extends React.PureComponent {
       apmService,
       nerdletUrlState,
       nrqlFactory,
-      entity
+      entity,
     } = this.props;
 
     // generate the appropriate NRQL where fragment for countryCode and regionCode
@@ -38,7 +38,7 @@ export default class SummaryBar extends React.PureComponent {
 
     return (
       <PlatformStateContext.Consumer>
-        {platformUrlState => {
+        {(platformUrlState) => {
           const { pageUrl } = nerdletUrlState;
           const timePickerRange = timeRangeToNrql(platformUrlState);
           const { protocol, domain, path } = splitPageUrl({ pageUrl });
@@ -46,14 +46,14 @@ export default class SummaryBar extends React.PureComponent {
             entity,
             platformUrlState,
             timeNrqlFragment: timePickerRange,
-            pageUrl
+            pageUrl,
           };
           const optionTimeseries = {
             entity,
             platformUrlState,
             timeNrqlFragment: timePickerRange,
             pageUrl,
-            timeseries: true
+            timeseries: true,
           };
           return (
             <ChartGroup>
