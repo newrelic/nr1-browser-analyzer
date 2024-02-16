@@ -1,3 +1,18 @@
+# [1.7.0](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.6.2...v1.7.0) (2024-02-16)
+
+
+### Bug Fixes
+
+* eslint error ([6af3eae](https://github.com/newrelic/nr1-browser-analyzer/commit/6af3eaec18357154383155d7d23af70f84bb6342))
+* eslint errors ([d80fbaa](https://github.com/newrelic/nr1-browser-analyzer/commit/d80fbaa919f8278e468d0bc372e757e13b517b1e))
+* update HelpModal component ([4e04c8d](https://github.com/newrelic/nr1-browser-analyzer/commit/4e04c8d2036a387e46b97348a6dedbb48d02e018))
+
+
+### Features
+
+* add HelpModal component ([08963d0](https://github.com/newrelic/nr1-browser-analyzer/commit/08963d09896fab7ba906d971b344a1f2388969a7))
+* add nrlabs Messages component ([7e855eb](https://github.com/newrelic/nr1-browser-analyzer/commit/7e855eb00b091b3b076ca5d582f040f00cc7f3e1))
+
 ## [1.6.2](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.6.1...v1.6.2) (2023-01-23)
 
 
