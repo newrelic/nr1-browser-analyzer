@@ -1,3 +1,10 @@
+# [1.7.1](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.7.0...v1.7.1) (2025-03-24)
+
+
+### Bug Fixes
+
+* GraphQL response format ( [76135c1](https://github.com/newrelic/nr1-browser-analyzer/commit/76135c1e32461234056fbe9fd3442da80985aac8))
+
 # [1.7.0](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.6.2...v1.7.0) (2024-02-16)
 
 

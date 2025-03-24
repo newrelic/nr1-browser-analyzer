@@ -301,6 +301,7 @@ class SPAFactory extends NrqlFactory {
                   targetUrl ? `WHERE targetUrl != '${targetUrl}'` : ''
                 } as 'nextPage') ${facetCaseStmt}") {
               results
+              rawResponse
           }`
               : ''
           }

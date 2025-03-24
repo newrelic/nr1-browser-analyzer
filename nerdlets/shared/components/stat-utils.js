@@ -46,7 +46,7 @@ function buildSatisfied(cohorts, satisfied, bounceRate) {
   obj.raw = {};
   const SbounceRate = !bounceRate
     ? null
-    : bounceRate.results.find((r) => r.facet === 'S');
+    : bounceRate.rawResponse.facets.find((r) => r.name === 'S');
   const S =
     cohorts && cohorts.results
       ? cohorts.results.find((c) => c.facet === 'S')
@@ -60,7 +60,7 @@ function buildTolerated(cohorts, tolerated, bounceRate) {
   obj.raw = {};
   const TbounceRate = !bounceRate
     ? null
-    : bounceRate.results.find((r) => r.facet === 'T');
+    : bounceRate.rawResponse.facets.find((r) => r.name === 'T');
   const T =
     cohorts && cohorts.results
       ? cohorts.results.find((c) => c.facet === 'T')
@@ -74,7 +74,7 @@ function buildFrustrated(cohorts, frustrated, bounceRate) {
   obj.raw = {};
   const FbounceRate = !bounceRate
     ? null
-    : bounceRate.results.find((r) => r.facet === 'F');
+    : bounceRate.rawResponse.facets.find((r) => r.name === 'F');
   const F =
     cohorts && cohorts.results
       ? cohorts.results.find((c) => c.facet === 'F')
@@ -102,11 +102,15 @@ function fillObject(obj, sample, cohort, bounceCohort) {
     obj.bounces = calcBounces(sample.results);
   }
 
-  if (bounceCohort) {
-    obj.raw.bounceCohort = { ...bounceCohort };
-    obj.bounces = bounceCohort.steps[0] - bounceCohort.steps[1];
-    obj.totalSamples = bounceCohort.steps[0];
+  if (bounceCohort && bounceCohort.results && bounceCohort.results.length > 0) {
+    bounceCohort = bounceCohort.results[0];
+    if (bounceCohort.steps) {
+      obj.raw.bounceCohort = { ...bounceCohort };
+      obj.bounces = bounceCohort.steps[0] - bounceCohort.steps[1];
+      obj.totalSamples = bounceCohort.steps[0];
+    }
   }
+  
   return obj;
 }
 
