@@ -1,3 +1,12 @@
+## [1.7.2](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.7.1...v1.7.2) (2025-03-27)
+
+
+### Bug Fixes
+
+* bump cache@v1 -> v3 ([06e919b](https://github.com/newrelic/nr1-browser-analyzer/commit/06e919b8e0d1eeca04993cd021d57ee3903e6267))
+* eslint ([8c3ea0d](https://github.com/newrelic/nr1-browser-analyzer/commit/8c3ea0df99ac325849ec30483d42f0160d75864e))
+* release workflow ([76ead42](https://github.com/newrelic/nr1-browser-analyzer/commit/76ead423c62f47fc06bab77c1c9f8cacc97ab0e1))
+
 # [1.7.1](https://github.com/newrelic/nr1-browser-analyzer/compare/v1.7.0...v1.7.1) (2025-03-24)
 
 
