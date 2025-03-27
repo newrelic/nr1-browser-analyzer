@@ -110,7 +110,7 @@ function fillObject(obj, sample, cohort, bounceCohort) {
       obj.totalSamples = bounceCohort.steps[0];
     }
   }
-  
+
   return obj;
 }
 
